@@ -14,7 +14,7 @@ Vide tutoriais do PI.
 
 ## Nome do Grupo
 
-## Integrantes: <a href="https://www.linkedin.com/in/caio-moraesdev/">Caio Moraes</a>, <a href="https://www.linkedin.com/in/victorbarq/">Enzo Augusto Pedroza Gonçalves</a>, <a href="https://www.linkedin.com/in/marcus-sousa-5029573aa/">Marcus Sousa </a>, <a href="https://www.linkedin.com/in/nicolasbmoumdjian/">Nicolas Bologna</a>
+## Integrantes: <a href="https://www.linkedin.com/in/caio-moraesdev/">Caio Moraes</a>, <a href="https://www.linkedin.com/in/enzo-gon%C3%A7alves-5a3a84320/">Enzo Augusto Pedroza Gonçalves</a>, <a href="https://www.linkedin.com/in/marcus-sousa-5029573aa/">Marcus Sousa </a>, <a href="https://www.linkedin.com/in/nicolasbmoumdjian/">Nicolas Bologna</a>
 
 ## Professores Orientadores: <a href="https://www.linkedin.com/in/victorbarq/">Dr. Victor Von Doom</a>, <a href="https://www.linkedin.com/in/victorbarq/">Me. Saitama</a>, <a href="https://www.linkedin.com/in/victorbarq/">Dr. Strange</a>, <a href="https://www.linkedin.com/in/victorbarq/">Me. Yoda</a>, <a href="https://www.linkedin.com/in/victorbarq/">Dr. Gero</a>
 
