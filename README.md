@@ -22,8 +22,15 @@ Vide tutoriais do PI.
 
 <p align="center">
 <img src="Projeto clicker (1).pdf" alt="Projeto clicker (1).pdf" border="0">
-  Game by <a href="http://www.nyphotographic.com/">Nick Youngson</a> <a rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a> <a href="http://pix4free.org/">Pix4free</a>
-</p>
+ 
+ O projeto inicialmente foi criado com a ideia de ser um clicker,
+com a história e temática de desenvolvedor, ele será em um estilo
+parecido ao do cookie clicker, com um sistema de dinheiro, limite
+de dinheiro e clicks automaticos
+
+ O jogo irá girar entorno de 3 principais fatores, o valor de quanto cada click da de dinheiro para o player (definido visualmente pelo quao avançado/novo é a linguagem que o personagem usa), o limite de dinheiro que o player pode ter (definido por quão tecnologico é o computador do personagem), e os clicks automaticos (definido por automações feitas em python do personagem), todos esses fatores são upgrades que serão comprados pelo usuario para serem alteradas no jogo visualmente
+
+ O jogo terá uma mini historia que será baseada 100% na comédia, onde o personagem principal estará fazendo todos esses upgrades para no fim conseguir um emprego mediano no supermercado de t.i, sendo esse o fim do jogo 
 
 
 
