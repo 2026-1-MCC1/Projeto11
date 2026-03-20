@@ -28,11 +28,21 @@ public class Player : MonoBehaviour
     public TextMeshProUGUI textoLimite;
 
 
+    public TextMeshPro precoMulti;
+    public TextMeshPro precoAuto;
+    public TextMeshPro precoLimite;
+    int custoMulti;
+    int custoAuto;
+    int custoLimite;
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         Screen.fullScreen = true;
+            custoMulti = 25 * multiplicadorPontos;
+            custoAuto = 20;
+            custoLimite = pontosMaximos;
     }
 
     void Update()
@@ -62,9 +72,9 @@ public class Player : MonoBehaviour
         //Compra de itens com teclado
         if (Input.GetKey(KeyCode.H))
         {
-            if (pontos >= 25 * multiplicadorPontos)
+            if (pontos >= custoMulti)
             {
-                pontos -= 25 * multiplicadorPontos;
+                pontos -= custoMulti;
                 multiplicadorPontos++;
 
                 Debug.Log("Multiplicador: " + multiplicadorPontos);
@@ -73,6 +83,9 @@ public class Player : MonoBehaviour
 
                 textoMultiplicador.text = " (H) Multiplicador: " + multiplicadorPontos;
                 textoPontos.text = "Pontos: " + pontos;
+                custoMulti = 25 * multiplicadorPontos;
+                precoMulti.text = "Preço: " + custoMulti;
+
             }
             else
             {
@@ -82,15 +95,16 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(KeyCode.J))
         {
-            int custo = 20;
-            if (pontos >= custo + 10 * clicksAuto)
+            if (pontos >= custoAuto)
             {
-                pontos -= custo + 10 * clicksAuto;
+                pontos -= custoAuto;
                 clicksAuto++;
-                Debug.Log("Clicks autom�ticos: " + clicksAuto);
+                Debug.Log("Clicks automáticos: " + clicksAuto);
                 Debug.Log("Pontos restantes: " + pontos);
                 textoPontos.text = "Pontos: " + pontos;
                 textoAutoClick.text = " (J) Clicks Automaticos: " + clicksAuto;
+                custoAuto = 20 * clicksAuto;
+                precoAuto.text = "Preço: " + custoAuto;
             }
             else
             {
@@ -100,15 +114,16 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(KeyCode.K))
         {
-            int custo = pontosMaximos;
-            if (pontos >= pontosMaximos)
+            if (pontos >= custoLimite)
             {
-                pontos -= pontosMaximos;
+                pontos -= custoLimite;
                 pontosMaximos += 50;
                 Debug.Log("Novo limite: " + pontosMaximos);
                 Debug.Log("Pontos restantes: " + pontos);
                 textoLimite.text = " (K) Limite: " + pontosMaximos;
                 textoPontos.text = "Pontos: " + pontos;
+                custoLimite = pontosMaximos;
+                precoLimite.text = "Preço: " + custoLimite;
             }
             else
             {
@@ -135,7 +150,7 @@ public class Player : MonoBehaviour
                 }
                 else if (hit.collider.gameObject.name == "Multiplicador")
                 {
-                    if (pontos >= 25 * multiplicadorPontos)
+                    if (pontos >= custoMulti)
                     {
                         pontos -= 25 * multiplicadorPontos;
                         multiplicadorPontos++;
@@ -146,6 +161,9 @@ public class Player : MonoBehaviour
 
                         textoMultiplicador.text = " (H) Multiplicador: " + multiplicadorPontos;
                         textoPontos.text = "Pontos: " + pontos;
+
+                        custoMulti = 25 * multiplicadorPontos;
+                        precoMulti.text = "Preço: " + custoMulti;
                     }
                     else
                     {
@@ -154,11 +172,9 @@ public class Player : MonoBehaviour
                 }
                 else if (hit.collider.gameObject.name == "AutoClick")
                 {
-                    int custo = 20;
-
-                    if (pontos >= custo + 10 * clicksAuto)
+                    if (pontos >= custoAuto)
                     {
-                        pontos -= custo + 10 * clicksAuto;
+                        pontos -= custoAuto;
                         clicksAuto++;
 
                         Debug.Log("Clicks automáticos: " + clicksAuto);
@@ -166,6 +182,8 @@ public class Player : MonoBehaviour
 
                         textoPontos.text = "Pontos: " + pontos;
                         textoAutoClick.text = " (J) Clicks Automaticos: " + clicksAuto;
+                        custoAuto = 20 * clicksAuto;
+                        precoAuto.text = "Preço: " + custoAuto;
                     }
                     else
                     {
@@ -174,11 +192,9 @@ public class Player : MonoBehaviour
                 }
                 else if (hit.collider.gameObject.name == "Limite")
                 {
-                    int custo = pontosMaximos;
-
-                    if (pontos >= pontosMaximos)
+                    if (pontos >= custoLimite)
                     {
-                        pontos -= pontosMaximos;
+                        pontos -= custoLimite;
                         pontosMaximos += 50;
 
                         Debug.Log("Novo limite: " + pontosMaximos);
@@ -186,6 +202,8 @@ public class Player : MonoBehaviour
 
                         textoLimite.text = " (K) Limite: " + pontosMaximos;
                         textoPontos.text = "Pontos: " + pontos;
+                        custoLimite = pontosMaximos;
+                        precoLimite.text = "Preço: " + custoLimite;
                     }
                     else
                     {
