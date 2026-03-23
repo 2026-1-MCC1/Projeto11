@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 
 public class Player : MonoBehaviour
 {
@@ -35,14 +36,16 @@ public class Player : MonoBehaviour
     int custoAuto;
     int custoLimite;
 
+    public Light luz;
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         Screen.fullScreen = true;
-            custoMulti = 25 * multiplicadorPontos;
-            custoAuto = 20;
-            custoLimite = pontosMaximos;
+        custoMulti = 25 * multiplicadorPontos;
+        custoAuto = 20;
+        custoLimite = pontosMaximos;
     }
 
     void Update()
@@ -148,85 +151,34 @@ public class Player : MonoBehaviour
                     Debug.Log("Pontos: " + pontos);
                     textoPontos.text = "Pontos: " + pontos;
                 }
-                else if (hit.collider.gameObject.name == "Multiplicador")
+                if (hit.collider.gameObject.name == "Interruptor")
                 {
-                    if (pontos >= custoMulti)
+                    if (luz.intensity > 0)
                     {
-                        pontos -= 25 * multiplicadorPontos;
-                        multiplicadorPontos++;
-
-                        Debug.Log("Multiplicador: " + multiplicadorPontos);
-                        Debug.Log("Pontos restantes: " + pontos);
-
-
-                        textoMultiplicador.text = " (H) Multiplicador: " + multiplicadorPontos;
-                        textoPontos.text = "Pontos: " + pontos;
-
-                        custoMulti = 25 * multiplicadorPontos;
-                        precoMulti.text = "Preço: " + custoMulti;
+                        luz.intensity = 0f;
                     }
                     else
                     {
-                        Debug.Log("Pontos insuficientes!");
+                        luz.intensity = 50f;
                     }
                 }
-                else if (hit.collider.gameObject.name == "AutoClick")
+                else
                 {
-                    if (pontos >= custoAuto)
-                    {
-                        pontos -= custoAuto;
-                        clicksAuto++;
-
-                        Debug.Log("Clicks automáticos: " + clicksAuto);
-                        Debug.Log("Pontos restantes: " + pontos);
-
-                        textoPontos.text = "Pontos: " + pontos;
-                        textoAutoClick.text = " (J) Clicks Automaticos: " + clicksAuto;
-                        custoAuto = 20 * clicksAuto;
-                        precoAuto.text = "Preço: " + custoAuto;
-                    }
-                    else
-                    {
-                        Debug.Log("Pontos insuficientes!");
-                    }
-                }
-                else if (hit.collider.gameObject.name == "Limite")
-                {
-                    if (pontos >= custoLimite)
-                    {
-                        pontos -= custoLimite;
-                        pontosMaximos += 50;
-
-                        Debug.Log("Novo limite: " + pontosMaximos);
-                        Debug.Log("Pontos restantes: " + pontos);
-
-                        textoLimite.text = " (K) Limite: " + pontosMaximos;
-                        textoPontos.text = "Pontos: " + pontos;
-                        custoLimite = pontosMaximos;
-                        precoLimite.text = "Preço: " + custoLimite;
-                    }
-                    else
-                    {
-                        Debug.Log("Pontos insuficientes!");
-                    }
+                    Debug.Log("Não acertou nada");
                 }
             }
-            else
+
+            tempoAuto += Time.deltaTime;
+
+            if (tempoAuto >= intervaloAuto)
             {
-                Debug.Log("Não acertou nada");
+                tempoAuto = 0f;
+
+                pontos += clicksAuto;
+                pontos = Mathf.Clamp(pontos, 0, pontosMaximos);
+                textoPontos.text = "Pontos: " + pontos;
             }
+
         }
-
-        tempoAuto += Time.deltaTime;
-
-        if (tempoAuto >= intervaloAuto)
-        {
-            tempoAuto = 0f;
-
-            pontos += clicksAuto;
-            pontos = Mathf.Clamp(pontos, 0, pontosMaximos);
-            textoPontos.text = "Pontos: " + pontos;
-        }
-
     }
 }
