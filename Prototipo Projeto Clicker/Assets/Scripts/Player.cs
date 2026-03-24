@@ -4,31 +4,30 @@ using UnityEngine.Experimental.GlobalIllumination;
 
 public class Player : MonoBehaviour
 {
+    // Referências para a câmera e o transform do jogador
     public Transform _transform;
     public Transform cameraTransform;
-
     Vector2 rotacaoMouse;
     public int sensibilidade;
     public float velocidade = 5.0f;
 
+    // Configurações para o raycast
     public float maxDistance = 10f;
     public LayerMask hitLayers;
 
+    // Variáveis para o sistema de pontos e upgrades
     int pontos = 0;
-
     public TextMeshProUGUI textoPontos;
     public TextMeshProUGUI textoMultiplicador;
     int multiplicadorPontos = 1;
-
     int clicksAuto = 0;
     float tempoAuto = 0f;
     float intervaloAuto = 1f;
     public TextMeshProUGUI textoAutoClick;
-
     int pontosMaximos = 100;
     public TextMeshProUGUI textoLimite;
 
-
+    //HUD para mostrar os preços dos upgrades
     public TextMeshPro precoMulti;
     public TextMeshPro precoAuto;
     public TextMeshPro precoLimite;
@@ -36,13 +35,22 @@ public class Player : MonoBehaviour
     int custoAuto;
     int custoLimite;
 
-    public Light luz;
+    // Variáveis para as luzes e a janela
+    public Light luzQuarto;
+    public Light luzSol;
+    public Light luzComputador;
+    public Renderer janelaRenderer;
+    public Texture texturaDia;
+    public Texture texturaNoite;
+
 
     void Start()
+    // Configurações iniciais do cursor e tela cheia
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         Screen.fullScreen = true;
+        // Configurações iniciais dos custos dos upgrades
         custoMulti = 25 * multiplicadorPontos;
         custoAuto = 20;
         custoLimite = pontosMaximos;
@@ -73,7 +81,7 @@ public class Player : MonoBehaviour
 
 
         //Compra de itens com teclado
-        if (Input.GetKey(KeyCode.H))
+        if (Input.GetKeyDown(KeyCode.H))
         {
             if (pontos >= custoMulti)
             {
@@ -96,7 +104,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (Input.GetKey(KeyCode.J))
+        if (Input.GetKeyDown(KeyCode.J))
         {
             if (pontos >= custoAuto)
             {
@@ -115,7 +123,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (Input.GetKey(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.K))
         {
             if (pontos >= custoLimite)
             {
@@ -150,16 +158,18 @@ public class Player : MonoBehaviour
                     pontos = Mathf.Clamp(pontos, 0, pontosMaximos);
                     Debug.Log("Pontos: " + pontos);
                     textoPontos.text = "Pontos: " + pontos;
-                }
+                }           
+                
+                // Verifica se o objeto clicado é o interruptor e alterna a luz do quarto
                 if (hit.collider.gameObject.name == "Interruptor")
                 {
-                    if (luz.intensity > 0)
+                    if (luzQuarto.intensity > 0f)
                     {
-                        luz.intensity = 0f;
+                        luzQuarto.intensity = 0f;
                     }
                     else
                     {
-                        luz.intensity = 50f;
+                        luzQuarto.intensity = 50f;
                     }
                 }
                 else
@@ -169,16 +179,48 @@ public class Player : MonoBehaviour
             }
 
             tempoAuto += Time.deltaTime;
+        }
 
-            if (tempoAuto >= intervaloAuto)
+        if (tempoAuto >= intervaloAuto)
+        {
+            tempoAuto = 0f;
+
+            pontos += clicksAuto;
+            pontos = Mathf.Clamp(pontos, 0, pontosMaximos);
+            textoPontos.text = "Pontos: " + pontos;
+        }
+
+        // Verifica se ambas as luzes estão apagadas para acender a luz do computador
+        if (luzSol.intensity == 0f && luzQuarto.intensity == 0f)
+        {
+            luzComputador.intensity = 500f;
+        }
+        else
+        {
+            luzComputador.intensity = 0f;
+        }
+
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            if (luzSol.intensity > 0f)
             {
-                tempoAuto = 0f;
-
-                pontos += clicksAuto;
-                pontos = Mathf.Clamp(pontos, 0, pontosMaximos);
-                textoPontos.text = "Pontos: " + pontos;
+                luzSol.intensity = 0f;
             }
+            else
+            {
+                luzSol.intensity = 500f;
+            }
+        }
 
+        //Texturas da janela dependendo da luz do sol
+        if (luzSol.intensity == 0f)
+        {
+            janelaRenderer.material.mainTexture = texturaNoite;
+        }
+        else
+        {
+            janelaRenderer.material.mainTexture = texturaDia;
         }
     }
 }
+
