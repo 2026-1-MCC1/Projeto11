@@ -43,6 +43,7 @@ public class Player : MonoBehaviour
     public Texture texturaDia;
     public Texture texturaNoite;
 
+    int multiplicadorCiclo = 1;
 
     void Start()
     // Configurações iniciais do cursor e tela cheia
@@ -92,7 +93,7 @@ public class Player : MonoBehaviour
                 Debug.Log("Pontos restantes: " + pontos);
 
 
-                textoMultiplicador.text = " (H) Multiplicador: " + multiplicadorPontos;
+                textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
                 textoPontos.text = "Pontos: " + pontos;
                 custoMulti = 25 * multiplicadorPontos;
                 precoMulti.text = "Preço: " + custoMulti;
@@ -154,12 +155,12 @@ public class Player : MonoBehaviour
 
                 if (hit.collider.gameObject.name == "Computador")
                 {
-                    pontos += multiplicadorPontos;
+                    pontos += multiplicadorPontos * multiplicadorCiclo;
                     pontos = Mathf.Clamp(pontos, 0, pontosMaximos);
                     Debug.Log("Pontos: " + pontos);
                     textoPontos.text = "Pontos: " + pontos;
-                }           
-                
+                }
+
                 // Verifica se o objeto clicado é o interruptor e alterna a luz do quarto
                 if (hit.collider.gameObject.name == "Interruptor")
                 {
@@ -200,6 +201,7 @@ public class Player : MonoBehaviour
             luzComputador.intensity = 0f;
         }
 
+        // Só template para mim mesmo como interruptor de sol 
         if (Input.GetKeyDown(KeyCode.B))
         {
             if (luzSol.intensity > 0f)
@@ -216,10 +218,14 @@ public class Player : MonoBehaviour
         if (luzSol.intensity == 0f)
         {
             janelaRenderer.material.mainTexture = texturaNoite;
+            multiplicadorCiclo = 2; // Dobra o multiplicador de pontos quando a luz do sol estiver apagada
+            textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
         }
         else
         {
             janelaRenderer.material.mainTexture = texturaDia;
+            multiplicadorCiclo = 1; // Restaura o multiplicador de pontos para o normal quando a luz do sol estiver acesa
+            textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
         }
     }
 }
