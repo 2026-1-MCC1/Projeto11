@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
     float tempoAuto = 0f;
     float intervaloAuto = 1f;
     public TextMeshProUGUI textoAutoClick;
-    int pontosMaximos = 100;
+    int pontosMaximos = 500;
     public TextMeshProUGUI textoLimite;
 
     //HUD para mostrar os preços dos upgrades
@@ -53,8 +53,15 @@ public class Player : MonoBehaviour
         Screen.fullScreen = true;
         // Configurações iniciais dos custos dos upgrades
         custoMulti = 25 * multiplicadorPontos;
-        custoAuto = 20;
+        custoAuto = 10;
         custoLimite = pontosMaximos;
+        textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
+        textoAutoClick.text = " (J) Clicks Automaticos: " + clicksAuto;
+        textoLimite.text = " (K) Limite: " + pontosMaximos;
+        precoAuto.text = "Preço: " + custoAuto;
+        precoMulti.text = "Preço: " + custoMulti;
+        precoLimite.text = "Preço: " + custoLimite;
+
     }
 
     void Update()
@@ -97,6 +104,7 @@ public class Player : MonoBehaviour
                 textoPontos.text = "Pontos: " + pontos;
                 custoMulti = 25 * multiplicadorPontos;
                 precoMulti.text = "Preço: " + custoMulti;
+                precoLimite.text = "Preço: " + custoLimite;
 
             }
             else
@@ -115,7 +123,7 @@ public class Player : MonoBehaviour
                 Debug.Log("Pontos restantes: " + pontos);
                 textoPontos.text = "Pontos: " + pontos;
                 textoAutoClick.text = " (J) Clicks Automaticos: " + clicksAuto;
-                custoAuto = 20 * clicksAuto;
+                custoAuto = 10 * clicksAuto;
                 precoAuto.text = "Preço: " + custoAuto;
             }
             else
@@ -129,7 +137,7 @@ public class Player : MonoBehaviour
             if (pontos >= custoLimite)
             {
                 pontos -= custoLimite;
-                pontosMaximos += 50;
+                pontosMaximos += 500;
                 Debug.Log("Novo limite: " + pontosMaximos);
                 Debug.Log("Pontos restantes: " + pontos);
                 textoLimite.text = " (K) Limite: " + pontosMaximos;
@@ -178,9 +186,9 @@ public class Player : MonoBehaviour
                     Debug.Log("Não acertou nada");
                 }
             }
-
-            tempoAuto += Time.deltaTime;
         }
+
+        tempoAuto += Time.deltaTime;
 
         if (tempoAuto >= intervaloAuto)
         {
