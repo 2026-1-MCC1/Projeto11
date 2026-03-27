@@ -6,9 +6,16 @@ public class Portal : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            // Teleporta o player
+            // Teleporte
             other.transform.position = new Vector3(110.9057f, 1.109f, 118.3031f);
+
+            // Trava só a câmera
+            Player player = other.GetComponent<Player>();
+            if (player != null)
+            {
+                player.travarCamera = true;
+            }
+
         }
     }
 }
-

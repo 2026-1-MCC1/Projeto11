@@ -45,6 +45,8 @@ public class Player : MonoBehaviour
 
     int multiplicadorCiclo = 1;
 
+    //Pra travar a câmera no portal
+    public bool travarCamera = false;
     void Start()
     // Configurações iniciais do cursor e tela cheia
     {
