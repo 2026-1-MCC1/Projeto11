@@ -47,6 +47,9 @@ public class Player : MonoBehaviour
 
     //Pra travar a câmera no portal
     public bool travarCamera = false;
+    public bool moveble = true;
+    public bool moverhorizontal = true;
+
     void Start()
     // Configurações iniciais do cursor e tela cheia
     {
@@ -61,28 +64,33 @@ public class Player : MonoBehaviour
 
     void Update()
     { //Camera
-        Vector2 controleMouse = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
 
-        rotacaoMouse = new Vector2(rotacaoMouse.x + controleMouse.x * sensibilidade * Time.deltaTime, rotacaoMouse.y + controleMouse.y * sensibilidade * Time.deltaTime);
+        if (travarCamera == false)
+        {
+            Vector2 controleMouse = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
 
-        _transform.eulerAngles = new Vector3(_transform.eulerAngles.x, rotacaoMouse.x, _transform.eulerAngles.z);
+            rotacaoMouse = new Vector2(rotacaoMouse.x + controleMouse.x * sensibilidade * Time.deltaTime, rotacaoMouse.y + controleMouse.y * sensibilidade * Time.deltaTime);
 
-        rotacaoMouse.y = Mathf.Clamp(rotacaoMouse.y, -80, 80);
+            _transform.eulerAngles = new Vector3(_transform.eulerAngles.x, rotacaoMouse.x, _transform.eulerAngles.z);
 
-        cameraTransform.localEulerAngles = new Vector3(-rotacaoMouse.y,
-                                                       cameraTransform.localEulerAngles.y,
-                                                       cameraTransform.localEulerAngles.z);
+            rotacaoMouse.y = Mathf.Clamp(rotacaoMouse.y, -80, 80);
+
+            cameraTransform.localEulerAngles = new Vector3(-rotacaoMouse.y,
+                                                           cameraTransform.localEulerAngles.y,
+                                                           cameraTransform.localEulerAngles.z);
+        }
 
         //Movimenta��o
-        float moverHorizontal = Input.GetAxis("Horizontal");
-        float moverVertical = Input.GetAxis("Vertical");
+        if (moveble == true)
+        {
+            float moverVertical = Input.GetAxis("Vertical");
+            float moverHorizontal = Input.GetAxis("Horizontal");
 
-        Vector3 movimento = new Vector3(moverHorizontal, 0.0f, moverVertical);
+            Vector3 movimento = new Vector3(moverHorizontal, 0.0f, moverVertical);
 
 
-        transform.Translate(movimento * velocidade * Time.deltaTime);
-
-
+            transform.Translate(movimento * velocidade * Time.deltaTime);
+        }
         //Compra de itens com teclado
         if (Input.GetKeyDown(KeyCode.H))
         {
@@ -229,5 +237,17 @@ public class Player : MonoBehaviour
             textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
         }
     }
+        public void ResetarCamera()
+        {
+        rotacaoMouse = Vector2.zero;
+
+        // Zera rotação do player (eixo Y)
+        _transform.eulerAngles = Vector3.zero;
+
+        // Zera rotação da câmera
+        cameraTransform.localEulerAngles = Vector3.zero;
+        }
 }
+
+
 
