@@ -179,9 +179,8 @@ public class Player : MonoBehaviour
                 }
             }
 
-            tempoAuto += Time.deltaTime;
         }
-
+        tempoAuto += Time.deltaTime;
         if (tempoAuto >= intervaloAuto)
         {
             tempoAuto = 0f;
