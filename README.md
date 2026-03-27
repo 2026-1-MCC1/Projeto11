@@ -16,7 +16,7 @@ Vide tutoriais do PI.
 
 ## Integrantes: <a href="https://www.linkedin.com/in/caio-moraesdev/">Caio Moraes</a>, <a href="https://www.linkedin.com/in/enzo-gon%C3%A7alves-5a3a84320/">Enzo Augusto Pedroza Gonçalves</a>, <a href="https://www.linkedin.com/in/marcus-sousa-5029573aa/">Marcus Sousa </a>, <a href="https://www.linkedin.com/in/nicolasbmoumdjian/">Nicolas Bologna</a>
 
-## Professores Orientadores: <a href="https://www.linkedin.com/in/victorbarq/">Victor Bruno Alexander Rosetti de Quiroz</a>
+## Professores Orientadores: <a href="https://www.linkedin.com/in/victorbarq/">Victor Bruno Alexander Rosetti de Quiroz</a>, <a href="https://www.linkedin.com/in/aimarlopes/">Aimar Martins Lopes/a>
 
 ## Descrição
 
