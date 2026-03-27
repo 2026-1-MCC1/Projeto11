@@ -67,6 +67,7 @@ public class Player : MonoBehaviour
 
         rotacaoMouse.y = Mathf.Clamp(rotacaoMouse.y, -80, 80);
 
+
         cameraTransform.localEulerAngles = new Vector3(-rotacaoMouse.y,
                                                        cameraTransform.localEulerAngles.y,
                                                        cameraTransform.localEulerAngles.z);
@@ -179,9 +180,9 @@ public class Player : MonoBehaviour
                 }
             }
 
-            tempoAuto += Time.deltaTime;
         }
 
+        tempoAuto += Time.deltaTime;
         if (tempoAuto >= intervaloAuto)
         {
             tempoAuto = 0f;
