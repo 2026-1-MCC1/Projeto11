@@ -45,9 +45,15 @@ public class Player : MonoBehaviour
 
     int multiplicadorCiclo = 1;
 
+    //Pra travar a câmera no portal
+    public bool travarCamera = false;
+    public bool moveble = true;
+    public bool moverhorizontal = true;
+
     void Start()
     // Configurações iniciais do cursor e tela cheia
     {
+<<<<<<< HEAD:Prototipo Projeto Clicker/Assets/Scripts/Player.cs
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         Screen.fullScreen = true;
@@ -61,34 +67,61 @@ public class Player : MonoBehaviour
         precoAuto.text = "Preço: " + custoAuto;
         precoMulti.text = "Preço: " + custoMulti;
         precoLimite.text = "Preço: " + custoLimite;
+=======
+    Cursor.lockState = CursorLockMode.Locked;
+    Cursor.visible = false;
+    Screen.fullScreen = true;
+    // Configurações iniciais dos custos dos upgrades
+    custoMulti = 25 * multiplicadorPontos;
+    custoAuto = 10;
+    custoLimite = pontosMaximos;
+    textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
+    textoAutoClick.text = " (J) Clicks Automaticos: " + clicksAuto;
+    textoLimite.text = " (K) Limite: " + pontosMaximos;
+    precoAuto.text = "Preço: " + custoAuto;
+    precoMulti.text = "Preço: " + custoMulti;
+    precoLimite.text = "Preço: " + custoLimite;
+
+>>>>>>> origin/Portais:documentos/Entrega 1/Jogos Digitais/Prototipo Projeto Clicker/Assets/Scripts/Player.cs
 
     }
 
     void Update()
     { //Camera
-        Vector2 controleMouse = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
 
-        rotacaoMouse = new Vector2(rotacaoMouse.x + controleMouse.x * sensibilidade * Time.deltaTime, rotacaoMouse.y + controleMouse.y * sensibilidade * Time.deltaTime);
+        if (travarCamera == false)
+        {
+            Vector2 controleMouse = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
 
-        _transform.eulerAngles = new Vector3(_transform.eulerAngles.x, rotacaoMouse.x, _transform.eulerAngles.z);
+            rotacaoMouse = new Vector2(rotacaoMouse.x + controleMouse.x * sensibilidade * Time.deltaTime, rotacaoMouse.y + controleMouse.y * sensibilidade * Time.deltaTime);
 
-        rotacaoMouse.y = Mathf.Clamp(rotacaoMouse.y, -80, 80);
+            _transform.eulerAngles = new Vector3(_transform.eulerAngles.x, rotacaoMouse.x, _transform.eulerAngles.z);
 
+<<<<<<< HEAD:Prototipo Projeto Clicker/Assets/Scripts/Player.cs
 
         cameraTransform.localEulerAngles = new Vector3(-rotacaoMouse.y,
                                                        cameraTransform.localEulerAngles.y,
                                                        cameraTransform.localEulerAngles.z);
+=======
+            rotacaoMouse.y = Mathf.Clamp(rotacaoMouse.y, -80, 80);
+
+            cameraTransform.localEulerAngles = new Vector3(-rotacaoMouse.y,
+                                                           cameraTransform.localEulerAngles.y,
+                                                           cameraTransform.localEulerAngles.z);
+        }
+>>>>>>> origin/Portais:documentos/Entrega 1/Jogos Digitais/Prototipo Projeto Clicker/Assets/Scripts/Player.cs
 
         //Movimenta��o
-        float moverHorizontal = Input.GetAxis("Horizontal");
-        float moverVertical = Input.GetAxis("Vertical");
+        if (moveble == true)
+        {
+            float moverVertical = Input.GetAxis("Vertical");
+            float moverHorizontal = Input.GetAxis("Horizontal");
 
-        Vector3 movimento = new Vector3(moverHorizontal, 0.0f, moverVertical);
+            Vector3 movimento = new Vector3(moverHorizontal, 0.0f, moverVertical);
 
 
-        transform.Translate(movimento * velocidade * Time.deltaTime);
-
-
+            transform.Translate(movimento * velocidade * Time.deltaTime);
+        }
         //Compra de itens com teclado
         if (Input.GetKeyDown(KeyCode.H))
         {
@@ -190,7 +223,10 @@ public class Player : MonoBehaviour
             }
 
         }
+<<<<<<< HEAD:Prototipo Projeto Clicker/Assets/Scripts/Player.cs
         
+=======
+>>>>>>> origin/Portais:documentos/Entrega 1/Jogos Digitais/Prototipo Projeto Clicker/Assets/Scripts/Player.cs
         tempoAuto += Time.deltaTime;
         if (tempoAuto >= intervaloAuto)
         {
@@ -238,5 +274,17 @@ public class Player : MonoBehaviour
             textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
         }
     }
+        public void ResetarCamera()
+        {
+        rotacaoMouse = Vector2.zero;
+
+        // Zera rotação do player (eixo Y)
+        _transform.eulerAngles = Vector3.zero;
+
+        // Zera rotação da câmera
+        cameraTransform.localEulerAngles = Vector3.zero;
+        }
 }
+
+
 
