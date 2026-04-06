@@ -53,7 +53,6 @@ public class Player : MonoBehaviour
     void Start()
     // Configurações iniciais do cursor e tela cheia
     {
-<<<<<<< HEAD:Prototipo Projeto Clicker/Assets/Scripts/Player.cs
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         Screen.fullScreen = true;
@@ -67,23 +66,6 @@ public class Player : MonoBehaviour
         precoAuto.text = "Preço: " + custoAuto;
         precoMulti.text = "Preço: " + custoMulti;
         precoLimite.text = "Preço: " + custoLimite;
-=======
-    Cursor.lockState = CursorLockMode.Locked;
-    Cursor.visible = false;
-    Screen.fullScreen = true;
-    // Configurações iniciais dos custos dos upgrades
-    custoMulti = 25 * multiplicadorPontos;
-    custoAuto = 10;
-    custoLimite = pontosMaximos;
-    textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
-    textoAutoClick.text = " (J) Clicks Automaticos: " + clicksAuto;
-    textoLimite.text = " (K) Limite: " + pontosMaximos;
-    precoAuto.text = "Preço: " + custoAuto;
-    precoMulti.text = "Preço: " + custoMulti;
-    precoLimite.text = "Preço: " + custoLimite;
-
->>>>>>> origin/Portais:documentos/Entrega 1/Jogos Digitais/Prototipo Projeto Clicker/Assets/Scripts/Player.cs
-
     }
 
     void Update()
@@ -97,19 +79,12 @@ public class Player : MonoBehaviour
 
             _transform.eulerAngles = new Vector3(_transform.eulerAngles.x, rotacaoMouse.x, _transform.eulerAngles.z);
 
-<<<<<<< HEAD:Prototipo Projeto Clicker/Assets/Scripts/Player.cs
-
-        cameraTransform.localEulerAngles = new Vector3(-rotacaoMouse.y,
-                                                       cameraTransform.localEulerAngles.y,
-                                                       cameraTransform.localEulerAngles.z);
-=======
             rotacaoMouse.y = Mathf.Clamp(rotacaoMouse.y, -80, 80);
 
             cameraTransform.localEulerAngles = new Vector3(-rotacaoMouse.y,
                                                            cameraTransform.localEulerAngles.y,
                                                            cameraTransform.localEulerAngles.z);
         }
->>>>>>> origin/Portais:documentos/Entrega 1/Jogos Digitais/Prototipo Projeto Clicker/Assets/Scripts/Player.cs
 
         //Movimenta��o
         if (moveble == true)
@@ -223,10 +198,6 @@ public class Player : MonoBehaviour
             }
 
         }
-<<<<<<< HEAD:Prototipo Projeto Clicker/Assets/Scripts/Player.cs
-        
-=======
->>>>>>> origin/Portais:documentos/Entrega 1/Jogos Digitais/Prototipo Projeto Clicker/Assets/Scripts/Player.cs
         tempoAuto += Time.deltaTime;
         if (tempoAuto >= intervaloAuto)
         {
