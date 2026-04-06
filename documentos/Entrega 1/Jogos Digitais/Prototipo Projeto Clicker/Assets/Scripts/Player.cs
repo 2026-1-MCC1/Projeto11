@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
     float tempoAuto = 0f;
     float intervaloAuto = 1f;
     public TextMeshProUGUI textoAutoClick;
-    int pontosMaximos = 100;
+    int pontosMaximos = 500;
     public TextMeshProUGUI textoLimite;
 
     //HUD para mostrar os preços dos upgrades
@@ -53,13 +53,21 @@ public class Player : MonoBehaviour
     void Start()
     // Configurações iniciais do cursor e tela cheia
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-        Screen.fullScreen = true;
-        // Configurações iniciais dos custos dos upgrades
-        custoMulti = 25 * multiplicadorPontos;
-        custoAuto = 20;
-        custoLimite = pontosMaximos;
+    Cursor.lockState = CursorLockMode.Locked;
+    Cursor.visible = false;
+    Screen.fullScreen = true;
+    // Configurações iniciais dos custos dos upgrades
+    custoMulti = 25 * multiplicadorPontos;
+    custoAuto = 10;
+    custoLimite = pontosMaximos;
+    textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
+    textoAutoClick.text = " (J) Clicks Automaticos: " + clicksAuto;
+    textoLimite.text = " (K) Limite: " + pontosMaximos;
+    precoAuto.text = "Preço: " + custoAuto;
+    precoMulti.text = "Preço: " + custoMulti;
+    precoLimite.text = "Preço: " + custoLimite;
+
+
     }
 
     void Update()
