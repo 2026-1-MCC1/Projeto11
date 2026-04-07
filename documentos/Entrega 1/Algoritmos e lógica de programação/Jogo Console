@@ -1,0 +1,114 @@
+using System;
+
+namespace JogoLaboratorioPI
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // --- VARIÁVEIS INICIAIS ---
+            int energia = 100;
+            int pontos = 0;
+            int fase = 1;
+            bool jogando = true;
+            string resposta;
+
+            Console.WriteLine("=== FUGA DO LABORATÓRIO DE INFORMÁTIl" +
+                "CA ===");
+            Console.WriteLine("Você pegou no sono estudando e o laboratório foi trancado.");
+            Console.WriteLine("Dica: Digite 'sair' a qualquer momento para desistir.\n");
+
+            // --- LOOP PRINCIPAL DO JOGO ---
+            while (jogando)
+            {
+                // Verifica se o jogador perdeu
+                if (energia <= 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("\n[GAME OVER] Sua energia acabou. Você terá que esperar o segurança abrir de manhã.");
+                    Console.ResetColor();
+                    break;
+                }
+
+                // Verifica se o jogador venceu (passou da fase 3)
+                if (fase > 3)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("\n[VITÓRIA] Parabéns! Você destrancou a porta e conseguiu sair do laboratório!");
+                    Console.WriteLine($"Pontuação Final: {pontos} pontos.");
+                    Console.ResetColor();
+                    break;
+                }
+
+                Console.WriteLine("------------------------------------------");
+                Console.WriteLine($"Status: Energia: {energia} | Pontos: {pontos} | Fase: {fase}");
+                Console.WriteLine("------------------------------------------");
+
+                // --- LÓGICA DAS FASES ---
+                if (fase == 1)
+                {
+                    Console.WriteLine("FASE 1: O computador do professor está ligado. Para avançar, responda:");
+                    Console.WriteLine("Qual o comando em C# usado para exibir mensagens no console?");
+                    Console.Write("Resposta: ");
+                    resposta = Console.ReadLine().ToLower();
+
+                    if (resposta == "sair") { jogando = false; }
+                    else if (resposta == "console.writeline" || resposta == "console.writeline()")
+                    {
+                        Console.WriteLine("Correto! O terminal liberou o acesso.");
+                        pontos += 10;
+                        fase = 2;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Erro! O computador emitiu um choque térmico no seu teclado.");
+                        energia -= 30;
+                    }
+                }
+                else if (fase == 2)
+                {
+                    Console.WriteLine("FASE 2: Você chegou ao painel elétrico. Resolva o cálculo lógico:");
+                    Console.WriteLine("Quanto é (10 * 2) + 5?");
+                    Console.Write("Resposta: ");
+                    resposta = Console.ReadLine().ToLower();
+
+                    if (resposta == "sair") { jogando = false; }
+                    else if (resposta == "25")
+                    {
+                        Console.WriteLine("Correto! As luzes do corredor se acenderam.");
+                        pontos += 15;
+                        fase = 3;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Erro! Faíscas saíram do painel e te assustaram.");
+                        energia -= 40;
+                    }
+                }
+                else if (fase == 3)
+                {
+                    Console.WriteLine("FASE 3: Último desafio! A fechadura biométrica pede um conceito:");
+                    Console.WriteLine("Qual estrutura de repetição executa um bloco 'enquanto' uma condição for verdadeira?");
+                    Console.Write("Resposta: ");
+                    resposta = Console.ReadLine().ToLower();
+
+                    if (resposta == "sair") { jogando = false; }
+                    else if (resposta == "while")
+                    {
+                        Console.WriteLine("Correto! A porta se abriu.");
+                        pontos += 20;
+                        fase = 4; // Isso fará o loop verificar a vitória na próxima volta
+                    }
+                    else
+                    {
+                        Console.WriteLine("Erro! A porta travou mais forte.");
+                        energia -= 50;
+                    }
+                }
+            }
+
+            Console.WriteLine("\nObrigado por jogar! Pressione qualquer tecla para encerrar.");
+            Console.ReadKey();
+        }
+    }
+}
