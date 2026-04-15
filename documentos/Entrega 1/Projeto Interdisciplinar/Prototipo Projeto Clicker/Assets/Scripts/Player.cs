@@ -40,8 +40,7 @@ public class Player : MonoBehaviour
     public Light luzSol;
     public Light luzComputador;
     public Renderer janelaRenderer;
-    public Texture texturaDia;
-    public Texture texturaNoite;
+
 
     int multiplicadorCiclo = 1;
 
@@ -49,6 +48,38 @@ public class Player : MonoBehaviour
     public bool travarCamera = false;
     public bool moveble = true;
     public bool moverhorizontal = true;
+
+    public Material materialparedepadrao;
+    public Material materialchaopadrao;
+    public Texture portapadrao;
+    public Material forrocamapadrao;
+    public Material janeladiapadrao;
+    public Material janelanoitepadrao;
+
+    public Material materialparederealista;
+    public Material materialchaorealista;
+    public Material janelarealistadia;
+    public Material janelarealistanoite;
+    public Texture portarealista;
+    public Material forrocamarelista;
+    public Material janeladiarealista;
+    public Material janelanoiterealista;
+    int realista;
+
+    public Renderer portaRenderer;
+    public Renderer parede1Renderer;
+    public Renderer parede2Renderer;
+    public Renderer parede3Renderer;
+    public Renderer parede4Renderer;
+    public Renderer parede5Renderer;
+    public Renderer parede6Renderer;
+    public Renderer parede7Renderer;
+    public Renderer parede8Renderer;
+    public Renderer chaoRenderer;
+    public Renderer forroRenderer;
+    public Renderer forro2Renderer;
+    public Renderer cama1Renderer;
+    public Renderer cama2Renderer;
 
     void Start()
     // Configurações iniciais do cursor e tela cheia
@@ -66,6 +97,8 @@ public class Player : MonoBehaviour
         precoAuto.text = "Preço: " + custoAuto;
         precoMulti.text = "Preço: " + custoMulti;
         precoLimite.text = "Preço: " + custoLimite;
+        TexturasPadrao();
+        janelaRenderer.material = janeladiapadrao;
     }
 
     void Update()
@@ -86,7 +119,7 @@ public class Player : MonoBehaviour
                                                            cameraTransform.localEulerAngles.z);
         }
 
-        //Movimenta��o
+        //Movimenta  o
         if (moveble == true)
         {
             float moverVertical = Input.GetAxis("Vertical");
@@ -183,6 +216,7 @@ public class Player : MonoBehaviour
                 {
                     if (luzQuarto.intensity > 0f)
                     {
+
                         luzQuarto.intensity = 0f;
                     }
                     else
@@ -194,7 +228,7 @@ public class Player : MonoBehaviour
                 {
                     Debug.Log("Não acertou nada");
                 }
-                
+
             }
 
         }
@@ -234,19 +268,47 @@ public class Player : MonoBehaviour
         //Texturas da janela dependendo da luz do sol
         if (luzSol.intensity == 0f)
         {
-            janelaRenderer.material.mainTexture = texturaNoite;
-            multiplicadorCiclo = 2; // Dobra o multiplicador de pontos quando a luz do sol estiver apagada
-            textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
+            if (realista == 0)
+            {
+                janelaRenderer.material = janelanoitepadrao;
+                multiplicadorCiclo = 2; // Dobra o multiplicador de pontos quando a luz do sol estiver apagada
+                textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
+            }
+            else
+            {
+                janelaRenderer.material = janelanoiterealista;
+                multiplicadorCiclo = 2; // Dobra o multiplicador de pontos quando a luz do sol estiver apagada
+                textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
+            }
         }
         else
         {
-            janelaRenderer.material.mainTexture = texturaDia;
-            multiplicadorCiclo = 1; // Restaura o multiplicador de pontos para o normal quando a luz do sol estiver acesa
-            textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
+            if (realista == 0)
+            {
+                janelaRenderer.material = janeladiapadrao;
+                multiplicadorCiclo = 1; // Restaura o multiplicador de pontos para o normal quando a luz do sol estiver acesa
+                textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
+            }
+            else
+            {
+                janelaRenderer.material = janeladiarealista;
+                multiplicadorCiclo = 1; // Restaura o multiplicador de pontos para o normal quando a luz do sol estiver acesa
+                textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
+            }
+        }
+
+        //Compra de texturas e etc
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            TexturasRealistas();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            TexturasPadrao();
         }
     }
-        public void ResetarCamera()
-        {
+    public void ResetarCamera()
+    {
         rotacaoMouse = Vector2.zero;
 
         // Zera rotação do player (eixo Y)
@@ -254,7 +316,49 @@ public class Player : MonoBehaviour
 
         // Zera rotação da câmera
         cameraTransform.localEulerAngles = Vector3.zero;
-        }
+    }
+
+
+    public void TexturasRealistas()
+    {
+        portaRenderer.material.mainTexture = portarealista;
+        parede1Renderer.material = materialparederealista;
+        parede2Renderer.material = materialparederealista;
+        parede3Renderer.material = materialparederealista;
+        parede4Renderer.material = materialparederealista;
+        parede5Renderer.material = materialparederealista;
+        parede6Renderer.material = materialparederealista;
+        parede7Renderer.material = materialparederealista;
+        parede8Renderer.material = materialparederealista;
+        chaoRenderer.material = materialchaorealista;
+        forroRenderer.material = forrocamarelista;
+        forro2Renderer.material = forrocamarelista;
+        cama1Renderer.material = materialchaorealista;
+        cama2Renderer.material = materialchaorealista;
+        realista = 1;
+
+    }
+
+    public void TexturasPadrao()
+    {
+        portaRenderer.material.mainTexture = portapadrao;
+        parede1Renderer.material = materialparedepadrao;
+        parede2Renderer.material = materialparedepadrao;
+        parede3Renderer.material = materialparedepadrao;
+        parede4Renderer.material = materialparedepadrao;
+        parede5Renderer.material = materialparedepadrao;
+        parede6Renderer.material = materialparedepadrao;
+        parede7Renderer.material = materialparedepadrao;
+        parede8Renderer.material = materialparedepadrao;
+        chaoRenderer.material = materialchaopadrao;
+        forro2Renderer.material = forrocamapadrao;
+        forroRenderer.material = forrocamapadrao;
+        cama1Renderer.material = materialchaopadrao;
+        cama2Renderer.material = materialchaopadrao;
+        realista = 0;
+    }
+
+
 }
 
 
