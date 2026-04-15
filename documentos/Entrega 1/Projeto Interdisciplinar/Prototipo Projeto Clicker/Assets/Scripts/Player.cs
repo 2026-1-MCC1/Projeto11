@@ -49,6 +49,7 @@ public class Player : MonoBehaviour
     public bool moveble = true;
     public bool moverhorizontal = true;
 
+    //materiais padrao
     public Material materialparedepadrao;
     public Material materialchaopadrao;
     public Texture portapadrao;
@@ -56,6 +57,7 @@ public class Player : MonoBehaviour
     public Material janeladiapadrao;
     public Material janelanoitepadrao;
 
+    //materais realistas
     public Material materialparederealista;
     public Material materialchaorealista;
     public Material janelarealistadia;
@@ -66,6 +68,7 @@ public class Player : MonoBehaviour
     public Material janelanoiterealista;
     int realista;
 
+    //renderer dos objetos
     public Renderer portaRenderer;
     public Renderer parede1Renderer;
     public Renderer parede2Renderer;
@@ -97,6 +100,7 @@ public class Player : MonoBehaviour
         precoAuto.text = "Preço: " + custoAuto;
         precoMulti.text = "Preço: " + custoMulti;
         precoLimite.text = "Preço: " + custoLimite;
+        //padroniza as texturas no começo do jogo
         TexturasPadrao();
         janelaRenderer.material = janeladiapadrao;
     }
@@ -268,6 +272,7 @@ public class Player : MonoBehaviour
         //Texturas da janela dependendo da luz do sol
         if (luzSol.intensity == 0f)
         {
+            //coloca a textura dependente do pacote de texturas
             if (realista == 0)
             {
                 janelaRenderer.material = janelanoitepadrao;
@@ -283,6 +288,7 @@ public class Player : MonoBehaviour
         }
         else
         {
+            //coloca a textura dependente do pacote de texturas
             if (realista == 0)
             {
                 janelaRenderer.material = janeladiapadrao;
@@ -321,6 +327,7 @@ public class Player : MonoBehaviour
 
     public void TexturasRealistas()
     {
+        //funcao para colocar as texturas realistas
         portaRenderer.material.mainTexture = portarealista;
         parede1Renderer.material = materialparederealista;
         parede2Renderer.material = materialparederealista;
@@ -341,6 +348,7 @@ public class Player : MonoBehaviour
 
     public void TexturasPadrao()
     {
+        //funcao para colocar as texturas padrao
         portaRenderer.material.mainTexture = portapadrao;
         parede1Renderer.material = materialparedepadrao;
         parede2Renderer.material = materialparedepadrao;
