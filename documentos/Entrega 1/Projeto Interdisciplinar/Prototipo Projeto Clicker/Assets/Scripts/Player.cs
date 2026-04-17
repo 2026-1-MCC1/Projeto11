@@ -68,6 +68,24 @@ public class Player : MonoBehaviour
     public Material janelanoiterealista;
     int realista;
 
+    //materiais mono
+    int mono;
+    public Material materialparedemono;
+    public Material materialchaomono;
+    public Material janeladiamono;
+    public Material janelanoitemono;
+    public Texture portamono;
+    public Material forrocamamono;
+
+    //materiais hyperpop
+    int hyperpop;
+    public Material materialparedehyperpop;
+    public Material materialchaohyperpop;
+    public Material janeladiahyperpop;
+    public Material janelanoitehyperpop;
+    public Texture portahyperpop;
+    public Material forrocamahyperpop;
+
     //renderer dos objetos
     public Renderer portaRenderer;
     public Renderer parede1Renderer;
@@ -273,15 +291,27 @@ public class Player : MonoBehaviour
         if (luzSol.intensity == 0f)
         {
             //coloca a textura dependente do pacote de texturas
-            if (realista == 0)
+            if (realista == 1)
             {
-                janelaRenderer.material = janelanoitepadrao;
+                janelaRenderer.material = janelanoiterealista;
+                multiplicadorCiclo = 2; // Dobra o multiplicador de pontos quando a luz do sol estiver apagada
+                textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
+            }
+            if (mono == 1)
+            {
+                janelaRenderer.material = janelanoitemono;
+                multiplicadorCiclo = 2; // Dobra o multiplicador de pontos quando a luz do sol estiver apagada
+                textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
+            }
+            if (hyperpop == 1)
+            {
+                janelaRenderer.material = janelanoitehyperpop;
                 multiplicadorCiclo = 2; // Dobra o multiplicador de pontos quando a luz do sol estiver apagada
                 textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
             }
             else
             {
-                janelaRenderer.material = janelanoiterealista;
+                janelaRenderer.material = janelanoitepadrao;
                 multiplicadorCiclo = 2; // Dobra o multiplicador de pontos quando a luz do sol estiver apagada
                 textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
             }
@@ -289,15 +319,27 @@ public class Player : MonoBehaviour
         else
         {
             //coloca a textura dependente do pacote de texturas
-            if (realista == 0)
+            if (realista == 1)
             {
-                janelaRenderer.material = janeladiapadrao;
+                janelaRenderer.material = janeladiarealista;
+                multiplicadorCiclo = 1; // Restaura o multiplicador de pontos para o normal quando a luz do sol estiver acesa
+                textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
+            }
+            if (mono == 1)
+            {
+                janelaRenderer.material = janeladiamono;
+                multiplicadorCiclo = 1; // Restaura o multiplicador de pontos para o normal quando a luz do sol estiver acesa
+                textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
+            }
+            if (hyperpop == 1)
+            {
+                janelaRenderer.material = janeladiahyperpop;
                 multiplicadorCiclo = 1; // Restaura o multiplicador de pontos para o normal quando a luz do sol estiver acesa
                 textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
             }
             else
             {
-                janelaRenderer.material = janeladiarealista;
+                janelaRenderer.material = janeladiapadrao;
                 multiplicadorCiclo = 1; // Restaura o multiplicador de pontos para o normal quando a luz do sol estiver acesa
                 textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
             }
@@ -312,6 +354,15 @@ public class Player : MonoBehaviour
         {
             TexturasPadrao();
         }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            TexturasMono();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            Texturashyperpop();
+        }
+
     }
     public void ResetarCamera()
     {
@@ -343,6 +394,8 @@ public class Player : MonoBehaviour
         cama1Renderer.material = materialchaorealista;
         cama2Renderer.material = materialchaorealista;
         realista = 1;
+        mono = 0;
+        hyperpop = 0;
 
     }
 
@@ -364,9 +417,53 @@ public class Player : MonoBehaviour
         cama1Renderer.material = materialchaopadrao;
         cama2Renderer.material = materialchaopadrao;
         realista = 0;
+        mono = 0;
+        hyperpop = 0;
     }
 
+    public void TexturasMono()
+    {
+        //funcao para colocar as texturas mono
+        portaRenderer.material.mainTexture = portamono;
+        parede1Renderer.material = materialparedemono;
+        parede2Renderer.material = materialparedemono;
+        parede3Renderer.material = materialparedemono;
+        parede4Renderer.material = materialparedemono;
+        parede5Renderer.material = materialparedemono;
+        parede6Renderer.material = materialparedemono;
+        parede7Renderer.material = materialparedemono;
+        parede8Renderer.material = materialparedemono;
+        chaoRenderer.material = materialchaomono;
+        forro2Renderer.material = forrocamamono;
+        forroRenderer.material = forrocamamono;
+        cama1Renderer.material = materialchaomono;
+        cama2Renderer.material = materialchaomono;
+        mono = 1;
+        realista = 0;
+        hyperpop = 0;
+    }
 
+    public void Texturashyperpop()
+    {
+        //funcao para colocar as texturas hyperpop
+        portaRenderer.material.mainTexture = portahyperpop;
+        parede1Renderer.material = materialparedehyperpop;
+        parede2Renderer.material = materialparedehyperpop;
+        parede3Renderer.material = materialparedehyperpop;
+        parede4Renderer.material = materialparedehyperpop;
+        parede5Renderer.material = materialparedehyperpop;
+        parede6Renderer.material = materialparedehyperpop;
+        parede7Renderer.material = materialparedehyperpop;
+        parede8Renderer.material = materialparedehyperpop;
+        chaoRenderer.material = materialchaohyperpop;
+        forro2Renderer.material = forrocamahyperpop;
+        forroRenderer.material = forrocamahyperpop;
+        cama1Renderer.material = materialchaohyperpop;
+        cama2Renderer.material = materialchaohyperpop;
+        mono = 0;
+        realista = 0;
+        hyperpop = 1;
+    }
 }
 
 
