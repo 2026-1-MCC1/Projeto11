@@ -297,13 +297,13 @@ public class Player : MonoBehaviour
                 multiplicadorCiclo = 2; // Dobra o multiplicador de pontos quando a luz do sol estiver apagada
                 textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
             }
-            if (mono == 1)
+            else if (mono == 1)
             {
                 janelaRenderer.material = janelanoitemono;
                 multiplicadorCiclo = 2; // Dobra o multiplicador de pontos quando a luz do sol estiver apagada
                 textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
             }
-            if (hyperpop == 1)
+            else if (hyperpop == 1)
             {
                 janelaRenderer.material = janelanoitehyperpop;
                 multiplicadorCiclo = 2; // Dobra o multiplicador de pontos quando a luz do sol estiver apagada
@@ -325,13 +325,13 @@ public class Player : MonoBehaviour
                 multiplicadorCiclo = 1; // Restaura o multiplicador de pontos para o normal quando a luz do sol estiver acesa
                 textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
             }
-            if (mono == 1)
+            else if (mono == 1)
             {
                 janelaRenderer.material = janeladiamono;
                 multiplicadorCiclo = 1; // Restaura o multiplicador de pontos para o normal quando a luz do sol estiver acesa
                 textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
             }
-            if (hyperpop == 1)
+            else if (hyperpop == 1)
             {
                 janelaRenderer.material = janeladiahyperpop;
                 multiplicadorCiclo = 1; // Restaura o multiplicador de pontos para o normal quando a luz do sol estiver acesa
