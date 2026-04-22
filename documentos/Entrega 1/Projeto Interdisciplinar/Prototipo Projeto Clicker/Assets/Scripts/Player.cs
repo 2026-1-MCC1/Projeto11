@@ -35,6 +35,12 @@ public class Player : MonoBehaviour
     int custoAuto;
     int custoLimite;
 
+    // Classes
+    public TextMeshProUGUI ClasseTexto;
+    int multiplicadorClasse;
+    int clicksautomaticosclasse;
+    int limiteclasse;
+
     // Variáveis para as luzes e a janela
     public Light luzQuarto;
     public Light luzSol;
@@ -105,6 +111,12 @@ public class Player : MonoBehaviour
     void Start()
     // Configurações iniciais do cursor e tela cheia
     {
+        // Configurações iniciais do sistema de pontos e upgrades
+        pontosMaximos = 500;
+        multiplicadorClasse = 1;
+        clicksautomaticosclasse = 1;
+        limiteclasse = 1;
+        //travar a camera e esconder o cursor
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         Screen.fullScreen = true;
@@ -112,8 +124,8 @@ public class Player : MonoBehaviour
         custoMulti = 25 * multiplicadorPontos;
         custoAuto = 10;
         custoLimite = pontosMaximos;
-        textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
-        textoAutoClick.text = " (J) Clicks Automaticos: " + clicksAuto;
+        textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo * multiplicadorClasse);
+        textoAutoClick.text = " (J) Clicks Automaticos: " + clicksAuto * clicksautomaticosclasse;
         textoLimite.text = " (K) Limite: " + pontosMaximos;
         precoAuto.text = "Preço: " + custoAuto;
         precoMulti.text = "Preço: " + custoMulti;
@@ -141,7 +153,7 @@ public class Player : MonoBehaviour
                                                            cameraTransform.localEulerAngles.z);
         }
 
-        //Movimenta  o
+        //Movimenta  o player
         if (moveble == true)
         {
             float moverVertical = Input.GetAxis("Vertical");
@@ -158,17 +170,16 @@ public class Player : MonoBehaviour
             if (pontos >= custoMulti)
             {
                 pontos -= custoMulti;
-                multiplicadorPontos++;
+                multiplicadorPontos += 1;
 
                 Debug.Log("Multiplicador: " + multiplicadorPontos);
                 Debug.Log("Pontos restantes: " + pontos);
 
 
-                textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
+                textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo * multiplicadorClasse);
                 textoPontos.text = "Pontos: " + pontos;
                 custoMulti = 25 * multiplicadorPontos;
                 precoMulti.text = "Preço: " + custoMulti;
-                precoLimite.text = "Preço: " + custoLimite;
 
             }
             else
@@ -182,11 +193,11 @@ public class Player : MonoBehaviour
             if (pontos >= custoAuto)
             {
                 pontos -= custoAuto;
-                clicksAuto++;
+                clicksAuto += 1;
                 Debug.Log("Clicks automáticos: " + clicksAuto);
                 Debug.Log("Pontos restantes: " + pontos);
                 textoPontos.text = "Pontos: " + pontos;
-                textoAutoClick.text = " (J) Clicks Automaticos: " + clicksAuto;
+                textoAutoClick.text = " (J) Clicks Automaticos: " + (clicksAuto * clicksautomaticosclasse);
                 custoAuto = 10 * clicksAuto;
                 precoAuto.text = "Preço: " + custoAuto;
             }
@@ -201,12 +212,12 @@ public class Player : MonoBehaviour
             if (pontos >= custoLimite)
             {
                 pontos -= custoLimite;
-                pontosMaximos += 500;
+                pontosMaximos += 500 * limiteclasse;
                 Debug.Log("Novo limite: " + pontosMaximos);
                 Debug.Log("Pontos restantes: " + pontos);
-                textoLimite.text = " (K) Limite: " + pontosMaximos;
+                textoLimite.text = " (K) Limite: " + (pontosMaximos * limiteclasse);
                 textoPontos.text = "Pontos: " + pontos;
-                custoLimite = pontosMaximos;
+                custoLimite = pontosMaximos / limiteclasse;
                 precoLimite.text = "Preço: " + custoLimite;
             }
             else
@@ -227,7 +238,7 @@ public class Player : MonoBehaviour
 
                 if (hit.collider.gameObject.name == "Computador")
                 {
-                    pontos += multiplicadorPontos * multiplicadorCiclo;
+                    pontos += multiplicadorPontos * multiplicadorCiclo * multiplicadorClasse;
                     pontos = Mathf.Clamp(pontos, 0, pontosMaximos);
                     Debug.Log("Pontos: " + pontos);
                     textoPontos.text = "Pontos: " + pontos;
@@ -259,11 +270,12 @@ public class Player : MonoBehaviour
         {
             tempoAuto = 0f;
 
-            pontos += clicksAuto;
+            pontos += clicksAuto * clicksautomaticosclasse;
             pontos = Mathf.Clamp(pontos, 0, pontosMaximos);
             textoPontos.text = "Pontos: " + pontos;
         }
 
+        //----------------------------------------------- SEÇÃO DE DIA E NOITE --------------------------------------------------------------
         // Verifica se ambas as luzes estão apagadas para acender a luz do computador
         if (luzSol.intensity == 0f && luzQuarto.intensity == 0f)
         {
@@ -295,25 +307,25 @@ public class Player : MonoBehaviour
             {
                 janelaRenderer.material = janelanoiterealista;
                 multiplicadorCiclo = 2; // Dobra o multiplicador de pontos quando a luz do sol estiver apagada
-                textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
+                textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo * multiplicadorClasse);
             }
             else if (mono == 1)
             {
                 janelaRenderer.material = janelanoitemono;
                 multiplicadorCiclo = 2; // Dobra o multiplicador de pontos quando a luz do sol estiver apagada
-                textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
+                textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo * multiplicadorClasse);
             }
             else if (hyperpop == 1)
             {
                 janelaRenderer.material = janelanoitehyperpop;
                 multiplicadorCiclo = 2; // Dobra o multiplicador de pontos quando a luz do sol estiver apagada
-                textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
+                textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo * multiplicadorClasse);
             }
             else
             {
                 janelaRenderer.material = janelanoitepadrao;
                 multiplicadorCiclo = 2; // Dobra o multiplicador de pontos quando a luz do sol estiver apagada
-                textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
+                textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo * multiplicadorClasse);
             }
         }
         else
@@ -323,28 +335,29 @@ public class Player : MonoBehaviour
             {
                 janelaRenderer.material = janeladiarealista;
                 multiplicadorCiclo = 1; // Restaura o multiplicador de pontos para o normal quando a luz do sol estiver acesa
-                textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
+                textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo * multiplicadorClasse);
             }
             else if (mono == 1)
             {
                 janelaRenderer.material = janeladiamono;
                 multiplicadorCiclo = 1; // Restaura o multiplicador de pontos para o normal quando a luz do sol estiver acesa
-                textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
+                textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo * multiplicadorClasse);  
             }
             else if (hyperpop == 1)
-            {
+            {   
                 janelaRenderer.material = janeladiahyperpop;
                 multiplicadorCiclo = 1; // Restaura o multiplicador de pontos para o normal quando a luz do sol estiver acesa
-                textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
+                textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo * multiplicadorClasse);  
             }
             else
             {
                 janelaRenderer.material = janeladiapadrao;
                 multiplicadorCiclo = 1; // Restaura o multiplicador de pontos para o normal quando a luz do sol estiver acesa
-                textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
+                textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo * multiplicadorClasse);
             }
         }
 
+        // -------------------------------------------------------------- SEÇÃO DE TEXTURAS --------------------------------------------------------------
         //Compra de texturas e etc
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
@@ -361,6 +374,106 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             Texturashyperpop();
+        }
+
+        // -------------------------------------------------------------- SEÇÃO DE CLASSES --------------------------------------------------------------
+        //Compra de classes
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            ClasseTexto.text = "Classe: Nenhuma";
+            //trava de segurança para evitar bugs envolvendo o limite de pontos ao trocar de classe, dividindo o limite atual pelo limite da classe anterior
+            if (limiteclasse == 3)
+            {
+                pontosMaximos = pontosMaximos / limiteclasse;
+            }
+            else if (limiteclasse == 2)
+            {
+                pontosMaximos = pontosMaximos / limiteclasse;
+            }
+            //atributos da classe
+            multiplicadorClasse = 1;
+            clicksautomaticosclasse = 1;
+            limiteclasse = 1;
+            //alterando a hud ao trocar de classe
+            textoLimite.text = " (K) Limite: " + (pontosMaximos * limiteclasse);
+            textoAutoClick.text = " (J) Clicks Automaticos: " + (clicksAuto * clicksautomaticosclasse);
+            pontosMaximos = pontosMaximos * limiteclasse;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            ClasseTexto.text = "Classe: Python";
+            if (limiteclasse == 3)
+            {
+                pontosMaximos = pontosMaximos / limiteclasse;
+            }
+            else if (limiteclasse == 2)
+            {
+                pontosMaximos = pontosMaximos / limiteclasse;
+            }
+            multiplicadorClasse = 1;
+            clicksautomaticosclasse = 5;
+            limiteclasse = 1;
+            textoLimite.text = " (K) Limite: " + (pontosMaximos * limiteclasse);
+            textoAutoClick.text = " (J) Clicks Automaticos: " + (clicksAuto * clicksautomaticosclasse);
+            pontosMaximos = pontosMaximos * limiteclasse;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            ClasseTexto.text = "Classe: C#";
+            if (limiteclasse == 3)
+            {
+                pontosMaximos = pontosMaximos / limiteclasse;
+            }
+            else if (limiteclasse == 2)
+            {
+                pontosMaximos = pontosMaximos / limiteclasse;
+            }
+            multiplicadorClasse = 1;
+            clicksautomaticosclasse = 1;
+            limiteclasse = 3;
+            textoLimite.text = " (K) Limite: " + (pontosMaximos * limiteclasse);
+            textoAutoClick.text = " (J) Clicks Automaticos: " + (clicksAuto * clicksautomaticosclasse);
+            pontosMaximos = pontosMaximos * limiteclasse;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            ClasseTexto.text = "Classe: Java";
+            if (limiteclasse == 3)
+            {
+                pontosMaximos = pontosMaximos / limiteclasse;
+            }
+            else if (limiteclasse == 2)
+            {
+                pontosMaximos = pontosMaximos / limiteclasse;
+            }
+            multiplicadorClasse = 5;
+            clicksautomaticosclasse = 1;
+            limiteclasse = 1;
+            textoLimite.text = " (K) Limite: " + (pontosMaximos * limiteclasse);
+            textoAutoClick.text = " (J) Clicks Automaticos: " + (clicksAuto * clicksautomaticosclasse);
+            pontosMaximos = pontosMaximos * limiteclasse;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha8))
+        {
+            ClasseTexto.text = "Classe: Holy C";
+            if (limiteclasse == 3)
+            {
+                pontosMaximos = pontosMaximos / limiteclasse;
+            }
+            else if (limiteclasse == 2)
+            {
+                pontosMaximos = pontosMaximos / limiteclasse;
+            }
+            multiplicadorClasse = 2;
+            clicksautomaticosclasse = 2;
+            limiteclasse = 2;
+            textoLimite.text = " (K) Limite: " + (pontosMaximos * limiteclasse);
+            textoAutoClick.text = " (J) Clicks Automaticos: " + (clicksAuto * clicksautomaticosclasse);
+            pontosMaximos = pontosMaximos * limiteclasse;
         }
 
     }
@@ -465,6 +578,5 @@ public class Player : MonoBehaviour
         hyperpop = 1;
     }
 }
-
 
 
