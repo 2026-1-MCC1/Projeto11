@@ -10,6 +10,6 @@ public class TextoFlutuante : MonoBehaviour
     {
         // Isso faz o texto ir para cima devagarzinho todos os frames
         transform.position += Vector3.up * 0f * Time.deltaTime;
-        Destroy(gameObject, 1.5f);
+        Destroy(this.gameObject, 0.5f);
     }
 }
