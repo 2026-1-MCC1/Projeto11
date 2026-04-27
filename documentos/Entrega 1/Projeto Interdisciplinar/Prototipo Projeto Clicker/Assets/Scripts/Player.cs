@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     Vector2 rotacaoMouse;
     public int sensibilidade;
     public float velocidade = 5.0f;
+    ClickSpawner clickSpawner;
 
     // Configurações para o raycast
     public float maxDistance = 10f;
@@ -103,6 +104,7 @@ public class Player : MonoBehaviour
         //padroniza as texturas no começo do jogo
         TexturasPadrao();
         janelaRenderer.material = janeladiapadrao;
+        clickSpawner = FindFirstObjectByType<ClickSpawner>();
     }
 
     void Update()
@@ -151,6 +153,7 @@ public class Player : MonoBehaviour
                 custoMulti = 25 * multiplicadorPontos;
                 precoMulti.text = "Preço: " + custoMulti;
                 precoLimite.text = "Preço: " + custoLimite;
+                clickSpawner.multiplicador = multiplicadorPontos;
 
             }
             else

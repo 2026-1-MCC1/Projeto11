@@ -1,9 +1,23 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ClickSpawner : MonoBehaviour
 {
+    public GameObject textoPrefab;
+
+    public int valorBase = 1;
+    public int multiplicador = 1;
+    public Transform textspaw;
+
     void OnMouseDown()
     {
-        Debug.Log("CLICOU!");
+        Vector3 pos = transform.position;
+        pos.y += 3f;
+
+        GameObject textoObj = Instantiate(textoPrefab, textspaw.position, Quaternion.identity);
+
+        int valorFinal = valorBase * multiplicador;
+
+        TextoFlutuante tf = textoObj.GetComponent<TextoFlutuante>();
+        tf.DefinirValor(valorFinal);
     }
 }
