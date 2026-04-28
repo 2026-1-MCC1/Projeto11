@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     // Variáveis para o sistema de pontos e upgrades
     int pontos = 0;
     public TextMeshProUGUI textoPontos;
+    public Classe classeAtual = Classe.Nenhuma;
     public TextMeshProUGUI textoMultiplicador;
     int multiplicadorPontos = 1;
     int clicksAuto = 0;
@@ -155,6 +156,7 @@ public class Player : MonoBehaviour
                                                            cameraTransform.localEulerAngles.z);
         }
 
+
         //Movimenta  o player
         if (moveble == true)
         {
@@ -183,6 +185,7 @@ public class Player : MonoBehaviour
                 custoMulti = 25 * multiplicadorPontos;
                 precoMulti.text = "Preço: " + custoMulti;
             }
+
             else
             {
                 Debug.Log("Pontos insuficientes!");
@@ -229,7 +232,37 @@ public class Player : MonoBehaviour
 
         //Compra de itens com clique
         if (Input.GetMouseButtonDown(0)) // só dispara quando clicar
-        {
+        { 
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                classeAtual = Classe.Nenhuma;
+                ClasseTexto.text = "Classe: Nenhuma";
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha5))
+            {
+                classeAtual = Classe.Python;
+                ClasseTexto.text = "Classe: Python";
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha6))
+            {
+                classeAtual = Classe.CSharp;
+                ClasseTexto.text = "Classe: C#";
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha7))
+            {
+                classeAtual = Classe.Java;
+                ClasseTexto.text = "Classe: Java";
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha8))
+            {
+                classeAtual = Classe.HolyC;
+                ClasseTexto.text = "Classe: Holy C";
+            }
+
             Ray ray = cameraTransform.GetComponent<Camera>().ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
             RaycastHit hit;
 
@@ -238,6 +271,7 @@ public class Player : MonoBehaviour
                 Debug.Log("Acertou: " + hit.collider.gameObject.name);
 
                 if (hit.collider.gameObject.name == "Computador")
+                    AudioManager.instance.TocarSomClick3D(classeAtual, hit.point);
                 {
                     pontos += multiplicadorPontos * multiplicadorCiclo * multiplicadorClasse;
                     pontos = Mathf.Clamp(pontos, 0, pontosMaximos);
