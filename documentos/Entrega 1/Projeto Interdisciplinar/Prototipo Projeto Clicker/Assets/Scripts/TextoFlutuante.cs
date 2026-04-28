@@ -20,7 +20,7 @@ public class TextoFlutuante : MonoBehaviour
     {
         transform.LookAt(Camera.main.transform);
         transform.Rotate(0, 180, 0);
-       this.GetComponent<TMP_Text>().text =  "+ " + clickSpawner.valorBase * clickSpawner.multiplicador + "";
+        this.GetComponent<TMP_Text>().text =  "+ " + clickSpawner.valorBase * clickSpawner.multiplicador + "";
 
 
         transform.Translate(Vector3.up * velocidade * Time.deltaTime);

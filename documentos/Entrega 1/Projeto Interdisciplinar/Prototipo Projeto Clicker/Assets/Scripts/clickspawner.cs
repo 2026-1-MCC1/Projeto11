@@ -6,6 +6,8 @@ public class ClickSpawner : MonoBehaviour
 
     public int valorBase = 1;
     public int multiplicador = 1;
+    public int multiplicadorClasse = 1;
+    public int multiplicadorCiclo = 1;
     public Transform textspaw;
 
     void OnMouseDown()
@@ -15,7 +17,7 @@ public class ClickSpawner : MonoBehaviour
 
         GameObject textoObj = Instantiate(textoPrefab, textspaw.position, Quaternion.identity);
 
-        int valorFinal = valorBase * multiplicador;
+        int valorFinal = valorBase * multiplicador * multiplicadorCiclo * multiplicadorClasse;
 
         TextoFlutuante tf = textoObj.GetComponent<TextoFlutuante>();
         tf.DefinirValor(valorFinal);

@@ -182,7 +182,6 @@ public class Player : MonoBehaviour
                 textoPontos.text = "Pontos: " + pontos;
                 custoMulti = 25 * multiplicadorPontos;
                 precoMulti.text = "Preço: " + custoMulti;
-                clickSpawner.multiplicador = multiplicadorPontos;
             }
             else
             {
@@ -477,6 +476,8 @@ public class Player : MonoBehaviour
             textoAutoClick.text = " (J) Clicks Automaticos: " + (clicksAuto * clicksautomaticosclasse);
             pontosMaximos = pontosMaximos * limiteclasse;
         }
+
+        clickSpawner.multiplicador = multiplicadorPontos * multiplicadorCiclo * multiplicadorClasse;
 
     }
     public void ResetarCamera()
