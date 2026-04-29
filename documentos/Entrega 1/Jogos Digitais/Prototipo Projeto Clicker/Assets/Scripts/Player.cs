@@ -207,6 +207,7 @@ public class Player : MonoBehaviour
                 }
 
             }
+        }
 
             tempoAuto += Time.deltaTime;
             if (tempoAuto >= intervaloAuto)
@@ -255,7 +256,6 @@ public class Player : MonoBehaviour
                 textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
 
             }
-        }
     }
     //Bloquear contagem de pontos dentro da Hud secundária
         public void ResetarCamera()
