@@ -285,6 +285,7 @@ public class Player : MonoBehaviour
             pontos += clicksAuto * clicksautomaticosclasse;
             pontos = Mathf.Clamp(pontos, 0, pontosMaximos);
             textoPontos.text = "Pontos: " + pontos;
+            textoPontos2.text = textoPontos.text;
         }
 
         //----------------------------------------------- SEÇÃO DE DIA E NOITE --------------------------------------------------------------
