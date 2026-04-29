@@ -2,73 +2,35 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager instance;
-
-    [Header("Clips por classe")]
     public AudioClip[] somPadrao;
-    public AudioClip[] somPython;
-    public AudioClip[] somCSharp;
-    public AudioClip[] somJava;
-    public AudioClip[] somHolyC;
-
     public float volume = 1f;
 
-    void Awake()
+    public static AudioManager instancia;
+    internal static object instance;
+
+    private void Awake()
     {
-        if (instance == null)
-            instance = this;
-        else
-            Destroy(gameObject);
+        instancia = this;
     }
 
-    AudioClip PegarClipAleatorio(AudioClip[] lista)
+    public void TocarSomClick3D(Vector3 posicao)
     {
-        if (lista == null || lista.Length == 0)
-            return null;
+        if (somPadrao.Length == 0) return;
 
-        return lista[Random.Range(0, lista.Length)];
-    }
+        AudioClip clip = somPadrao[0];
 
-    public void TocarSomClick3D(Classe classeAtual, Vector3 posicao)
-    {
-        AudioClip clip = null;
+        GameObject temp = new GameObject("SomTemp");
 
-        switch (classeAtual)
-        {
-            case Classe.Python:
-                clip = PegarClipAleatorio(somPython);
-                break;
+        temp.transform.position = posicao;
 
-            case Classe.CSharp:
-                clip = PegarClipAleatorio(somCSharp);
-                break;
+        AudioSource source = temp.AddComponent<AudioSource>();
 
-            case Classe.Java:
-                clip = PegarClipAleatorio(somJava);
-                break;
+        source.clip = clip;
+        source.volume = volume;
+        source.spatialBlend = 1f;
 
-            case Classe.HolyC:
-                clip = PegarClipAleatorio(somHolyC);
-                break;
+        source.Play();
 
-            default:
-                clip = PegarClipAleatorio(somPadrao);
-                break;
-        }
-
-        if (clip != null)
-        {
-            GameObject temp = new GameObject("SomTemp");
-            temp.transform.position = posicao;
-
-            AudioSource source = temp.AddComponent<AudioSource>();
-            source.clip = clip;
-            source.volume = volume;
-            source.pitch = Random.Range(0.9f, 1.1f);
-            source.spatialBlend = 1f;
-            source.Play();
-
-            Destroy(temp, clip.length);
-        }
+        Destroy(temp, clip.length);
     }
 }

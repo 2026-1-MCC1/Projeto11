@@ -270,14 +270,17 @@ public class Player : MonoBehaviour
             {
                 Debug.Log("Acertou: " + hit.collider.gameObject.name);
 
-                if (hit.collider.gameObject.name == "Computador")
-                    AudioManager.instance.TocarSomClick3D(classeAtual, hit.point);
-                {
-                    pontos += multiplicadorPontos * multiplicadorCiclo * multiplicadorClasse;
-                    pontos = Mathf.Clamp(pontos, 0, pontosMaximos);
-                    Debug.Log("Pontos: " + pontos);
-                    textoPontos.text = "Pontos: " + pontos;
-                }
+               if (hit.collider.gameObject.name == "Computador")
+{
+    ((AudioManager)AudioManager.instance).TocarSomClick3D(hit.point);
+
+    pontos += multiplicadorPontos * multiplicadorCiclo * multiplicadorClasse;
+    pontos = Mathf.Clamp(pontos, 0, pontosMaximos);
+
+    Debug.Log("Pontos: " + pontos);
+
+    textoPontos.text = "Pontos: " + pontos;
+}
 
                 // Verifica se o objeto clicado é o interruptor e alterna a luz do quarto
                 if (hit.collider.gameObject.name == "Interruptor")
