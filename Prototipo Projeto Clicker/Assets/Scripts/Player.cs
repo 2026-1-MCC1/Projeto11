@@ -1,4 +1,5 @@
 ﻿using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Experimental.GlobalIllumination;
 
@@ -8,7 +9,7 @@ public class Player : MonoBehaviour
     public Transform _transform;
     public Transform cameraTransform;
     Vector2 rotacaoMouse;
-    public int sensibilidade;
+    public float sensibilidade;
     public float velocidade = 5.0f;
     ClickSpawner clickSpawner;
 
@@ -112,6 +113,9 @@ public class Player : MonoBehaviour
 
     //HUDManager
     private HUDManager HUDManager;
+    public bool compraoneoff;
+    public bool hudmenu;
+    public bool hudconfig;
 
     void Start()
     // Configurações iniciais do cursor e tela cheia
@@ -121,9 +125,6 @@ public class Player : MonoBehaviour
         multiplicadorClasse = 1;
         clicksautomaticosclasse = 1;
         limiteclasse = 1;
-        //travar a camera e esconder o cursor
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
         Screen.fullScreen = true;
         // Configurações iniciais dos custos dos upgrades
         custoMulti = 25 * multiplicadorPontos;
@@ -141,12 +142,17 @@ public class Player : MonoBehaviour
         clickSpawner = FindFirstObjectByType<ClickSpawner>();
 
         HUDManager = FindAnyObjectByType<HUDManager>();
+        hudmenu = HUDManager.hudmenuoneoff;
     }
 
     void Update()
-    { //Camera
+    {
+        hudmenu = HUDManager.hudmenuoneoff;
+        compraoneoff = HUDManager.Upgrade;
+        hudconfig = HUDManager.hudconfigoneoff;
+        //Camera
 
-        if (travarCamera == false)
+        if (travarCamera == false) //trava de segurança
         {
             Vector2 controleMouse = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
 
@@ -162,7 +168,7 @@ public class Player : MonoBehaviour
         }
 
         //Movimenta  o player
-        if (moveble == true)
+        if (moveble == true) //trava de segurança
         {
             float moverVertical = Input.GetAxis("Vertical");
             float moverHorizontal = Input.GetAxis("Horizontal");
@@ -173,7 +179,7 @@ public class Player : MonoBehaviour
             transform.Translate(movimento * velocidade * Time.deltaTime);
         }
         //Compra de itens com teclado
-        if (Input.GetKeyDown(KeyCode.H))
+        if (Input.GetKeyDown(KeyCode.H) && (compraoneoff == true)) //trava de segurança
         {
             if (pontos >= custoMulti)
             {
@@ -195,7 +201,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.J))
+        if (Input.GetKeyDown(KeyCode.J) && (compraoneoff == true)) //trava de segurança
         {
             if (pontos >= custoAuto)
             {
@@ -214,7 +220,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.K) && (compraoneoff == true)) //trava de segurança
         {
             if (pontos >= custoLimite)
             {
@@ -236,7 +242,7 @@ public class Player : MonoBehaviour
         //Compra de itens com clique
         if (Input.GetMouseButtonDown(0)) // só dispara quando clicar
         {
-            if (HUDManager.hudsecundariaoneoff == false)
+            if ((HUDManager.hudsecundariaoneoff == false) && hudmenu == false && hudconfig == false) //trava de segurança
             { 
                 Ray ray = cameraTransform.GetComponent<Camera>().ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
                 RaycastHit hit;
@@ -300,7 +306,7 @@ public class Player : MonoBehaviour
         }
 
         // Só template para mim mesmo como interruptor de sol 
-        if (Input.GetKeyDown(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.B) && (hudmenu == false) && (HUDManager.hudsecundariaoneoff == false))
         {
             if (luzSol.intensity > 0f)
             {
@@ -372,121 +378,127 @@ public class Player : MonoBehaviour
 
         // -------------------------------------------------------------- SEÇÃO DE TEXTURAS --------------------------------------------------------------
         //Compra de texturas e etc
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (hudmenu == false && HUDManager.hudsecundariaoneoff == true) //trava segurança
         {
-            TexturasRealistas();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha0))
-        {
-            TexturasPadrao();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            TexturasMono();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            Texturashyperpop();
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                TexturasRealistas();
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha0))
+            {
+                TexturasPadrao();
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                TexturasMono();
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {   
+                Texturashyperpop();
+            }
         }
 
         // -------------------------------------------------------------- SEÇÃO DE CLASSES --------------------------------------------------------------
         //Compra de classes
-        if (Input.GetKeyDown(KeyCode.Alpha4))
+        if (hudmenu == false && HUDManager.hudsecundariaoneoff == true) //trava segurança
         {
-            ClasseTexto.text = "Classe: Nenhuma";
-            //trava de segurança para evitar bugs envolvendo o limite de pontos ao trocar de classe, dividindo o limite atual pelo limite da classe anterior
-            if (limiteclasse == 3)
+            if (Input.GetKeyDown(KeyCode.Alpha4))
             {
-                pontosMaximos = pontosMaximos / limiteclasse;
+                ClasseTexto.text = "Classe: Nenhuma";
+                //trava de segurança para evitar bugs envolvendo o limite de pontos ao trocar de classe, dividindo o limite atual pelo limite da classe anterior
+                if (limiteclasse == 3)
+                {
+                    pontosMaximos = pontosMaximos / limiteclasse;
+                }
+                else if (limiteclasse == 2)
+                {
+                    pontosMaximos = pontosMaximos / limiteclasse;
+                }
+                //atributos da classe
+                multiplicadorClasse = 1;
+                clicksautomaticosclasse = 1;
+                limiteclasse = 1;
+                //alterando a hud ao trocar de classe
+                textoLimite.text = " (K) Limite: " + (pontosMaximos * limiteclasse);
+                textoAutoClick.text = " (J) Clicks Automaticos: " + (clicksAuto * clicksautomaticosclasse);
+                pontosMaximos = pontosMaximos * limiteclasse;
             }
-            else if (limiteclasse == 2)
-            {
-                pontosMaximos = pontosMaximos / limiteclasse;
-            }
-            //atributos da classe
-            multiplicadorClasse = 1;
-            clicksautomaticosclasse = 1;
-            limiteclasse = 1;
-            //alterando a hud ao trocar de classe
-            textoLimite.text = " (K) Limite: " + (pontosMaximos * limiteclasse);
-            textoAutoClick.text = " (J) Clicks Automaticos: " + (clicksAuto * clicksautomaticosclasse);
-            pontosMaximos = pontosMaximos * limiteclasse;
-        }
 
-        if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            ClasseTexto.text = "Classe: Python";
-            if (limiteclasse == 3)
+            if (Input.GetKeyDown(KeyCode.Alpha5))
             {
-                pontosMaximos = pontosMaximos / limiteclasse;
+                ClasseTexto.text = "Classe: Python";
+                if (limiteclasse == 3)
+                {
+                    pontosMaximos = pontosMaximos / limiteclasse;
+                }
+                else if (limiteclasse == 2)
+                {
+                    pontosMaximos = pontosMaximos / limiteclasse;
+                }
+                multiplicadorClasse = 1;
+                clicksautomaticosclasse = 5;
+                limiteclasse = 1;
+                textoLimite.text = " (K) Limite: " + (pontosMaximos * limiteclasse);
+                textoAutoClick.text = " (J) Clicks Automaticos: " + (clicksAuto * clicksautomaticosclasse);
+                pontosMaximos = pontosMaximos * limiteclasse;
             }
-            else if (limiteclasse == 2)
-            {
-                pontosMaximos = pontosMaximos / limiteclasse;
-            }
-            multiplicadorClasse = 1;
-            clicksautomaticosclasse = 5;
-            limiteclasse = 1;
-            textoLimite.text = " (K) Limite: " + (pontosMaximos * limiteclasse);
-            textoAutoClick.text = " (J) Clicks Automaticos: " + (clicksAuto * clicksautomaticosclasse);
-            pontosMaximos = pontosMaximos * limiteclasse;
-        }
 
-        if (Input.GetKeyDown(KeyCode.Alpha6))
-        {
-            ClasseTexto.text = "Classe: C#";
-            if (limiteclasse == 3)
+            if (Input.GetKeyDown(KeyCode.Alpha6))
             {
-                pontosMaximos = pontosMaximos / limiteclasse;
+                ClasseTexto.text = "Classe: C#";
+                if (limiteclasse == 3)
+                {
+                    pontosMaximos = pontosMaximos / limiteclasse;
+                }
+                else if (limiteclasse == 2)
+                {
+                    pontosMaximos = pontosMaximos / limiteclasse;
+                }
+                multiplicadorClasse = 1;
+                clicksautomaticosclasse = 1;
+                limiteclasse = 3;
+                textoLimite.text = " (K) Limite: " + (pontosMaximos * limiteclasse);
+                textoAutoClick.text = " (J) Clicks Automaticos: " + (clicksAuto * clicksautomaticosclasse);
+                pontosMaximos = pontosMaximos * limiteclasse;
             }
-            else if (limiteclasse == 2)
-            {
-                pontosMaximos = pontosMaximos / limiteclasse;
-            }
-            multiplicadorClasse = 1;
-            clicksautomaticosclasse = 1;
-            limiteclasse = 3;
-            textoLimite.text = " (K) Limite: " + (pontosMaximos * limiteclasse);
-            textoAutoClick.text = " (J) Clicks Automaticos: " + (clicksAuto * clicksautomaticosclasse);
-            pontosMaximos = pontosMaximos * limiteclasse;
-        }
 
-        if (Input.GetKeyDown(KeyCode.Alpha7))
-        {
-            ClasseTexto.text = "Classe: Java";
-            if (limiteclasse == 3)
+            if (Input.GetKeyDown(KeyCode.Alpha7))
             {
-                pontosMaximos = pontosMaximos / limiteclasse;
+                ClasseTexto.text = "Classe: Java";
+                if (limiteclasse == 3)
+                {
+                    pontosMaximos = pontosMaximos / limiteclasse;
+                }
+                else if (limiteclasse == 2)
+                {
+                    pontosMaximos = pontosMaximos / limiteclasse;
+                }
+                multiplicadorClasse = 5;
+                clicksautomaticosclasse = 1;
+                limiteclasse = 1;
+                textoLimite.text = " (K) Limite: " + (pontosMaximos * limiteclasse);
+                textoAutoClick.text = " (J) Clicks Automaticos: " + (clicksAuto * clicksautomaticosclasse);
+                pontosMaximos = pontosMaximos * limiteclasse;
             }
-            else if (limiteclasse == 2)
-            {
-                pontosMaximos = pontosMaximos / limiteclasse;
-            }
-            multiplicadorClasse = 5;
-            clicksautomaticosclasse = 1;
-            limiteclasse = 1;
-            textoLimite.text = " (K) Limite: " + (pontosMaximos * limiteclasse);
-            textoAutoClick.text = " (J) Clicks Automaticos: " + (clicksAuto * clicksautomaticosclasse);
-            pontosMaximos = pontosMaximos * limiteclasse;
-        }
 
-        if (Input.GetKeyDown(KeyCode.Alpha8))
-        {
-            ClasseTexto.text = "Classe: Holy C";
-            if (limiteclasse == 3)
+            if (Input.GetKeyDown(KeyCode.Alpha8))
             {
-                pontosMaximos = pontosMaximos / limiteclasse;
+                ClasseTexto.text = "Classe: Holy C";
+                if (limiteclasse == 3)
+                {
+                    pontosMaximos = pontosMaximos / limiteclasse;
+                }
+                else if (limiteclasse == 2)
+                {
+                    pontosMaximos = pontosMaximos / limiteclasse;
+                }
+                multiplicadorClasse = 2;
+                clicksautomaticosclasse = 2;
+                limiteclasse = 2;
+                textoLimite.text = " (K) Limite: " + (pontosMaximos * limiteclasse);
+                textoAutoClick.text = " (J) Clicks Automaticos: " + (clicksAuto * clicksautomaticosclasse);
+                pontosMaximos = pontosMaximos * limiteclasse;
             }
-            else if (limiteclasse == 2)
-            {
-                pontosMaximos = pontosMaximos / limiteclasse;
-            }
-            multiplicadorClasse = 2;
-            clicksautomaticosclasse = 2;
-            limiteclasse = 2;
-            textoLimite.text = " (K) Limite: " + (pontosMaximos * limiteclasse);
-            textoAutoClick.text = " (J) Clicks Automaticos: " + (clicksAuto * clicksautomaticosclasse);
-            pontosMaximos = pontosMaximos * limiteclasse;
         }
 
         clickSpawner.multiplicador = multiplicadorPontos * multiplicadorCiclo * multiplicadorClasse;
