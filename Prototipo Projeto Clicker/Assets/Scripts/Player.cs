@@ -322,6 +322,7 @@ public class Player : MonoBehaviour
             pontos += clicksAuto;
             pontos = Mathf.Clamp(pontos, 0, pontosMaximos);
             textoPontos.text = "Pontos: " + pontos;
+            textoPontos2.text = textoPontos.text;
         }
 
         // Verifica se ambas as luzes estão apagadas para acender a luz do computador
