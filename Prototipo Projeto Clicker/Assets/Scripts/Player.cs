@@ -117,6 +117,13 @@ public class Player : MonoBehaviour
     public bool hudmenu;
     public bool hudconfig;
 
+    //Variáveis para o sistema de dia e noite
+    public float tempoNoite = 0f;
+    public bool eventoNoiteAtivo = false;
+    public float tempoEventoNoite = 0f;
+    public bool bonusAtivo = false;
+    public float tempoBonus = 0f;
+
     void Start()
     // Configurações iniciais do cursor e tela cheia
     {
@@ -274,6 +281,18 @@ public class Player : MonoBehaviour
                         luzQuarto.intensity = 50f;
                     }
                 }
+
+                //Ativa o Bônus quando a Cafeteira é Clicada
+                if (hit.collider.gameObject.name == "Cafeteira" && eventoNoiteAtivo && bonusAtivo == false)
+                {
+                    bonusAtivo = true;
+                    tempoBonus = 0f;
+                    tempoEventoNoite = 0f;
+                    eventoNoiteAtivo = false;
+                    luzSol.intensity = 0f;
+
+                }
+
                 else
                 {
                     Debug.Log("Não acertou nada");
@@ -293,6 +312,56 @@ public class Player : MonoBehaviour
             textoPontos.text = "Pontos: " + pontos;
             textoPontos2.text = textoPontos.text;
         }
+
+        //----------------------------------------------- SEÇÃO DE EVENTO DE NOITE --------------------------------------------------------------
+        // Controle do Evento Noite
+
+        if (eventoNoiteAtivo == false && HUDManager.hudsecundariaoneoff == false && hudmenu == false && hudconfig == false) 
+        {
+            if (bonusAtivo == false)
+            {
+                tempoNoite += Time.deltaTime;
+            }
+            if (tempoNoite >= 2f)
+            {
+                float chance = Random.Range(0f, 100f);
+                if (chance <= 99f)
+                {
+                    Debug.Log("Evento ativado");
+                    eventoNoiteAtivo = true;
+                    luzSol.intensity = 0f;
+                    tempoEventoNoite = 0f;
+                }
+            }
+        }
+        if (eventoNoiteAtivo == true && bonusAtivo == false && HUDManager.hudsecundariaoneoff == false && hudmenu == false && hudconfig == false)
+        {
+            tempoEventoNoite += Time.deltaTime;
+        }
+
+        if (tempoEventoNoite >= 5f)
+        {
+            eventoNoiteAtivo = false;
+            tempoEventoNoite = 0f;
+            Debug.Log("Evento acabou");
+            tempoNoite = 0f;
+            luzSol.intensity = 500f;
+        }
+        if (bonusAtivo == true && HUDManager.hudsecundariaoneoff == false && hudmenu == false && hudconfig == false)
+        {
+            tempoBonus += Time.deltaTime;
+            if (tempoBonus >= 10)
+            {
+                bonusAtivo = false;
+                tempoBonus = 0f;
+                Debug.Log("Bônus Acabou");
+                tempoNoite = 0f;
+                tempoEventoNoite = 0f;
+                eventoNoiteAtivo = false;
+                luzSol.intensity = 500f;
+            }
+        }
+
 
         //----------------------------------------------- SEÇÃO DE DIA E NOITE --------------------------------------------------------------
         // Verifica se ambas as luzes estão apagadas para acender a luz do computador
