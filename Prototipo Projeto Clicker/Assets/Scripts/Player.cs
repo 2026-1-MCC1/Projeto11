@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
     public float velocidade = 5.0f;
     ClickSpawner clickSpawner;
 
+    public Classe classeAtual = Classe.Nenhuma;
+
     // Configurações para o raycast
     public float maxDistance = 10f;
     public LayerMask hitLayers;
@@ -116,6 +118,11 @@ public class Player : MonoBehaviour
     public bool compraoneoff;
     public bool hudmenu;
     public bool hudconfig;
+
+    public AudioSource somclickatual;
+    public AudioSource somclickpython;
+    public AudioSource somclickpadrao;
+    //kkkk
 
     void Start()
     // Configurações iniciais do cursor e tela cheia
@@ -253,6 +260,7 @@ public class Player : MonoBehaviour
 
                     if (hit.collider.gameObject.name == "Computador")
                     {
+                        somclickatual.Play();
                         pontos += multiplicadorPontos * multiplicadorCiclo * multiplicadorClasse;
                         pontos = Mathf.Clamp(pontos, 0, pontosMaximos);
                         Debug.Log("Pontos: " + pontos);
@@ -404,6 +412,8 @@ public class Player : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Alpha4))
             {
+                somclickatual = somclickpadrao;
+                classeAtual = Classe.Nenhuma;
                 ClasseTexto.text = "Classe: Nenhuma";
                 //trava de segurança para evitar bugs envolvendo o limite de pontos ao trocar de classe, dividindo o limite atual pelo limite da classe anterior
                 if (limiteclasse == 3)
@@ -426,6 +436,8 @@ public class Player : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Alpha5))
             {
+                somclickatual = somclickpython;
+                classeAtual = Classe.Python;
                 ClasseTexto.text = "Classe: Python";
                 if (limiteclasse == 3)
                 {
@@ -445,6 +457,7 @@ public class Player : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Alpha6))
             {
+                classeAtual = Classe.CSharp;
                 ClasseTexto.text = "Classe: C#";
                 if (limiteclasse == 3)
                 {
@@ -464,6 +477,7 @@ public class Player : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Alpha7))
             {
+                classeAtual = Classe.Java;
                 ClasseTexto.text = "Classe: Java";
                 if (limiteclasse == 3)
                 {
@@ -483,6 +497,7 @@ public class Player : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Alpha8))
             {
+                classeAtual = Classe.HolyC;
                 ClasseTexto.text = "Classe: Holy C";
                 if (limiteclasse == 3)
                 {
