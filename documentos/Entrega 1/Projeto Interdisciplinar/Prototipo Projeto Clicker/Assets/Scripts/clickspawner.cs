@@ -10,17 +10,26 @@ public class ClickSpawner : MonoBehaviour
     public int multiplicadorClasse = 1;
     public int multiplicadorCiclo = 1;
     public Transform textspaw;
+    private HUDManager HUDmanager;
+     
+    void Start()
+    {
+        HUDmanager = FindObjectOfType<HUDManager>();
+    }
 
     void OnMouseDown()
     {
-        Vector3 pos = transform.position;
-        pos.y += 3f;
+        if (HUDmanager.hudprincipaloneoff == true)
+        {
+            Vector3 pos = transform.position;
+            pos.y += 3f;
 
-        GameObject textoObj = Instantiate(textoPrefab, textspaw.position, Quaternion.identity);
+            GameObject textoObj = Instantiate(textoPrefab, textspaw.position, Quaternion.identity);
 
-        int valorFinal = valorBase * multiplicador * multiplicadorCiclo * multiplicadorClasse;
+            int valorFinal = valorBase * multiplicador * multiplicadorCiclo * multiplicadorClasse;
 
-        TextoFlutuante tf = textoObj.GetComponent<TextoFlutuante>();
-        tf.DefinirValor(valorFinal);
+            TextoFlutuante tf = textoObj.GetComponent<TextoFlutuante>();
+            tf.DefinirValor(valorFinal);
+        }
     }
 }

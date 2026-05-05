@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     // Variáveis para o sistema de pontos e upgrades
     int pontos = 0;
     public TextMeshProUGUI textoPontos;
+    public TextMeshProUGUI textoPontos2;
     public TextMeshProUGUI textoMultiplicador;
     int multiplicadorPontos = 1;
     int clicksAuto = 0;
@@ -50,6 +51,9 @@ public class Player : MonoBehaviour
     public bool moveble = true;
     public bool moverhorizontal = true;
 
+    private HUDManager HUDManager;
+
+
     void Start()
     // Configurações iniciais do cursor e tela cheia
     {
@@ -66,6 +70,8 @@ public class Player : MonoBehaviour
         precoAuto.text = "Preço: " + custoAuto;
         precoMulti.text = "Preço: " + custoMulti;
         precoLimite.text = "Preço: " + custoLimite;
+
+        HUDManager = FindAnyObjectByType<HUDManager>(); 
     }
 
     void Update()
@@ -163,88 +169,95 @@ public class Player : MonoBehaviour
         //Compra de itens com clique
         if (Input.GetMouseButtonDown(0)) // só dispara quando clicar
         {
-            Ray ray = cameraTransform.GetComponent<Camera>().ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit, maxDistance, hitLayers))
+            if (HUDManager.hudsecundariaoneoff == false)
             {
-                Debug.Log("Acertou: " + hit.collider.gameObject.name);
+                Ray ray = cameraTransform.GetComponent<Camera>().ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+                RaycastHit hit;
 
-                if (hit.collider.gameObject.name == "Computador")
+                if (Physics.Raycast(ray, out hit, maxDistance, hitLayers))
                 {
-                    pontos += multiplicadorPontos * multiplicadorCiclo;
-                    pontos = Mathf.Clamp(pontos, 0, pontosMaximos);
-                    Debug.Log("Pontos: " + pontos);
-                    textoPontos.text = "Pontos: " + pontos;
-                }
+                    Debug.Log("Acertou: " + hit.collider.gameObject.name);
 
-                // Verifica se o objeto clicado é o interruptor e alterna a luz do quarto
-                if (hit.collider.gameObject.name == "Interruptor")
-                {
-                    if (luzQuarto.intensity > 0f)
+                    if (hit.collider.gameObject.name == "Computador")
                     {
-                        luzQuarto.intensity = 0f;
+                        pontos += multiplicadorPontos * multiplicadorCiclo;
+                        pontos = Mathf.Clamp(pontos, 0, pontosMaximos);
+                        Debug.Log("Pontos: " + pontos);
+                        textoPontos.text = "Pontos: " + pontos;
+                        textoPontos2.text = textoPontos.text;
+                    }
+
+                    // Verifica se o objeto clicado é o interruptor e alterna a luz do quarto
+                    if (hit.collider.gameObject.name == "Interruptor")
+                    {
+                        if (luzQuarto.intensity > 0f)
+                        {
+                            luzQuarto.intensity = 0f;
+                        }
+                        else
+                        {
+                            luzQuarto.intensity = 50f;
+                        }
                     }
                     else
                     {
-                        luzQuarto.intensity = 50f;
+                        Debug.Log("Não acertou nada");
                     }
+
                 }
-                else
-                {
-                    Debug.Log("Não acertou nada");
-                }
-                
+
+            }
+        }
+
+            tempoAuto += Time.deltaTime;
+            if (tempoAuto >= intervaloAuto)
+            {
+                tempoAuto = 0f;
+
+                pontos += clicksAuto;
+                pontos = Mathf.Clamp(pontos, 0, pontosMaximos);
+                textoPontos.text = "Pontos: " + pontos;
             }
 
-        }
-        tempoAuto += Time.deltaTime;
-        if (tempoAuto >= intervaloAuto)
-        {
-            tempoAuto = 0f;
-
-            pontos += clicksAuto;
-            pontos = Mathf.Clamp(pontos, 0, pontosMaximos);
-            textoPontos.text = "Pontos: " + pontos;
-        }
-
-        // Verifica se ambas as luzes estão apagadas para acender a luz do computador
-        if (luzSol.intensity == 0f && luzQuarto.intensity == 0f)
-        {
-            luzComputador.intensity = 500f;
-        }
-        else
-        {
-            luzComputador.intensity = 0f;
-        }
-
-        // Só template para mim mesmo como interruptor de sol 
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            if (luzSol.intensity > 0f)
+            // Verifica se ambas as luzes estão apagadas para acender a luz do computador
+            if (luzSol.intensity == 0f && luzQuarto.intensity == 0f)
             {
-                luzSol.intensity = 0f;
+                luzComputador.intensity = 500f;
             }
             else
             {
-                luzSol.intensity = 500f;
+                luzComputador.intensity = 0f;
             }
-        }
 
-        //Texturas da janela dependendo da luz do sol
-        if (luzSol.intensity == 0f)
-        {
-            janelaRenderer.material.mainTexture = texturaNoite;
-            multiplicadorCiclo = 2; // Dobra o multiplicador de pontos quando a luz do sol estiver apagada
-            textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
-        }
-        else
-        {
-            janelaRenderer.material.mainTexture = texturaDia;
-            multiplicadorCiclo = 1; // Restaura o multiplicador de pontos para o normal quando a luz do sol estiver acesa
-            textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
-        }
+            // Só template para mim mesmo como interruptor de sol 
+            if (Input.GetKeyDown(KeyCode.B))
+            {
+                if (luzSol.intensity > 0f)
+                {
+                    luzSol.intensity = 0f;
+                }
+                else
+                {
+                    luzSol.intensity = 500f;
+                }
+            }
+
+            //Texturas da janela dependendo da luz do sol
+            if (luzSol.intensity == 0f)
+            {
+                janelaRenderer.material.mainTexture = texturaNoite;
+                multiplicadorCiclo = 2; // Dobra o multiplicador de pontos quando a luz do sol estiver apagada
+                textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
+            }
+            else
+            {
+                janelaRenderer.material.mainTexture = texturaDia;
+                multiplicadorCiclo = 1; // Restaura o multiplicador de pontos para o normal quando a luz do sol estiver acesa
+                textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo);
+
+            }
     }
+    //Bloquear contagem de pontos dentro da Hud secundária
         public void ResetarCamera()
         {
         rotacaoMouse = Vector2.zero;
@@ -255,6 +268,12 @@ public class Player : MonoBehaviour
         // Zera rotação da câmera
         cameraTransform.localEulerAngles = Vector3.zero;
         }
+    //Preciso verificar se ja existe, mas essa parte é apenas para lockar a camera e o movimento quando trocar a hud
+    public void TravarControle(bool estado)
+    {
+        travarCamera = estado;
+        moveble = !estado;
+    }
 }
 
 

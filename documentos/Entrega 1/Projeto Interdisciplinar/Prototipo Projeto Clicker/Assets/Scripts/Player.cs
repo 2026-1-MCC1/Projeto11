@@ -19,7 +19,11 @@ public class Player : MonoBehaviour
     // Variáveis para o sistema de pontos e upgrades
     int pontos = 0;
     public TextMeshProUGUI textoPontos;
+
     public Classe classeAtual = Classe.Nenhuma;
+
+    public TextMeshProUGUI textoPontos2;
+
     public TextMeshProUGUI textoMultiplicador;
     int multiplicadorPontos = 1;
     int clicksAuto = 0;
@@ -110,6 +114,9 @@ public class Player : MonoBehaviour
     public Renderer cama1Renderer;
     public Renderer cama2Renderer;
 
+    //HUDManager
+    private HUDManager HUDManager;
+
     void Start()
     // Configurações iniciais do cursor e tela cheia
     {
@@ -136,6 +143,8 @@ public class Player : MonoBehaviour
         TexturasPadrao();
         janelaRenderer.material = janeladiapadrao;
         clickSpawner = FindFirstObjectByType<ClickSpawner>();
+
+        HUDManager = FindAnyObjectByType<HUDManager>();
     }
 
     void Update()
@@ -232,56 +241,25 @@ public class Player : MonoBehaviour
 
         //Compra de itens com clique
         if (Input.GetMouseButtonDown(0)) // só dispara quando clicar
-        { 
-            if (Input.GetKeyDown(KeyCode.Alpha4))
-            {
-                classeAtual = Classe.Nenhuma;
-                ClasseTexto.text = "Classe: Nenhuma";
-            }
+        {
+            if (HUDManager.hudsecundariaoneoff == false)
+            { 
+                Ray ray = cameraTransform.GetComponent<Camera>().ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+                RaycastHit hit;
 
-            if (Input.GetKeyDown(KeyCode.Alpha5))
-            {
-                classeAtual = Classe.Python;
-                ClasseTexto.text = "Classe: Python";
-            }
+                if (Physics.Raycast(ray, out hit, maxDistance, hitLayers))
+                {
+                    Debug.Log("Acertou: " + hit.collider.gameObject.name);
 
-            if (Input.GetKeyDown(KeyCode.Alpha6))
-            {
-                classeAtual = Classe.CSharp;
-                ClasseTexto.text = "Classe: C#";
-            }
-
-            if (Input.GetKeyDown(KeyCode.Alpha7))
-            {
-                classeAtual = Classe.Java;
-                ClasseTexto.text = "Classe: Java";
-            }
-
-            if (Input.GetKeyDown(KeyCode.Alpha8))
-            {
-                classeAtual = Classe.HolyC;
-                ClasseTexto.text = "Classe: Holy C";
-            }
-
-            Ray ray = cameraTransform.GetComponent<Camera>().ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit, maxDistance, hitLayers))
-            {
-                Debug.Log("Acertou: " + hit.collider.gameObject.name);
-
-               if (hit.collider.gameObject.name == "Computador")
-{
-    ((AudioManager)AudioManager.instance).TocarSomClick3D(hit.point);
-
-    pontos += multiplicadorPontos * multiplicadorCiclo * multiplicadorClasse;
-    pontos = Mathf.Clamp(pontos, 0, pontosMaximos);
-
-    Debug.Log("Pontos: " + pontos);
-
-    textoPontos.text = "Pontos: " + pontos;
-}
-
+                    if (hit.collider.gameObject.name == "Computador")
+                    {
+                        pontos += multiplicadorPontos * multiplicadorCiclo * multiplicadorClasse;
+                        pontos = Mathf.Clamp(pontos, 0, pontosMaximos);
+                        Debug.Log("Pontos: " + pontos);
+                        textoPontos.text = "Pontos: " + pontos;
+                        textoPontos2.text = textoPontos.text;
+                    }
+                }
                 // Verifica se o objeto clicado é o interruptor e alterna a luz do quarto
                 if (hit.collider.gameObject.name == "Interruptor")
                 {
@@ -303,6 +281,7 @@ public class Player : MonoBehaviour
             }
 
         }
+
         tempoAuto += Time.deltaTime;
         if (tempoAuto >= intervaloAuto)
         {
@@ -419,6 +398,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             ClasseTexto.text = "Classe: Nenhuma";
+            classeAtual = Classe.Nenhuma;
             //trava de segurança para evitar bugs envolvendo o limite de pontos ao trocar de classe, dividindo o limite atual pelo limite da classe anterior
             if (limiteclasse == 3)
             {
@@ -440,6 +420,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {
+            classeAtual = Classe.Python;
             ClasseTexto.text = "Classe: Python";
             if (limiteclasse == 3)
             {
@@ -459,6 +440,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha6))
         {
+            classeAtual = Classe.CSharp;
             ClasseTexto.text = "Classe: C#";
             if (limiteclasse == 3)
             {
@@ -478,6 +460,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha7))
         {
+            classeAtual = Classe.Java;
             ClasseTexto.text = "Classe: Java";
             if (limiteclasse == 3)
             {
@@ -497,6 +480,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha8))
         {
+            classeAtual = Classe.HolyC;
             ClasseTexto.text = "Classe: Holy C";
             if (limiteclasse == 3)
             {
@@ -616,6 +600,12 @@ public class Player : MonoBehaviour
         mono = 0;
         realista = 0;
         hyperpop = 1;
+    }
+
+    public void TravarControle(bool estado)
+    {
+        travarCamera = estado;
+        moveble = !estado;
     }
 }
 
