@@ -123,6 +123,7 @@ public class Player : MonoBehaviour
     public float tempoEventoNoite = 0f;
     public bool bonusAtivo = false;
     public float tempoBonus = 0f;
+    public float chance = 7f;
 
     void Start()
     // Configurações iniciais do cursor e tela cheia
@@ -316,21 +317,28 @@ public class Player : MonoBehaviour
         //----------------------------------------------- SEÇÃO DE EVENTO DE NOITE --------------------------------------------------------------
         // Controle do Evento Noite
 
-        if (eventoNoiteAtivo == false && HUDManager.hudsecundariaoneoff == false && hudmenu == false && hudconfig == false) 
+        if (!eventoNoiteAtivo && !HUDManager.hudsecundariaoneoff && !hudmenu && !hudconfig)
         {
-            if (bonusAtivo == false)
+            if (!bonusAtivo)
             {
                 tempoNoite += Time.deltaTime;
-            }
-            if (tempoNoite >= 2f)
-            {
-                float chance = Random.Range(0f, 100f);
-                if (chance <= 99f)
+
+                if (tempoNoite >= 2f)
                 {
-                    Debug.Log("Evento ativado");
-                    eventoNoiteAtivo = true;
-                    luzSol.intensity = 0f;
-                    tempoEventoNoite = 0f;
+                    tempoNoite = 0f;
+
+                    if (Random.Range(0f, 100f) <= chance)
+                    {
+                        Debug.Log("Evento ativado");
+
+                        eventoNoiteAtivo = true;
+                        tempoEventoNoite = 0f;
+                        luzSol.intensity = 0f;
+                    }
+                    else
+                    {
+                        Debug.Log("Evento não ativado");
+                    }
                 }
             }
         }
@@ -373,20 +381,6 @@ public class Player : MonoBehaviour
         {
             luzComputador.intensity = 0f;
         }
-
-        // Só template para mim mesmo como interruptor de sol 
-        if (Input.GetKeyDown(KeyCode.B) && (hudmenu == false) && (HUDManager.hudsecundariaoneoff == false))
-        {
-            if (luzSol.intensity > 0f)
-            {
-                luzSol.intensity = 0f;
-            }
-            else
-            {
-                luzSol.intensity = 500f;
-            }
-        }
-
         //Texturas da janela dependendo da luz do sol
         if (luzSol.intensity == 0f)
         {
