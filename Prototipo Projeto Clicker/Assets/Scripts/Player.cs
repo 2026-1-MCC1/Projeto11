@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     public LayerMask hitLayers;
 
     // Variáveis para o sistema de pontos e upgrades
-    int pontos = 0;
+    public int pontos = 0;
     public TextMeshProUGUI textoPontos;
     public TextMeshProUGUI textoPontos2;
     public TextMeshProUGUI textoMultiplicador;
@@ -119,12 +119,14 @@ public class Player : MonoBehaviour
     public bool hudmenu;
     public bool hudconfig;
 
+    // Audio Click
     public AudioSource somclickatual;
     public AudioSource somclickpython;
     public AudioSource somclickpadrao;
-    //kkkk
-
+    PlayerAudio playerAudio;
+ 
     void Start()
+        
     // Configurações iniciais do cursor e tela cheia
     {
         // Configurações iniciais do sistema de pontos e upgrades
@@ -201,6 +203,8 @@ public class Player : MonoBehaviour
                 textoPontos.text = "Pontos: " + pontos;
                 custoMulti = 25 * multiplicadorPontos;
                 precoMulti.text = "Preço: " + custoMulti;
+
+                playerAudio.TocarSomCompra();
             }
             else
             {
