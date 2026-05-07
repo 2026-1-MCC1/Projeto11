@@ -117,6 +117,14 @@ public class Player : MonoBehaviour
     public bool hudmenu;
     public bool hudconfig;
 
+    //Variáveis para o sistema de dia e noite
+    public float tempoNoite = 0f;
+    public bool eventoNoiteAtivo = false;
+    public float tempoEventoNoite = 0f;
+    public bool bonusAtivo = false;
+    public float tempoBonus = 0f;
+    public float chance = 7f;
+
     void Start()
     // Configurações iniciais do cursor e tela cheia
     {
@@ -274,6 +282,18 @@ public class Player : MonoBehaviour
                         luzQuarto.intensity = 50f;
                     }
                 }
+
+                //Ativa o Bônus quando a Cafeteira é Clicada
+                if (hit.collider.gameObject.name == "Cafeteira" && eventoNoiteAtivo && bonusAtivo == false)
+                {
+                    bonusAtivo = true;
+                    tempoBonus = 0f;
+                    tempoEventoNoite = 0f;
+                    eventoNoiteAtivo = false;
+                    luzSol.intensity = 0f;
+
+                }
+
                 else
                 {
                     Debug.Log("Não acertou nada");
@@ -294,6 +314,63 @@ public class Player : MonoBehaviour
             textoPontos2.text = textoPontos.text;
         }
 
+        //----------------------------------------------- SEÇÃO DE EVENTO DE NOITE --------------------------------------------------------------
+        // Controle do Evento Noite
+
+        if (!eventoNoiteAtivo && !HUDManager.hudsecundariaoneoff && !hudmenu && !hudconfig)
+        {
+            if (!bonusAtivo)
+            {
+                tempoNoite += Time.deltaTime;
+
+                if (tempoNoite >= 2f)
+                {
+                    tempoNoite = 0f;
+
+                    if (Random.Range(0f, 100f) <= chance)
+                    {
+                        Debug.Log("Evento ativado");
+
+                        eventoNoiteAtivo = true;
+                        tempoEventoNoite = 0f;
+                        luzSol.intensity = 0f;
+                    }
+                    else
+                    {
+                        Debug.Log("Evento não ativado");
+                    }
+                }
+            }
+        }
+        if (eventoNoiteAtivo == true && bonusAtivo == false && HUDManager.hudsecundariaoneoff == false && hudmenu == false && hudconfig == false)
+        {
+            tempoEventoNoite += Time.deltaTime;
+        }
+
+        if (tempoEventoNoite >= 5f)
+        {
+            eventoNoiteAtivo = false;
+            tempoEventoNoite = 0f;
+            Debug.Log("Evento acabou");
+            tempoNoite = 0f;
+            luzSol.intensity = 500f;
+        }
+        if (bonusAtivo == true && HUDManager.hudsecundariaoneoff == false && hudmenu == false && hudconfig == false)
+        {
+            tempoBonus += Time.deltaTime;
+            if (tempoBonus >= 10)
+            {
+                bonusAtivo = false;
+                tempoBonus = 0f;
+                Debug.Log("Bônus Acabou");
+                tempoNoite = 0f;
+                tempoEventoNoite = 0f;
+                eventoNoiteAtivo = false;
+                luzSol.intensity = 500f;
+            }
+        }
+
+
         //----------------------------------------------- SEÇÃO DE DIA E NOITE --------------------------------------------------------------
         // Verifica se ambas as luzes estão apagadas para acender a luz do computador
         if (luzSol.intensity == 0f && luzQuarto.intensity == 0f)
@@ -304,20 +381,6 @@ public class Player : MonoBehaviour
         {
             luzComputador.intensity = 0f;
         }
-
-        // Só template para mim mesmo como interruptor de sol 
-        if (Input.GetKeyDown(KeyCode.B) && (hudmenu == false) && (HUDManager.hudsecundariaoneoff == false))
-        {
-            if (luzSol.intensity > 0f)
-            {
-                luzSol.intensity = 0f;
-            }
-            else
-            {
-                luzSol.intensity = 500f;
-            }
-        }
-
         //Texturas da janela dependendo da luz do sol
         if (luzSol.intensity == 0f)
         {
