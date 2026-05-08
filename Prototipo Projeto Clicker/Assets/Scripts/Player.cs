@@ -31,6 +31,7 @@ public class Player : MonoBehaviour
     public int pontosMaximos = 500;
     public TextMeshProUGUI textoLimite;
     int custoNoite = 100;
+    public TextMeshProUGUI textoCustoNoite;
     public TextMeshProUGUI textoChanceNoite;
 
     //HUD para mostrar os preços dos upgrades
@@ -162,9 +163,11 @@ public class Player : MonoBehaviour
         textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo * multiplicadorClasse);
         textoAutoClick.text = " (J) Clicks Automaticos: " + clicksAuto * clicksautomaticosclasse;
         textoLimite.text = " (K) Limite: " + pontosMaximos;
+        textoChanceNoite.text = "(N) Chance de Noite: " + chance + "%";
         precoAuto.text = "Preço: " + custoAuto;
         precoMulti.text = "Preço: " + custoMulti;
         precoLimite.text = "Preço: " + custoLimite;
+        textoCustoNoite.text = "Preço: " + custoNoite;
         textoMoedaPaga.text = "R$: 0";
         //padroniza as texturas no começo do jogo
         TexturasPadrao();
@@ -289,6 +292,7 @@ public class Player : MonoBehaviour
                 textoChanceNoite.text = "(N) Chance de Noite: " + chance + "%";
                 textoPontos.text = "Pontos: " + pontos;
                 custoNoite += 100; // aumenta o preço em 100
+                textoCustoNoite.text = "Preço: " + custoNoite;
             }
             else
             {
