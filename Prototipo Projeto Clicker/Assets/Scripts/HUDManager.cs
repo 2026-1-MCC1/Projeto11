@@ -9,6 +9,11 @@ public class HUDManager : MonoBehaviour
     public GameObject hudSecundaria;
     public GameObject hudMenu;
     public GameObject hudconfig;
+    public GameObject hudClasse;
+    public GameObject hudTextura;
+    public GameObject hudUpgrade;
+    public GameObject hudShop;
+    public GameObject hudbotoes;
 
     public bool hudprincipaloneoff;
     public bool hudsecundariaoneoff;
@@ -24,6 +29,11 @@ public class HUDManager : MonoBehaviour
     public Button botãosair;
     public Button botãoconfig;
     public Button botãovoltar;
+    public Button botãoupgrade;
+    public Button botãoclasse;
+    public Button botãotextura;
+    public Button botãoshop;
+    public Button voltar;
 
     public bool Upgrade;
 
@@ -74,6 +84,17 @@ public class HUDManager : MonoBehaviour
         botãoconfig.onClick.AddListener(Configuracoes);
         botãosair.onClick.AddListener(SairDoJogo);
         botãovoltar.onClick.AddListener(VoltarMenuPrincipal);
+        botãoclasse.onClick.AddListener(AlternarHUDClasse);
+        botãotextura.onClick.AddListener(AlternarHUDTextura);
+        botãoupgrade.onClick.AddListener(AlternarHUDUpgrade);
+        botãoshop.onClick.AddListener(AlternarHUDShop);
+        voltar.onClick.AddListener(VoltarMenuCelular);
+
+        hudClasse.SetActive(false);
+        hudTextura.SetActive(false);
+        hudUpgrade.SetActive(false);
+        hudShop.SetActive(false);
+        voltar.gameObject.SetActive(false);
     }
 
     void Update()
@@ -193,6 +214,15 @@ public class HUDManager : MonoBehaviour
             hudprincipaloneoff = false;
 
             Upgrade = true;
+
+            hudbotoes.SetActive(true);
+            hudClasse.SetActive(false);
+            hudTextura.SetActive(false);
+            hudUpgrade.SetActive(false);
+            hudShop.SetActive(false);
+            voltar.gameObject.SetActive(false);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
         else if (hudsecundariaoneoff)
         {
@@ -203,6 +233,16 @@ public class HUDManager : MonoBehaviour
             hudsecundariaoneoff = false;
 
             Upgrade = false;
+
+            hudbotoes.SetActive(false);
+            hudClasse.SetActive(false);
+            hudTextura.SetActive(false);
+            hudUpgrade.SetActive(false);
+            hudShop.SetActive(false);
+            voltar.gameObject.SetActive(false);
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+
         }
 
         if (player != null)
@@ -229,4 +269,53 @@ public class HUDManager : MonoBehaviour
             player.TravarControle(true);
         }
     }
+
+    void AlternarHUDClasse()
+    {
+        // Lógica para alternar HUD de classe
+        Debug.Log("Alternando HUD de Classe");
+        hudClasse.SetActive(true);
+        hudbotoes.SetActive(false);
+        voltar.gameObject.SetActive(true);
+    }
+
+    void AlternarHUDTextura()
+    {
+        // Lógica para alternar HUD de textura
+        Debug.Log("Alternando HUD de Textura");
+        hudbotoes.SetActive(false);
+        hudTextura.SetActive(true);
+        voltar.gameObject.SetActive(true);
+    }
+
+    void AlternarHUDUpgrade()
+    {
+        // Lógica para alternar HUD de upgrade
+        Debug.Log("Alternando HUD de Upgrade");
+        hudbotoes.SetActive(false);
+        hudUpgrade.SetActive(true);
+        voltar.gameObject.SetActive(true);
+    }  
+
+    void AlternarHUDShop()
+    {
+        // Lógica para alternar HUD de shop
+        Debug.Log("Alternando HUD de Shop");
+        hudbotoes.SetActive(false);
+        hudShop.SetActive(true);
+        voltar.gameObject.SetActive(true);
+    }
+
+    void VoltarMenuCelular()
+    {
+        // Lógica para voltar ao menu do celular
+        Debug.Log("Voltando ao Menu do Celular");
+        hudClasse.SetActive(false);
+        hudTextura.SetActive(false);
+        hudUpgrade.SetActive(false);
+        hudShop.SetActive(false);
+        hudbotoes.SetActive(true);
+        voltar.gameObject.SetActive(false);
+    }
+
 }

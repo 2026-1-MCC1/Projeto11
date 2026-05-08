@@ -32,9 +32,9 @@ public class Player : MonoBehaviour
     public TextMeshProUGUI textoLimite;
 
     //HUD para mostrar os preços dos upgrades
-    public TextMeshPro precoMulti;
-    public TextMeshPro precoAuto;
-    public TextMeshPro precoLimite;
+    public TextMeshProUGUI precoMulti;
+    public TextMeshProUGUI precoAuto;
+    public TextMeshProUGUI precoLimite;
     int custoMulti;
     int custoAuto;
     int custoLimite;
