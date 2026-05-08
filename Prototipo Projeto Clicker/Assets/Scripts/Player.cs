@@ -30,6 +30,8 @@ public class Player : MonoBehaviour
     public TextMeshProUGUI textoAutoClick;
     public int pontosMaximos = 500;
     public TextMeshProUGUI textoLimite;
+    int custoNoite = 100;
+    public TextMeshProUGUI textoChanceNoite;
 
     //HUD para mostrar os preços dos upgrades
     public TextMeshProUGUI precoMulti;
@@ -269,6 +271,24 @@ public class Player : MonoBehaviour
                 textoPontos.text = "Pontos: " + pontos;
                 custoLimite = pontosMaximos / limiteclasse;
                 precoLimite.text = "Preço: " + custoLimite;
+            }
+            else
+            {
+                Debug.Log("Pontos insuficientes!");
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.N) && (compraoneoff == true))
+        {
+            if (pontos >= custoNoite)
+            {
+                pontos -= custoNoite;
+                chance ++; // adiciona +1% na chance
+                Debug.Log("Chance de noite: " + chance + "%");
+                Debug.Log("Pontos restantes: " + pontos);
+                textoChanceNoite.text = "(N) Chance de Noite: " + chance + "%";
+                textoPontos.text = "Pontos: " + pontos;
+                custoNoite += 100; // aumenta o preço em 100
             }
             else
             {
