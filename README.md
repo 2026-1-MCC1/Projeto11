@@ -14,9 +14,6 @@
 ## Professores Orientadores: <a href="https://www.linkedin.com/in/adriano-valente-534576135/">Adriano Felix Valente</a>, <a href="https://www.linkedin.com/in/eduardo-savino/">Eduardo Savino Gomes</a>, <a href="https://www.linkedin.com/in/remuniz/">Renata Mumiz do Nascimento</a>, <a href="https://www.linkedin.com/in/victorbarq/">Victor Bruno Alexander Rosetti de Quiroz</a>, <a href="https://www.linkedin.com/in/luisspires/">Luis Pires </a>.
 
 ## Descrição
-
-<p align="center">
-<img src="Projeto clicker (1).pdf" alt="Projeto clicker (1).pdf" border="0">
  
  O projeto inicialmente foi criado com a ideia de ser um clicker,
 com a história e temática de desenvolvedor, ele será em um estilo
