@@ -4115,7 +4115,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -7011,7 +7011,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -7860,7 +7860,6 @@ MonoBehaviour:
   janelaRenderer: {fileID: 750022560}
   travarCamera: 0
   moveble: 1
-  moverhorizontal: 1
   materialparedepadrao: {fileID: 2100000, guid: d1d8f03e56c862a4db462954f6a28454, type: 2}
   materialchaopadrao: {fileID: 2100000, guid: 1fdf7447eb60a1e4db076fdcac3b56ed, type: 2}
   portapadrao: {fileID: 2800000, guid: 2391cd227aa20d948b622affb2b5417f, type: 3}
@@ -7873,8 +7872,6 @@ MonoBehaviour:
   janelarealistanoite: {fileID: 2100000, guid: 34260f092d9287a47b6d97ee984928d5, type: 2}
   portarealista: {fileID: 2800000, guid: aaf1f904e6eb6ca4b888510302cbf6f3, type: 3}
   forrocamarelista: {fileID: 2100000, guid: 96c205957a25cd248b4638f1a954e0a0, type: 2}
-  janeladiarealista: {fileID: 2100000, guid: 22cd3bf87f0960f40bad7cd6fcc231f7, type: 2}
-  janelanoiterealista: {fileID: 2100000, guid: 34260f092d9287a47b6d97ee984928d5, type: 2}
   materialparedemono: {fileID: 2100000, guid: 17dd73e856b4ebc439d6ccf531db4333, type: 2}
   materialchaomono: {fileID: 2100000, guid: 29f018ff5d9cdbc4986efaccb981f9fb, type: 2}
   janeladiamono: {fileID: 2100000, guid: 65e38a74f8d24eb4ea41d30e04f18851, type: 2}
@@ -8084,7 +8081,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -8192,7 +8189,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -8301,8 +8298,8 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 1
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
@@ -8538,7 +8535,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -8739,7 +8736,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -9295,7 +9292,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -12704,7 +12701,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
