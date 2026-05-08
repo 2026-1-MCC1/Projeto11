@@ -19,16 +19,16 @@ public class Player : MonoBehaviour
     public LayerMask hitLayers;
 
     // Variáveis para o sistema de pontos e upgrades
-    int pontos = 0;
+    public int pontos = 0;
     public TextMeshProUGUI textoPontos;
     public TextMeshProUGUI textoPontos2;
     public TextMeshProUGUI textoMultiplicador;
-    int multiplicadorPontos = 1;
+    public int multiplicadorPontos = 1;
     int clicksAuto = 0;
     float tempoAuto = 0f;
     float intervaloAuto = 1f;
     public TextMeshProUGUI textoAutoClick;
-    int pontosMaximos = 500;
+    public int pontosMaximos = 500;
     public TextMeshProUGUI textoLimite;
 
     //HUD para mostrar os preços dos upgrades
@@ -41,9 +41,13 @@ public class Player : MonoBehaviour
 
     // Classes
     public TextMeshProUGUI ClasseTexto;
-    int multiplicadorClasse;
-    int clicksautomaticosclasse;
+    public int multiplicadorClasse;
+    public int clicksautomaticosclasse;
     int limiteclasse;
+    public bool possuirclassepython;
+    public bool possuirclassecsharp;
+    public bool possuirclassejava;
+    public bool possuirclasseholyc;
 
     // Variáveis para as luzes e a janela
     public Light luzQuarto;
@@ -52,12 +56,18 @@ public class Player : MonoBehaviour
     public Renderer janelaRenderer;
 
 
-    int multiplicadorCiclo = 1;
+    public int multiplicadorCiclo = 1;
 
     //Pra travar a câmera no portal
     public bool travarCamera = false;
     public bool moveble = true;
     public bool moverhorizontal = true;
+
+    //variaveis de posse de textura
+    public bool possuirtexturarealista;
+    public bool possuirtexturapadrao;
+    public bool possuirtexturamonocromatica;
+    public bool possuirtexturahyperpop;
 
     //materiais padrao
     public Material materialparedepadrao;
@@ -126,12 +136,17 @@ public class Player : MonoBehaviour
     public float tempoBonus = 0f;
     public float chance = 7f;
 
+    //compras de moeda paga
+    public int moedapaga = 0;
+    public TextMeshProUGUI textoMoedaPaga;
+
+
     void Start()
     // Configurações iniciais do cursor e tela cheia
     {
         // Pega o CharacterController
         characterController = GetComponent<CharacterController>();
-        
+
         // Configurações iniciais do sistema de pontos e upgrades
         pontosMaximos = 500;
         multiplicadorClasse = 1;
@@ -148,6 +163,7 @@ public class Player : MonoBehaviour
         precoAuto.text = "Preço: " + custoAuto;
         precoMulti.text = "Preço: " + custoMulti;
         precoLimite.text = "Preço: " + custoLimite;
+        textoMoedaPaga.text = "R$: 0";
         //padroniza as texturas no começo do jogo
         TexturasPadrao();
         janelaRenderer.material = janeladiapadrao;
@@ -186,7 +202,7 @@ public class Player : MonoBehaviour
             float moverHorizontal = Input.GetAxis("Horizontal");
 
             Vector3 movimento = new Vector3(moverHorizontal, 0.0f, moverVertical);
-            
+
             // Normaliza o vetor para evitar movimento mais rápido na diagonal
             if (movimento.magnitude > 1)
             {
@@ -200,7 +216,7 @@ public class Player : MonoBehaviour
             }
         }
         //Compra de itens com teclado
-        if (Input.GetKeyDown(KeyCode.H) && (compraoneoff == true)) //trava de segurança
+        if (Input.GetKeyDown(KeyCode.H) && (compraoneoff == true) && (HUDManager.hudupgradeoneoff == true)) //trava de segurança
         {
             if (pontos >= custoMulti)
             {
@@ -222,7 +238,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.J) && (compraoneoff == true)) //trava de segurança
+        if (Input.GetKeyDown(KeyCode.J) && (compraoneoff == true) && (HUDManager.hudupgradeoneoff == true)) //trava de segurança
         {
             if (pontos >= custoAuto)
             {
@@ -241,7 +257,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.K) && (compraoneoff == true)) //trava de segurança
+        if (Input.GetKeyDown(KeyCode.K) && (compraoneoff == true) && (HUDManager.hudupgradeoneoff == true)) //trava de segurança
         {
             if (pontos >= custoLimite)
             {
@@ -264,7 +280,7 @@ public class Player : MonoBehaviour
         if (Input.GetMouseButtonDown(0)) // só dispara quando clicar
         {
             if ((HUDManager.hudsecundariaoneoff == false) && hudmenu == false && hudconfig == false) //trava de segurança
-            { 
+            {
                 Ray ray = cameraTransform.GetComponent<Camera>().ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
                 RaycastHit hit;
 
@@ -436,13 +452,13 @@ public class Player : MonoBehaviour
             {
                 janelaRenderer.material = janeladiamono;
                 multiplicadorCiclo = 1; // Restaura o multiplicador de pontos para o normal quando a luz do sol estiver acesa
-                textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo * multiplicadorClasse);  
+                textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo * multiplicadorClasse);
             }
             else if (hyperpop == 1)
-            {   
+            {
                 janelaRenderer.material = janeladiahyperpop;
                 multiplicadorCiclo = 1; // Restaura o multiplicador de pontos para o normal quando a luz do sol estiver acesa
-                textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo * multiplicadorClasse);  
+                textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo * multiplicadorClasse);
             }
             else
             {
@@ -454,29 +470,58 @@ public class Player : MonoBehaviour
 
         // -------------------------------------------------------------- SEÇÃO DE TEXTURAS --------------------------------------------------------------
         //Compra de texturas e etc
-        if (hudmenu == false && HUDManager.hudsecundariaoneoff == true) //trava segurança
+        if (hudmenu == false && HUDManager.hudsecundariaoneoff == true && HUDManager.hudtexturaoneoff == true) //trava segurança
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                TexturasRealistas();
+                if (possuirtexturarealista == true)
+                {
+                    TexturasRealistas();
+                }
+                else if (possuirtexturarealista == false && pontos >= 100)
+                {
+                    TexturasRealistas();
+                    pontos -= 100;
+                    possuirtexturarealista = true;
+                }
             }
+
             if (Input.GetKeyDown(KeyCode.Alpha0))
             {
-                TexturasPadrao();
+                TexturasPadrao();                           
             }
+
             if (Input.GetKeyDown(KeyCode.Alpha2))
             {
-                TexturasMono();
+                if (possuirtexturamonocromatica)
+                {
+                    TexturasMono();
+                }
+                else if (possuirtexturamonocromatica == false && pontos >=100)
+                {
+                    TexturasMono();
+                    pontos -= 100;
+                    possuirtexturamonocromatica = true;
+                }
             }
             if (Input.GetKeyDown(KeyCode.Alpha3))
-            {   
-                Texturashyperpop();
+            {
+                if (possuirtexturahyperpop)
+                {
+                    Texturashyperpop();
+                }
+                else if (possuirtexturahyperpop == false && pontos >= 100)
+                {
+                    Texturashyperpop();
+                    pontos -= 100;
+                    possuirtexturahyperpop = true;
+                }
             }
         }
 
         // -------------------------------------------------------------- SEÇÃO DE CLASSES --------------------------------------------------------------
         //Compra de classes
-        if (hudmenu == false && HUDManager.hudsecundariaoneoff == true) //trava segurança
+        if (hudmenu == false && HUDManager.hudsecundariaoneoff == true && HUDManager.hudclasseoneoff == true) //trava segurança
         {
             if (Input.GetKeyDown(KeyCode.Alpha4))
             {
@@ -502,83 +547,173 @@ public class Player : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Alpha5))
             {
-                ClasseTexto.text = "Classe: Python";
-                if (limiteclasse == 3)
+                if (possuirclassepython == true)
                 {
-                    pontosMaximos = pontosMaximos / limiteclasse;
+                    ClasseTexto.text = "Classe: Python";
+                    if (limiteclasse == 3)
+                    {
+                        pontosMaximos = pontosMaximos / limiteclasse;
+                    }
+                    else if (limiteclasse == 2)
+                    {
+                        pontosMaximos = pontosMaximos / limiteclasse;
+                    }
+                    multiplicadorClasse = 1;
+                    clicksautomaticosclasse = 5;
+                    limiteclasse = 1;
+                    textoLimite.text = " (K) Limite: " + (pontosMaximos * limiteclasse);
+                    textoAutoClick.text = " (J) Clicks Automaticos: " + (clicksAuto * clicksautomaticosclasse);
+                    pontosMaximos = pontosMaximos * limiteclasse;
                 }
-                else if (limiteclasse == 2)
+                else if (possuirclassepython == false && moedapaga >= 10)
                 {
-                    pontosMaximos = pontosMaximos / limiteclasse;
+                    ClasseTexto.text = "Classe: Python";
+                    if (limiteclasse == 3)
+                    {
+                        pontosMaximos = pontosMaximos / limiteclasse;
+                    }
+                    else if (limiteclasse == 2)
+                    {
+                        pontosMaximos = pontosMaximos / limiteclasse;
+                    }
+                    multiplicadorClasse = 1;
+                    clicksautomaticosclasse = 5;
+                    limiteclasse = 1;
+                    textoLimite.text = " (K) Limite: " + (pontosMaximos * limiteclasse);
+                    textoAutoClick.text = " (J) Clicks Automaticos: " + (clicksAuto * clicksautomaticosclasse);
+                    pontosMaximos = pontosMaximos * limiteclasse;
+                    moedapaga -= 10;
+                    possuirclassepython = true;
                 }
-                multiplicadorClasse = 1;
-                clicksautomaticosclasse = 5;
-                limiteclasse = 1;
-                textoLimite.text = " (K) Limite: " + (pontosMaximos * limiteclasse);
-                textoAutoClick.text = " (J) Clicks Automaticos: " + (clicksAuto * clicksautomaticosclasse);
-                pontosMaximos = pontosMaximos * limiteclasse;
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha7))
+            {
+                if (possuirclassecsharp == true)
+                {
+                    ClasseTexto.text = "Classe: C#";
+                    if (limiteclasse == 3)
+                    {
+                        pontosMaximos = pontosMaximos / limiteclasse;
+                    }
+                    else if (limiteclasse == 2)
+                    {
+                        pontosMaximos = pontosMaximos / limiteclasse;
+                    }
+                    multiplicadorClasse = 1;
+                    clicksautomaticosclasse = 1;
+                    limiteclasse = 3;
+                    textoLimite.text = " (K) Limite: " + (pontosMaximos * limiteclasse);
+                    textoAutoClick.text = " (J) Clicks Automaticos: " + (clicksAuto * clicksautomaticosclasse);
+                    pontosMaximos = pontosMaximos * limiteclasse;
+                }
+                else if (possuirclassecsharp == false && moedapaga >= 10)
+                {
+                    ClasseTexto.text = "Classe: C#";
+                    if (limiteclasse == 3)
+                    {
+                        pontosMaximos = pontosMaximos / limiteclasse;
+                    }
+                    else if (limiteclasse == 2)
+                    {
+                        pontosMaximos = pontosMaximos / limiteclasse;
+                    }
+                    multiplicadorClasse = 1;
+                    clicksautomaticosclasse = 1;
+                    limiteclasse = 3;
+                    textoLimite.text = " (K) Limite: " + (pontosMaximos * limiteclasse);
+                    textoAutoClick.text = " (J) Clicks Automaticos: " + (clicksAuto * clicksautomaticosclasse);
+                    pontosMaximos = pontosMaximos * limiteclasse;
+                    moedapaga -= 10;
+                    possuirclassecsharp = true;
+
+                }
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha6))
             {
-                ClasseTexto.text = "Classe: C#";
-                if (limiteclasse == 3)
+                if (possuirclassejava)
                 {
-                    pontosMaximos = pontosMaximos / limiteclasse;
+                    ClasseTexto.text = "Classe: Java";
+                    if (limiteclasse == 3)
+                    {
+                        pontosMaximos = pontosMaximos / limiteclasse;
+                    }
+                    else if (limiteclasse == 2)
+                    {
+                        pontosMaximos = pontosMaximos / limiteclasse;
+                    }
+                    multiplicadorClasse = 5;
+                    clicksautomaticosclasse = 1;
+                    limiteclasse = 1;
+                    textoLimite.text = " (K) Limite: " + (pontosMaximos * limiteclasse);
+                    textoAutoClick.text = " (J) Clicks Automaticos: " + (clicksAuto * clicksautomaticosclasse);
+                    pontosMaximos = pontosMaximos * limiteclasse;
                 }
-                else if (limiteclasse == 2)
+                else if (possuirclassejava == false && moedapaga >= 10)
                 {
-                    pontosMaximos = pontosMaximos / limiteclasse;
+                    ClasseTexto.text = "Classe: Java";
+                    if (limiteclasse == 3)
+                    {
+                        pontosMaximos = pontosMaximos / limiteclasse;
+                    }
+                    else if (limiteclasse == 2)
+                    {
+                        pontosMaximos = pontosMaximos / limiteclasse;
+                    }
+                    multiplicadorClasse = 5;
+                    clicksautomaticosclasse = 1;
+                    limiteclasse = 1;
+                    textoLimite.text = " (K) Limite: " + (pontosMaximos * limiteclasse);
+                    textoAutoClick.text = " (J) Clicks Automaticos: " + (clicksAuto * clicksautomaticosclasse);
+                    pontosMaximos = pontosMaximos * limiteclasse;
+                    moedapaga -= 10;
+                    possuirclassejava = true;
                 }
-                multiplicadorClasse = 1;
-                clicksautomaticosclasse = 1;
-                limiteclasse = 3;
-                textoLimite.text = " (K) Limite: " + (pontosMaximos * limiteclasse);
-                textoAutoClick.text = " (J) Clicks Automaticos: " + (clicksAuto * clicksautomaticosclasse);
-                pontosMaximos = pontosMaximos * limiteclasse;
-            }
-
-            if (Input.GetKeyDown(KeyCode.Alpha7))
-            {
-                ClasseTexto.text = "Classe: Java";
-                if (limiteclasse == 3)
-                {
-                    pontosMaximos = pontosMaximos / limiteclasse;
-                }
-                else if (limiteclasse == 2)
-                {
-                    pontosMaximos = pontosMaximos / limiteclasse;
-                }
-                multiplicadorClasse = 5;
-                clicksautomaticosclasse = 1;
-                limiteclasse = 1;
-                textoLimite.text = " (K) Limite: " + (pontosMaximos * limiteclasse);
-                textoAutoClick.text = " (J) Clicks Automaticos: " + (clicksAuto * clicksautomaticosclasse);
-                pontosMaximos = pontosMaximos * limiteclasse;
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha8))
             {
-                ClasseTexto.text = "Classe: Holy C";
-                if (limiteclasse == 3)
+                if (possuirclasseholyc)
                 {
-                    pontosMaximos = pontosMaximos / limiteclasse;
+                    ClasseTexto.text = "Classe: Holy C";
+                    if (limiteclasse == 3)
+                    {
+                        pontosMaximos = pontosMaximos / limiteclasse;
+                    }
+                    else if (limiteclasse == 2)
+                    {
+                        pontosMaximos = pontosMaximos / limiteclasse;
+                    }
+                    multiplicadorClasse = 2;
+                    clicksautomaticosclasse = 2;
+                    limiteclasse = 2;
+                    textoLimite.text = " (K) Limite: " + (pontosMaximos * limiteclasse);
+                    textoAutoClick.text = " (J) Clicks Automaticos: " + (clicksAuto * clicksautomaticosclasse);
+                    pontosMaximos = pontosMaximos * limiteclasse;
                 }
-                else if (limiteclasse == 2)
+                else if (possuirclasseholyc == false && moedapaga >= 10)
                 {
-                    pontosMaximos = pontosMaximos / limiteclasse;
+                    ClasseTexto.text = "Classe: Holy C";
+                    if (limiteclasse == 3)
+                    {
+                        pontosMaximos = pontosMaximos / limiteclasse;
+                    }
+                    else if (limiteclasse == 2)
+                    {
+                        pontosMaximos = pontosMaximos / limiteclasse;
+                    }
+                    multiplicadorClasse = 2;
+                    clicksautomaticosclasse = 2;
+                    limiteclasse = 2;
+                    textoLimite.text = " (K) Limite: " + (pontosMaximos * limiteclasse);
+                    textoAutoClick.text = " (J) Clicks Automaticos: " + (clicksAuto * clicksautomaticosclasse);
+                    pontosMaximos = pontosMaximos * limiteclasse;
                 }
-                multiplicadorClasse = 2;
-                clicksautomaticosclasse = 2;
-                limiteclasse = 2;
-                textoLimite.text = " (K) Limite: " + (pontosMaximos * limiteclasse);
-                textoAutoClick.text = " (J) Clicks Automaticos: " + (clicksAuto * clicksautomaticosclasse);
-                pontosMaximos = pontosMaximos * limiteclasse;
             }
+
+            clickSpawner.multiplicador = multiplicadorPontos * multiplicadorCiclo * multiplicadorClasse;
+
         }
-
-        clickSpawner.multiplicador = multiplicadorPontos * multiplicadorCiclo * multiplicadorClasse;
-
     }
     public void ResetarCamera()
     {

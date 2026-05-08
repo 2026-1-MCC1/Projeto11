@@ -15,10 +15,16 @@ public class HUDManager : MonoBehaviour
     public GameObject hudShop;
     public GameObject hudbotoes;
 
+    public TextMeshProUGUI textoPontos;
+
     public bool hudprincipaloneoff;
     public bool hudsecundariaoneoff;
     public bool hudmenuoneoff;
     public bool hudconfigoneoff;
+    public bool hudupgradeoneoff;
+    public bool hudshoponeoff;
+    public bool hudclasseoneoff;
+    public bool hudtexturaoneoff;
 
     [Header("Referência do Player")]
     public Player player;
@@ -34,6 +40,7 @@ public class HUDManager : MonoBehaviour
     public Button botãotextura;
     public Button botãoshop;
     public Button voltar;
+    public Button comprarmoedapaga;
 
     public bool Upgrade;
 
@@ -89,6 +96,7 @@ public class HUDManager : MonoBehaviour
         botãoupgrade.onClick.AddListener(AlternarHUDUpgrade);
         botãoshop.onClick.AddListener(AlternarHUDShop);
         voltar.onClick.AddListener(VoltarMenuCelular);
+        comprarmoedapaga.onClick.AddListener(Compramoedapaga);
 
         hudClasse.SetActive(false);
         hudTextura.SetActive(false);
@@ -223,6 +231,7 @@ public class HUDManager : MonoBehaviour
             voltar.gameObject.SetActive(false);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+            textoPontos.gameObject.SetActive(false);
         }
         else if (hudsecundariaoneoff)
         {
@@ -242,7 +251,7 @@ public class HUDManager : MonoBehaviour
             voltar.gameObject.SetActive(false);
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-
+            textoPontos.gameObject.SetActive(true);
         }
 
         if (player != null)
@@ -268,7 +277,7 @@ public class HUDManager : MonoBehaviour
         {
             player.TravarControle(true);
         }
-    }
+    }  
 
     void AlternarHUDClasse()
     {
@@ -277,6 +286,8 @@ public class HUDManager : MonoBehaviour
         hudClasse.SetActive(true);
         hudbotoes.SetActive(false);
         voltar.gameObject.SetActive(true);
+        textoPontos.gameObject.SetActive(true);
+        hudclasseoneoff = true;
     }
 
     void AlternarHUDTextura()
@@ -286,6 +297,8 @@ public class HUDManager : MonoBehaviour
         hudbotoes.SetActive(false);
         hudTextura.SetActive(true);
         voltar.gameObject.SetActive(true);
+        textoPontos.gameObject.SetActive(true);
+        hudtexturaoneoff = true;
     }
 
     void AlternarHUDUpgrade()
@@ -295,6 +308,8 @@ public class HUDManager : MonoBehaviour
         hudbotoes.SetActive(false);
         hudUpgrade.SetActive(true);
         voltar.gameObject.SetActive(true);
+        textoPontos.gameObject.SetActive(true);
+        hudupgradeoneoff = true;
     }  
 
     void AlternarHUDShop()
@@ -304,6 +319,8 @@ public class HUDManager : MonoBehaviour
         hudbotoes.SetActive(false);
         hudShop.SetActive(true);
         voltar.gameObject.SetActive(true);
+        textoPontos.gameObject.SetActive(true);
+        hudshoponeoff = true;
     }
 
     void VoltarMenuCelular()
@@ -316,6 +333,21 @@ public class HUDManager : MonoBehaviour
         hudShop.SetActive(false);
         hudbotoes.SetActive(true);
         voltar.gameObject.SetActive(false);
+        textoPontos.gameObject.SetActive(false);
+        hudupgradeoneoff = false;
+        hudclasseoneoff = false;
+        hudtexturaoneoff = false;
+        hudshoponeoff = false;
+    }
+
+    void Compramoedapaga()
+    {
+        if (player.pontos >= 10000)
+        {
+            player.moedapaga += 10;
+            player.textoMoedaPaga.text = "R$: " + player.moedapaga;
+            player.pontos -= 10000;
+        }
     }
 
 }
