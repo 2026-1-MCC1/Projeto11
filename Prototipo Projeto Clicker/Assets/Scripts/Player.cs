@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public float sensibilidade;
     public float velocidade = 5.0f;
     ClickSpawner clickSpawner;
+    CharacterController characterController;
 
     // Configurações para o raycast
     public float maxDistance = 10f;
@@ -128,6 +129,9 @@ public class Player : MonoBehaviour
     void Start()
     // Configurações iniciais do cursor e tela cheia
     {
+        // Pega o CharacterController
+        characterController = GetComponent<CharacterController>();
+        
         // Configurações iniciais do sistema de pontos e upgrades
         pontosMaximos = 500;
         multiplicadorClasse = 1;
@@ -182,9 +186,18 @@ public class Player : MonoBehaviour
             float moverHorizontal = Input.GetAxis("Horizontal");
 
             Vector3 movimento = new Vector3(moverHorizontal, 0.0f, moverVertical);
+            
+            // Normaliza o vetor para evitar movimento mais rápido na diagonal
+            if (movimento.magnitude > 1)
+            {
+                movimento.Normalize();
+            }
 
-
-            transform.Translate(movimento * velocidade * Time.deltaTime);
+            // Usa CharacterController para movimentação com colisão
+            if (characterController != null && characterController.enabled)
+            {
+                characterController.Move(transform.TransformDirection(movimento) * velocidade * Time.deltaTime);
+            }
         }
         //Compra de itens com teclado
         if (Input.GetKeyDown(KeyCode.H) && (compraoneoff == true)) //trava de segurança

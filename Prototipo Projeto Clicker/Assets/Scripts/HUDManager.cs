@@ -35,8 +35,12 @@ public class HUDManager : MonoBehaviour
     public TextMeshProUGUI textoFOV;
     public TextMeshProUGUI textoSens;
 
+    private ExitButton exitButton;
+
+
     void Start()
     {
+        exitButton = FindAnyObjectByType<ExitButton>();
         // Estado inicial
         hudMenu.SetActive(true);
         hudPrincipal.SetActive(false);
@@ -127,7 +131,21 @@ public class HUDManager : MonoBehaviour
 
     void SairDoJogo()
     {
-        Application.Quit();
+        Debug.Log("Saindo do jogo...");
+        
+        if (exitButton != null)
+        {
+            exitButton.ExitGame();
+        }
+        else
+        {
+            // Se não encontrar o ExitButton, sai do jogo diretamente
+            Application.Quit();
+            
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#endif
+        }
     }
 
     // =========================
