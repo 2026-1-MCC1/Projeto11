@@ -40,7 +40,7 @@ public class Player : MonoBehaviour
 
     int clicksAuto = 0;
     float tempoAuto = 0f;
-    float intervaloAuto = 1f;
+    float intervaloAuto = 0.8f;
 
     public TextMeshProUGUI textoAutoClick;
 
@@ -48,7 +48,7 @@ public class Player : MonoBehaviour
 
     public TextMeshProUGUI textoLimite;
 
-    int custoNoite = 100;
+    int custoNoite = 40;
 
     public TextMeshProUGUI textoCustoNoite;
     public TextMeshProUGUI textoChanceNoite;
@@ -168,6 +168,9 @@ public class Player : MonoBehaviour
 
     public float chance = 7f;
 
+    // Flag para garantir o primeiro evento de noite
+    private bool primeiroEventoNoite = true;
+
     // Compras de moeda paga
     public int moedapaga = 0;
     public TextMeshProUGUI textoMoedaPaga;
@@ -185,9 +188,9 @@ public class Player : MonoBehaviour
 
         Screen.fullScreen = true;
 
-        custoMulti = 25 * multiplicadorPontos;
-        custoAuto = 10;
-        custoLimite = pontosMaximos;
+        custoMulti = 12;
+        custoAuto = 6;
+        custoLimite = 150;
 
         textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo * multiplicadorClasse);
         textoAutoClick.text = " (J) Clicks Automaticos: " + clicksAuto * clicksautomaticosclasse;
@@ -270,7 +273,7 @@ public class Player : MonoBehaviour
 
                 textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo * multiplicadorClasse);
                 textoPontos.text = "Pontos: " + pontos;
-                custoMulti = 25 * multiplicadorPontos;
+                    custoMulti += 8;
                 precoMulti.text = "Preço: " + custoMulti;
             }
             else
@@ -289,7 +292,7 @@ public class Player : MonoBehaviour
                 Debug.Log("Pontos restantes: " + pontos);
                 textoPontos.text = "Pontos: " + pontos;
                 textoAutoClick.text = " (J) Clicks Automaticos: " + (clicksAuto * clicksautomaticosclasse);
-                custoAuto = 10 * clicksAuto;
+                custoAuto += 3;
                 precoAuto.text = "Preço: " + custoAuto;
             }
             else
@@ -302,12 +305,12 @@ public class Player : MonoBehaviour
             if (pontos >= custoLimite)
             {
                 pontos -= custoLimite;
-                pontosMaximos += 500 * limiteclasse;
+                pontosMaximos += 250 * limiteclasse;
                 Debug.Log("Limite aumentado para: " + pontosMaximos);
                 Debug.Log("Pontos restantes: " + pontos);
                 textoPontos.text = "Pontos: " + pontos;
                 textoLimite.text = " (K) Limite: " + (pontosMaximos * limiteclasse);
-                custoLimite = pontosMaximos / limiteclasse;
+                custoLimite += 50;
                 precoLimite.text = "Preço: " + custoLimite;
             }
             else
@@ -325,7 +328,7 @@ public class Player : MonoBehaviour
                 Debug.Log("Pontos restantes: " + pontos);
                 textoChanceNoite.text = "(N) Chance de Noite: " + chance + "%";
                 textoPontos.text = "Pontos: " + pontos;
-                custoNoite += 100; // aumenta o preço em 100
+                custoNoite += 30; // aumenta o preço em 30
                 textoCustoNoite.text = "Preço: " + custoNoite;
             }
             else
@@ -419,13 +422,17 @@ public class Player : MonoBehaviour
                 {
                     tempoNoite = 0f;
 
-                    if (Random.Range(0f, 100f) <= chance)
+                    // Primeiro evento é garantido, depois usa a chance normal
+                    bool ativarEvento = primeiroEventoNoite || Random.Range(0f, 100f) <= chance;
+
+                    if (ativarEvento)
                     {
                         Debug.Log("Evento ativado");
 
                         eventoNoiteAtivo = true;
                         tempoEventoNoite = 0f;
                         luzSol.intensity = 0f;
+                        primeiroEventoNoite = false;
                     }
                     else
                     {
@@ -450,7 +457,7 @@ public class Player : MonoBehaviour
         if (bonusAtivo == true && HUDManager.hudsecundariaoneoff == false && hudmenu == false && hudconfig == false)
         {
             tempoBonus += Time.deltaTime;
-            if (tempoBonus >= 10)
+            if (tempoBonus >= 5f)
             {
                 bonusAtivo = false;
                 tempoBonus = 0f;
