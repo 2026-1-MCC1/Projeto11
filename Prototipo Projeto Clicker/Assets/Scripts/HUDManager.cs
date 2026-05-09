@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 
 public class HUDManager : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class HUDManager : MonoBehaviour
     public GameObject hudUpgrade;
     public GameObject hudShop;
     public GameObject hudbotoes;
+    public GameObject canvascelular; // Novo: referência para o objeto com a animação do celular
 
     public TextMeshProUGUI textoPontos;
 
@@ -218,6 +220,13 @@ public class HUDManager : MonoBehaviour
             hudPrincipal.SetActive(false);
             hudSecundaria.SetActive(true);
 
+            // Tocar animação de entrada do celular
+            Animator animCelular = canvascelular.GetComponent<Animator>();
+            if (animCelular != null)
+            {
+                animCelular.Play("CelularEntrada"); // Substitua "CelularEntrada" pelo nome exato da sua animação
+            }
+
             hudsecundariaoneoff = true;
             hudprincipaloneoff = false;
 
@@ -235,28 +244,50 @@ public class HUDManager : MonoBehaviour
         }
         else if (hudsecundariaoneoff)
         {
-            hudPrincipal.SetActive(true);
-            hudSecundaria.SetActive(false);
-
-            hudprincipaloneoff = true;
-            hudsecundariaoneoff = false;
-
-            Upgrade = false;
-
-            hudbotoes.SetActive(false);
-            hudClasse.SetActive(false);
-            hudTextura.SetActive(false);
-            hudUpgrade.SetActive(false);
-            hudShop.SetActive(false);
-            voltar.gameObject.SetActive(false);
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            textoPontos.gameObject.SetActive(true);
+            // Iniciar coroutine para tocar animação de saída e desativar após
+            StartCoroutine(DesativarCelularComAnimacao());
         }
 
         if (player != null)
         {
             player.TravarControle(hudsecundariaoneoff);
+        }
+    }
+
+    private IEnumerator DesativarCelularComAnimacao()
+    {
+        voltar.gameObject.SetActive(false);
+        textoPontos.gameObject.SetActive(false);
+        Animator animCelular = canvascelular.GetComponent<Animator>();
+        if (animCelular != null)
+        {
+            animCelular.Play("CelularSaida");
+            // Aguarde a duração da animação
+            yield return new WaitForSeconds(animCelular.GetCurrentAnimatorStateInfo(0).length);
+        }
+
+        // Agora desative a HUD após a animação
+        hudPrincipal.SetActive(true);
+        hudSecundaria.SetActive(false);
+
+        hudprincipaloneoff = true;
+        hudsecundariaoneoff = false;
+
+        Upgrade = false;
+
+        hudbotoes.SetActive(false);
+        hudClasse.SetActive(false);
+        hudTextura.SetActive(false);
+        hudUpgrade.SetActive(false);
+        hudShop.SetActive(false);
+        voltar.gameObject.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        textoPontos.gameObject.SetActive(true);
+
+        if (player != null)
+        {
+            player.TravarControle(false); // Como está desativando, controle liberado
         }
     }
     
