@@ -15,7 +15,7 @@ public class HUDManager : MonoBehaviour
     public GameObject hudUpgrade;
     public GameObject hudShop;
     public GameObject hudbotoes;
-    public GameObject canvascelular; // Novo: referência para o objeto com a animação do celular
+    public GameObject canvascelular;
 
     public TextMeshProUGUI textoPontos;
 
@@ -56,11 +56,10 @@ public class HUDManager : MonoBehaviour
 
     private ExitButton exitButton;
 
-
     void Start()
     {
         exitButton = FindAnyObjectByType<ExitButton>();
-        // Estado inicial
+
         hudMenu.SetActive(true);
         hudPrincipal.SetActive(false);
         hudSecundaria.SetActive(false);
@@ -73,22 +72,17 @@ public class HUDManager : MonoBehaviour
 
         Upgrade = false;
 
-        // Camera
         playerCamera = Camera.main;
 
-        // Valores iniciais
         slideFOV.value = playerCamera.fieldOfView;
         slidersensi.value = player.sensibilidade;
 
-        // Atualiza textos na inicialização
         AtualizarTextoFOV(slideFOV.value);
         AtualizarTextoSens(slidersensi.value);
 
-        // Eventos sliders
         slideFOV.onValueChanged.AddListener(MudarFOV);
         slidersensi.onValueChanged.AddListener(MudarSensibilidade);
 
-        // Botões
         botãoinicio.onClick.AddListener(IniciarJogo);
         botãoconfig.onClick.AddListener(Configuracoes);
         botãosair.onClick.AddListener(SairDoJogo);
@@ -126,6 +120,19 @@ public class HUDManager : MonoBehaviour
 
     void IniciarJogo()
     {
+        StartCoroutine(AnimacaoInicio());
+    }
+
+    IEnumerator AnimacaoInicio()
+    {
+        Animator animInicio = botãoinicio.GetComponent<Animator>();
+
+        if (animInicio != null)
+        {
+            animInicio.Play("animacaobotao", 0, 0f);
+            yield return new WaitForSeconds(0.5f);
+        }
+
         hudMenu.SetActive(false);
         hudPrincipal.SetActive(true);
         hudconfig.SetActive(false);
@@ -147,12 +154,24 @@ public class HUDManager : MonoBehaviour
 
     void Configuracoes()
     {
+        StartCoroutine(AnimacaoConfig());
+    }
+
+    IEnumerator AnimacaoConfig()
+    {
+        Animator animConfig = botãoconfig.GetComponent<Animator>();
+
+        if (animConfig != null)
+        {
+            animConfig.Play("animacaobotao", 0, 0f);
+            yield return new WaitForSeconds(0.5f);
+        }
+
         hudMenu.SetActive(false);
         hudconfig.SetActive(true);
 
         hudconfigoneoff = true;
 
-        // Atualiza sliders e textos
         slideFOV.value = playerCamera.fieldOfView;
         slidersensi.value = player.sensibilidade;
 
@@ -162,17 +181,29 @@ public class HUDManager : MonoBehaviour
 
     void SairDoJogo()
     {
+        StartCoroutine(AnimacaoSair());
+    }
+
+    IEnumerator AnimacaoSair()
+    {
+        Animator animFim = botãosair.GetComponent<Animator>();
+
+        if (animFim != null)
+        {
+            animFim.Play("animacaobotao", 0, 0f);
+            yield return new WaitForSeconds(0.5f);
+        }
+
         Debug.Log("Saindo do jogo...");
-        
+
         if (exitButton != null)
         {
             exitButton.ExitGame();
         }
         else
         {
-            // Se não encontrar o ExitButton, sai do jogo diretamente
             Application.Quit();
-            
+
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
 #endif
@@ -220,11 +251,11 @@ public class HUDManager : MonoBehaviour
             hudPrincipal.SetActive(false);
             hudSecundaria.SetActive(true);
 
-            // Tocar animação de entrada do celular
             Animator animCelular = canvascelular.GetComponent<Animator>();
+
             if (animCelular != null)
             {
-                animCelular.Play("CelularEntrada"); // Substitua "CelularEntrada" pelo nome exato da sua animação
+                animCelular.Play("CelularEntrada");
             }
 
             hudsecundariaoneoff = true;
@@ -237,14 +268,16 @@ public class HUDManager : MonoBehaviour
             hudTextura.SetActive(false);
             hudUpgrade.SetActive(false);
             hudShop.SetActive(false);
+
             voltar.gameObject.SetActive(false);
+
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+
             textoPontos.gameObject.SetActive(false);
         }
         else if (hudsecundariaoneoff)
         {
-            // Iniciar coroutine para tocar animação de saída e desativar após
             StartCoroutine(DesativarCelularComAnimacao());
         }
 
@@ -258,15 +291,15 @@ public class HUDManager : MonoBehaviour
     {
         voltar.gameObject.SetActive(false);
         textoPontos.gameObject.SetActive(false);
+
         Animator animCelular = canvascelular.GetComponent<Animator>();
+
         if (animCelular != null)
         {
             animCelular.Play("CelularSaida");
-            // Aguarde a duração da animação
-            yield return new WaitForSeconds(animCelular.GetCurrentAnimatorStateInfo(0).length);
+            yield return new WaitForSeconds(0.3f);
         }
 
-        // Agora desative a HUD após a animação
         hudPrincipal.SetActive(true);
         hudSecundaria.SetActive(false);
 
@@ -280,91 +313,123 @@ public class HUDManager : MonoBehaviour
         hudTextura.SetActive(false);
         hudUpgrade.SetActive(false);
         hudShop.SetActive(false);
+
         voltar.gameObject.SetActive(false);
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
         textoPontos.gameObject.SetActive(true);
 
         if (player != null)
         {
-            player.TravarControle(false); // Como está desativando, controle liberado
+            player.TravarControle(false);
         }
     }
-    
+
     void VoltarMenuPrincipal()
     {
+        StartCoroutine(AnimacaoVoltar());
+    }
+
+    IEnumerator AnimacaoVoltar()
+    {
+        Animator animVoltar = botãovoltar.GetComponent<Animator>();
+
+        if (animVoltar != null)
+        {
+            animVoltar.Play("animacaobotao", 0, 0f);
+            yield return new WaitForSeconds(0.5f);
+        }
+
         hudMenu.SetActive(true);
         hudPrincipal.SetActive(false);
         hudSecundaria.SetActive(false);
         hudconfig.SetActive(false);
+
         hudprincipaloneoff = false;
         hudsecundariaoneoff = false;
         hudmenuoneoff = true;
         hudconfigoneoff = false;
+
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+
         Upgrade = false;
+
         if (player != null)
         {
             player.TravarControle(true);
         }
-    }  
+    }
+
 
     void AlternarHUDClasse()
     {
-        // Lógica para alternar HUD de classe
         Debug.Log("Alternando HUD de Classe");
+
         hudClasse.SetActive(true);
         hudbotoes.SetActive(false);
+
         voltar.gameObject.SetActive(true);
         textoPontos.gameObject.SetActive(true);
+
         hudclasseoneoff = true;
     }
 
     void AlternarHUDTextura()
     {
-        // Lógica para alternar HUD de textura
         Debug.Log("Alternando HUD de Textura");
+
         hudbotoes.SetActive(false);
         hudTextura.SetActive(true);
+
         voltar.gameObject.SetActive(true);
         textoPontos.gameObject.SetActive(true);
+
         hudtexturaoneoff = true;
     }
 
     void AlternarHUDUpgrade()
     {
-        // Lógica para alternar HUD de upgrade
         Debug.Log("Alternando HUD de Upgrade");
+
         hudbotoes.SetActive(false);
         hudUpgrade.SetActive(true);
+
         voltar.gameObject.SetActive(true);
         textoPontos.gameObject.SetActive(true);
+
         hudupgradeoneoff = true;
-    }  
+    }
 
     void AlternarHUDShop()
     {
-        // Lógica para alternar HUD de shop
         Debug.Log("Alternando HUD de Shop");
+
         hudbotoes.SetActive(false);
         hudShop.SetActive(true);
+
         voltar.gameObject.SetActive(true);
         textoPontos.gameObject.SetActive(true);
+
         hudshoponeoff = true;
     }
 
     void VoltarMenuCelular()
     {
-        // Lógica para voltar ao menu do celular
         Debug.Log("Voltando ao Menu do Celular");
+
         hudClasse.SetActive(false);
         hudTextura.SetActive(false);
         hudUpgrade.SetActive(false);
         hudShop.SetActive(false);
+
         hudbotoes.SetActive(true);
+
         voltar.gameObject.SetActive(false);
         textoPontos.gameObject.SetActive(false);
+
         hudupgradeoneoff = false;
         hudclasseoneoff = false;
         hudtexturaoneoff = false;
@@ -380,5 +445,4 @@ public class HUDManager : MonoBehaviour
             player.pontos -= 10000;
         }
     }
-
 }
