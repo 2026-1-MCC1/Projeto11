@@ -13,6 +13,9 @@ public class ClickSpawner : MonoBehaviour
     private Player player;
     public int valorFinal;
 
+    // Novo: raio para spawn aleatório
+    public float raioAleatorio = 1f;
+
     void Start()
     {
         HUDmanager = FindAnyObjectByType<HUDManager>();
@@ -34,11 +37,12 @@ public class ClickSpawner : MonoBehaviour
             multiplicadorCiclo = player.multiplicadorCiclo;
             multiplicador = player.multiplicadorPontos;
 
-            Vector3 pos = transform.position;
-            pos.y += 3f;
+            // Calcular posição aleatória perto de textspaw
+            Vector3 offset = Random.insideUnitSphere * raioAleatorio;
+            offset.y = 0; // Manter no plano horizontal, ajuste se necessário
+            Vector3 spawnPosition = textspaw.position + offset;
 
-            GameObject textoObj = Instantiate(textoPrefab, textspaw.position, Quaternion.identity);
-
+            GameObject textoObj = Instantiate(textoPrefab, spawnPosition, Quaternion.identity);
 
             TextoFlutuante tf = textoObj.GetComponent<TextoFlutuante>();
 

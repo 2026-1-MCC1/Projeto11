@@ -58,9 +58,9 @@ public class Player : MonoBehaviour
     public TextMeshProUGUI precoAuto;
     public TextMeshProUGUI precoLimite;
 
-    int custoMulti;
-    int custoAuto;
-    int custoLimite;
+    public int custoMulti;
+    public int custoAuto;
+    public int custoLimite;
 
     // Classes
     public TextMeshProUGUI ClasseTexto;
@@ -219,27 +219,6 @@ public class Player : MonoBehaviour
         hudconfig = HUDManager.hudconfigoneoff;
         textoPontos.text = "Pontos: " + pontos;
         textoPontos2.text = textoPontos.text;
-        
-        if (congelarPosicao)
-        {
-            transform.position = posicaoCongelada;
-
-            if (characterController != null)
-            {
-            characterController.enabled = false;
-            }
-
-        return;
-        }
-        else
-        {
-            if (characterController != null && !characterController.enabled)
-            {
-                characterController.enabled = true;
-            }
-
-        posicaoCongelada = transform.position;
-        }
 
         // CAMERA
         if (travarCamera == false)
