@@ -246,6 +246,7 @@ public class HUDManager : MonoBehaviour
 
     void AlternarHUD()
     {
+        player.congelarPosicao = true;
         if (hudprincipaloneoff)
         {
             hudPrincipal.SetActive(false);
@@ -297,7 +298,7 @@ public class HUDManager : MonoBehaviour
         if (animCelular != null)
         {
             animCelular.Play("CelularSaida");
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(1.2f);
         }
 
         hudPrincipal.SetActive(true);
@@ -325,6 +326,7 @@ public class HUDManager : MonoBehaviour
         {
             player.TravarControle(false);
         }
+        player.congelarPosicao = false;
     }
 
     void VoltarMenuPrincipal()

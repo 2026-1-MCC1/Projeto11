@@ -2,15 +2,26 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Experimental.GlobalIllumination;
+using System.Collections;
 
 public class Player : MonoBehaviour
 {
+    //variavel especifica para corrigir o bug do celular
+    // Variável para congelar completamente o personagem
+    public bool congelarPosicao = false;
+
+    // Guarda a posição travada
+    private Vector3 posicaoCongelada;
+
     // Referências para a câmera e o transform do jogador
     public Transform _transform;
     public Transform cameraTransform;
+
     Vector2 rotacaoMouse;
+
     public float sensibilidade;
     public float velocidade = 5.0f;
+
     ClickSpawner clickSpawner;
     CharacterController characterController;
 
@@ -20,33 +31,45 @@ public class Player : MonoBehaviour
 
     // Variáveis para o sistema de pontos e upgrades
     public int pontos = 0;
+
     public TextMeshProUGUI textoPontos;
     public TextMeshProUGUI textoPontos2;
     public TextMeshProUGUI textoMultiplicador;
+
     public int multiplicadorPontos = 1;
+
     int clicksAuto = 0;
     float tempoAuto = 0f;
     float intervaloAuto = 1f;
+
     public TextMeshProUGUI textoAutoClick;
+
     public int pontosMaximos = 500;
+
     public TextMeshProUGUI textoLimite;
+
     int custoNoite = 100;
+
     public TextMeshProUGUI textoCustoNoite;
     public TextMeshProUGUI textoChanceNoite;
 
-    //HUD para mostrar os preços dos upgrades
+    // HUD para mostrar os preços dos upgrades
     public TextMeshProUGUI precoMulti;
     public TextMeshProUGUI precoAuto;
     public TextMeshProUGUI precoLimite;
+
     int custoMulti;
     int custoAuto;
     int custoLimite;
 
     // Classes
     public TextMeshProUGUI ClasseTexto;
+
     public int multiplicadorClasse;
     public int clicksautomaticosclasse;
+
     int limiteclasse;
+
     public bool possuirclassepython;
     public bool possuirclassecsharp;
     public bool possuirclassejava;
@@ -56,23 +79,23 @@ public class Player : MonoBehaviour
     public Light luzQuarto;
     public Light luzSol;
     public Light luzComputador;
-    public Renderer janelaRenderer;
 
+    public Renderer janelaRenderer;
 
     public int multiplicadorCiclo = 1;
 
-    //Pra travar a câmera no portal
+    // Pra travar a câmera no portal
     public bool travarCamera = false;
     public bool moveble = true;
     public bool moverhorizontal = true;
 
-    //variaveis de posse de textura
+    // Variáveis de posse de textura
     public bool possuirtexturarealista;
     public bool possuirtexturapadrao;
     public bool possuirtexturamonocromatica;
     public bool possuirtexturahyperpop;
 
-    //materiais padrao
+    // Materiais padrão
     public Material materialparedepadrao;
     public Material materialchaopadrao;
     public Texture portapadrao;
@@ -80,7 +103,7 @@ public class Player : MonoBehaviour
     public Material janeladiapadrao;
     public Material janelanoitepadrao;
 
-    //materais realistas
+    // Materiais realistas
     public Material materialparederealista;
     public Material materialchaorealista;
     public Material janelarealistadia;
@@ -89,10 +112,12 @@ public class Player : MonoBehaviour
     public Material forrocamarelista;
     public Material janeladiarealista;
     public Material janelanoiterealista;
+
     int realista;
 
-    //materiais mono
+    // Materiais mono
     int mono;
+
     public Material materialparedemono;
     public Material materialchaomono;
     public Material janeladiamono;
@@ -100,8 +125,9 @@ public class Player : MonoBehaviour
     public Texture portamono;
     public Material forrocamamono;
 
-    //materiais hyperpop
+    // Materiais hyperpop
     int hyperpop;
+
     public Material materialparedehyperpop;
     public Material materialchaohyperpop;
     public Material janeladiahyperpop;
@@ -109,7 +135,7 @@ public class Player : MonoBehaviour
     public Texture portahyperpop;
     public Material forrocamahyperpop;
 
-    //renderer dos objetos
+    // Renderer dos objetos
     public Renderer portaRenderer;
     public Renderer parede1Renderer;
     public Renderer parede2Renderer;
@@ -125,56 +151,64 @@ public class Player : MonoBehaviour
     public Renderer cama1Renderer;
     public Renderer cama2Renderer;
 
-    //HUDManager
+    // HUDManager
     private HUDManager HUDManager;
+
     public bool compraoneoff;
     public bool hudmenu;
     public bool hudconfig;
 
-    //Variáveis para o sistema de dia e noite
+    // Variáveis para o sistema de dia e noite
     public float tempoNoite = 0f;
     public bool eventoNoiteAtivo = false;
     public float tempoEventoNoite = 0f;
+
     public bool bonusAtivo = false;
     public float tempoBonus = 0f;
+
     public float chance = 7f;
 
-    //compras de moeda paga
+    // Compras de moeda paga
     public int moedapaga = 0;
     public TextMeshProUGUI textoMoedaPaga;
 
-
     void Start()
-    // Configurações iniciais do cursor e tela cheia
     {
-        // Pega o CharacterController
+        posicaoCongelada = transform.position;
         characterController = GetComponent<CharacterController>();
 
-        // Configurações iniciais do sistema de pontos e upgrades
         pontosMaximos = 500;
+
         multiplicadorClasse = 1;
         clicksautomaticosclasse = 1;
         limiteclasse = 1;
+
         Screen.fullScreen = true;
-        // Configurações iniciais dos custos dos upgrades
+
         custoMulti = 25 * multiplicadorPontos;
         custoAuto = 10;
         custoLimite = pontosMaximos;
+
         textoMultiplicador.text = " (H) Multiplicador: " + (multiplicadorPontos * multiplicadorCiclo * multiplicadorClasse);
         textoAutoClick.text = " (J) Clicks Automaticos: " + clicksAuto * clicksautomaticosclasse;
         textoLimite.text = " (K) Limite: " + pontosMaximos;
         textoChanceNoite.text = "(N) Chance de Noite: " + chance + "%";
+
         precoAuto.text = "Preço: " + custoAuto;
         precoMulti.text = "Preço: " + custoMulti;
         precoLimite.text = "Preço: " + custoLimite;
+
         textoCustoNoite.text = "Preço: " + custoNoite;
         textoMoedaPaga.text = "R$: 0";
-        //padroniza as texturas no começo do jogo
+
         TexturasPadrao();
+
         janelaRenderer.material = janeladiapadrao;
+
         clickSpawner = FindFirstObjectByType<ClickSpawner>();
 
         HUDManager = FindAnyObjectByType<HUDManager>();
+
         hudmenu = HUDManager.hudmenuoneoff;
     }
 
@@ -183,9 +217,32 @@ public class Player : MonoBehaviour
         hudmenu = HUDManager.hudmenuoneoff;
         compraoneoff = HUDManager.Upgrade;
         hudconfig = HUDManager.hudconfigoneoff;
-        //Camera
+        textoPontos.text = "Pontos: " + pontos;
+        textoPontos2.text = textoPontos.text;
+        
+        if (congelarPosicao)
+        {
+            transform.position = posicaoCongelada;
 
-        if (travarCamera == false) //trava de segurança
+            if (characterController != null)
+            {
+            characterController.enabled = false;
+            }
+
+        return;
+        }
+        else
+        {
+            if (characterController != null && !characterController.enabled)
+            {
+                characterController.enabled = true;
+            }
+
+        posicaoCongelada = transform.position;
+        }
+
+        // CAMERA
+        if (travarCamera == false)
         {
             Vector2 controleMouse = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
 
@@ -200,8 +257,8 @@ public class Player : MonoBehaviour
                                                            cameraTransform.localEulerAngles.z);
         }
 
-        //Movimenta  o player
-        if (moveble == true) //trava de segurança
+        // MOVIMENTO
+        if (moveble == true)
         {
             float moverVertical = Input.GetAxis("Vertical");
             float moverHorizontal = Input.GetAxis("Horizontal");
@@ -261,17 +318,16 @@ public class Player : MonoBehaviour
                 Debug.Log("Pontos insuficientes!");
             }
         }
-
         if (Input.GetKeyDown(KeyCode.K) && (compraoneoff == true) && (HUDManager.hudupgradeoneoff == true)) //trava de segurança
         {
             if (pontos >= custoLimite)
             {
                 pontos -= custoLimite;
                 pontosMaximos += 500 * limiteclasse;
-                Debug.Log("Novo limite: " + pontosMaximos);
+                Debug.Log("Limite aumentado para: " + pontosMaximos);
                 Debug.Log("Pontos restantes: " + pontos);
-                textoLimite.text = " (K) Limite: " + (pontosMaximos * limiteclasse);
                 textoPontos.text = "Pontos: " + pontos;
+                textoLimite.text = " (K) Limite: " + (pontosMaximos * limiteclasse);
                 custoLimite = pontosMaximos / limiteclasse;
                 precoLimite.text = "Preço: " + custoLimite;
             }
@@ -280,8 +336,7 @@ public class Player : MonoBehaviour
                 Debug.Log("Pontos insuficientes!");
             }
         }
-
-        if (Input.GetKeyDown(KeyCode.N) && (compraoneoff == true))
+        if (Input.GetKeyDown(KeyCode.N) && (compraoneoff == true) && (HUDManager.hudupgradeoneoff == true)) //trava de segurança
         {
             if (pontos >= custoNoite)
             {
@@ -299,74 +354,79 @@ public class Player : MonoBehaviour
                 Debug.Log("Pontos insuficientes!");
             }
         }
-
-        //Compra de itens com clique
-        if (Input.GetMouseButtonDown(0)) // só dispara quando clicar
+    
+        // CLICK
+        if (Input.GetMouseButtonDown(0))
         {
-            if ((HUDManager.hudsecundariaoneoff == false) && hudmenu == false && hudconfig == false) //trava de segurança
+            if ((HUDManager.hudsecundariaoneoff == false) &&
+                hudmenu == false &&
+                hudconfig == false)
             {
-                Ray ray = cameraTransform.GetComponent<Camera>().ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+                Ray ray = cameraTransform
+                    .GetComponent<Camera>()
+                    .ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+
                 RaycastHit hit;
 
                 if (Physics.Raycast(ray, out hit, maxDistance, hitLayers))
                 {
                     Debug.Log("Acertou: " + hit.collider.gameObject.name);
 
+                    // COMPUTADOR
                     if (hit.collider.gameObject.name == "Computador")
                     {
-                        pontos += multiplicadorPontos * multiplicadorCiclo * multiplicadorClasse;
-                        pontos = Mathf.Clamp(pontos, 0, pontosMaximos);
-                        Debug.Log("Pontos: " + pontos);
-                        textoPontos.text = "Pontos: " + pontos;
-                        textoPontos2.text = textoPontos.text;
+                        StartCoroutine(animacaoClick());
                     }
-                }
 
-                // Verifica se o objeto clicado é o interruptor e alterna a luz do quarto
-                if (hit.collider.gameObject.name == "Interruptor")
-                {
-                    if (luzQuarto.intensity > 0f)
+                    // INTERRUPTOR
+                    if (hit.collider.gameObject.name == "Interruptor")
                     {
-
-                        luzQuarto.intensity = 0f;
+                        if (luzQuarto.intensity > 0f)
+                        {
+                            luzQuarto.intensity = 0f;
+                        }
+                        else
+                        {
+                            luzQuarto.intensity = 50f;
+                        }
                     }
-                    else
-                    {
-                        luzQuarto.intensity = 50f;
+
+                    // CAFETEIRA
+                    if (hit.collider.gameObject.name == "Cafeteira" && eventoNoiteAtivo && bonusAtivo == false)
+                    {  
+                        Debug.Log("Bônus ativado");
+                        bonusAtivo = true;
+                        tempoBonus = 0f;
+                        tempoEventoNoite = 0f;
+                        eventoNoiteAtivo = false;
+                        luzSol.intensity = 0f;
                     }
                 }
-
-                //Ativa o Bônus quando a Cafeteira é Clicada
-                if (hit.collider.gameObject.name == "Cafeteira" && eventoNoiteAtivo && bonusAtivo == false)
-                {
-                    bonusAtivo = true;
-                    tempoBonus = 0f;
-                    tempoEventoNoite = 0f;
-                    eventoNoiteAtivo = false;
-                    luzSol.intensity = 0f;
-
-                }
-
                 else
                 {
                     Debug.Log("Não acertou nada");
                 }
-
             }
-
         }
+        
 
-        tempoAuto += Time.deltaTime;
-        if (tempoAuto >= intervaloAuto)
+        // AUTO CLICK
+        if ((HUDManager.hudsecundariaoneoff == false) && hudmenu == false && hudconfig == false)
         {
-            tempoAuto = 0f;
+            tempoAuto += Time.deltaTime;
 
-            pontos += clicksAuto * clicksautomaticosclasse;
-            pontos = Mathf.Clamp(pontos, 0, pontosMaximos);
-            textoPontos.text = "Pontos: " + pontos;
-            textoPontos2.text = textoPontos.text;
+            if (tempoAuto >= intervaloAuto)
+            {
+                tempoAuto = 0f;
+
+                pontos += clicksAuto * clicksautomaticosclasse;
+
+                pontos = Mathf.Clamp(pontos, 0, pontosMaximos);
+
+                textoPontos.text = "Pontos: " + pontos;
+                textoPontos2.text = textoPontos.text;
+            }
         }
-
         //----------------------------------------------- SEÇÃO DE EVENTO DE NOITE --------------------------------------------------------------
         // Controle do Evento Noite
 
@@ -737,24 +797,25 @@ public class Player : MonoBehaviour
 
             clickSpawner.multiplicador = multiplicadorPontos * multiplicadorCiclo * multiplicadorClasse;
 
-        }
+        }  
     }
+        
+        
+    
+
     public void ResetarCamera()
     {
         rotacaoMouse = Vector2.zero;
 
-        // Zera rotação do player (eixo Y)
         _transform.eulerAngles = Vector3.zero;
 
-        // Zera rotação da câmera
         cameraTransform.localEulerAngles = Vector3.zero;
     }
 
-
     public void TexturasRealistas()
     {
-        //funcao para colocar as texturas realistas
         portaRenderer.material.mainTexture = portarealista;
+
         parede1Renderer.material = materialparederealista;
         parede2Renderer.material = materialparederealista;
         parede3Renderer.material = materialparederealista;
@@ -763,21 +824,24 @@ public class Player : MonoBehaviour
         parede6Renderer.material = materialparederealista;
         parede7Renderer.material = materialparederealista;
         parede8Renderer.material = materialparederealista;
+
         chaoRenderer.material = materialchaorealista;
+
         forroRenderer.material = forrocamarelista;
         forro2Renderer.material = forrocamarelista;
+
         cama1Renderer.material = materialchaorealista;
         cama2Renderer.material = materialchaorealista;
+
         realista = 1;
         mono = 0;
         hyperpop = 0;
-
     }
 
     public void TexturasPadrao()
     {
-        //funcao para colocar as texturas padrao
         portaRenderer.material.mainTexture = portapadrao;
+
         parede1Renderer.material = materialparedepadrao;
         parede2Renderer.material = materialparedepadrao;
         parede3Renderer.material = materialparedepadrao;
@@ -786,11 +850,15 @@ public class Player : MonoBehaviour
         parede6Renderer.material = materialparedepadrao;
         parede7Renderer.material = materialparedepadrao;
         parede8Renderer.material = materialparedepadrao;
+
         chaoRenderer.material = materialchaopadrao;
+
         forro2Renderer.material = forrocamapadrao;
         forroRenderer.material = forrocamapadrao;
+
         cama1Renderer.material = materialchaopadrao;
         cama2Renderer.material = materialchaopadrao;
+
         realista = 0;
         mono = 0;
         hyperpop = 0;
@@ -798,8 +866,8 @@ public class Player : MonoBehaviour
 
     public void TexturasMono()
     {
-        //funcao para colocar as texturas mono
         portaRenderer.material.mainTexture = portamono;
+
         parede1Renderer.material = materialparedemono;
         parede2Renderer.material = materialparedemono;
         parede3Renderer.material = materialparedemono;
@@ -808,11 +876,15 @@ public class Player : MonoBehaviour
         parede6Renderer.material = materialparedemono;
         parede7Renderer.material = materialparedemono;
         parede8Renderer.material = materialparedemono;
+
         chaoRenderer.material = materialchaomono;
+
         forro2Renderer.material = forrocamamono;
         forroRenderer.material = forrocamamono;
+
         cama1Renderer.material = materialchaomono;
         cama2Renderer.material = materialchaomono;
+
         mono = 1;
         realista = 0;
         hyperpop = 0;
@@ -820,8 +892,8 @@ public class Player : MonoBehaviour
 
     public void Texturashyperpop()
     {
-        //funcao para colocar as texturas hyperpop
         portaRenderer.material.mainTexture = portahyperpop;
+
         parede1Renderer.material = materialparedehyperpop;
         parede2Renderer.material = materialparedehyperpop;
         parede3Renderer.material = materialparedehyperpop;
@@ -830,11 +902,15 @@ public class Player : MonoBehaviour
         parede6Renderer.material = materialparedehyperpop;
         parede7Renderer.material = materialparedehyperpop;
         parede8Renderer.material = materialparedehyperpop;
+
         chaoRenderer.material = materialchaohyperpop;
+
         forro2Renderer.material = forrocamahyperpop;
         forroRenderer.material = forrocamahyperpop;
+
         cama1Renderer.material = materialchaohyperpop;
         cama2Renderer.material = materialchaohyperpop;
+
         mono = 0;
         realista = 0;
         hyperpop = 1;
@@ -845,6 +921,38 @@ public class Player : MonoBehaviour
         travarCamera = estado;
         moveble = !estado;
     }
+
+    IEnumerator animacaoClick()
+{
+    Animator animClick = textoPontos2.GetComponent<Animator>();
+
+    Debug.Log(animClick);
+
+    if (animClick != null)
+    {
+        Debug.Log("Animator encontrado");
+
+        animClick.enabled = true;
+
+        animClick.Rebind();
+        animClick.Update(0f);
+
+        animClick.Play("animacaopontos");
+
+        Debug.Log("Tentou tocar animação");
+    }
+    else
+    {
+        Debug.Log("Animator NULL");
+    }
+
+    pontos += multiplicadorPontos * multiplicadorCiclo * multiplicadorClasse;
+
+    pontos = Mathf.Clamp(pontos, 0, pontosMaximos);
+
+    textoPontos.text = "Pontos: " + pontos;
+    textoPontos2.text = textoPontos.text;
+
+    yield return null;
 }
-
-
+}

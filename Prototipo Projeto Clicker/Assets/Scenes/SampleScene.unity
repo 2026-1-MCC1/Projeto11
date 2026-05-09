@@ -1982,6 +1982,7 @@ GameObject:
   - component: {fileID: 380049892}
   - component: {fileID: 380049891}
   - component: {fileID: 380049890}
+  - component: {fileID: 380049893}
   m_Layer: 5
   m_Name: TextoPontos
   m_TagString: Untagged
@@ -2102,11 +2103,33 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1832902211}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -200, y: -50}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchorMin: {x: 0.69125, y: 0.679}
+  m_AnchorMax: {x: 0.9362501, y: 0.84089184}
+  m_AnchoredPosition: {x: -2, y: 0.5}
+  m_SizeDelta: {x: 4, y: -1}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!95 &380049893
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 380049889}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a599c15c723fca945b9bdb9496888a38, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &389360347
 GameObject:
   m_ObjectHideFlags: 0
@@ -2426,7 +2449,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &429549386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2659,7 +2682,7 @@ GameObject:
   - component: {fileID: 441369966}
   - component: {fileID: 441369965}
   - component: {fileID: 441369964}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Casa
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3470,7 +3493,7 @@ GameObject:
   - component: {fileID: 552854428}
   - component: {fileID: 552854427}
   - component: {fileID: 552854426}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Porta
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6505,7 +6528,7 @@ GameObject:
   - component: {fileID: 1044726132}
   - component: {fileID: 1044726131}
   - component: {fileID: 1044726130}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: hitboxcadeira
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7331,7 +7354,7 @@ GameObject:
   - component: {fileID: 1191327290}
   - component: {fileID: 1191327289}
   - component: {fileID: 1191327288}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8331,6 +8354,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a486bb7f749372438b7b54414eb35a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  congelarPosicao: 0
   _transform: {fileID: 1239245431}
   cameraTransform: {fileID: 2109866067}
   sensibilidade: 2000
@@ -8504,7 +8528,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 823
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 1
@@ -8531,7 +8555,7 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 823
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
@@ -8571,7 +8595,7 @@ CharacterController:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 32
+    m_Bits: 823
   m_LayerOverridePriority: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
@@ -8595,7 +8619,7 @@ GameObject:
   - component: {fileID: 1250120721}
   - component: {fileID: 1250120720}
   - component: {fileID: 1250120719}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10980,6 +11004,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Table
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 214d57d888827ec4e9d3284fedb92071, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -12233,7 +12261,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1832902211
 RectTransform:
   m_ObjectHideFlags: 0
