@@ -3,12 +3,14 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections;
 using NUnit.Framework.Internal;
+using Unity.VisualScripting;
 
 public class HUDManager : MonoBehaviour
 {
     [Header("Referências das HUDs")]
     public GameObject hudPrincipal;
     public GameObject hudSecundaria;
+    public GameObject hudCelular;
     public GameObject hudMenu;
     public GameObject hudconfig;
     public GameObject hudClasse;
@@ -17,6 +19,8 @@ public class HUDManager : MonoBehaviour
     public GameObject hudShop;
     public GameObject hudbotoes;
     public GameObject canvascelular;
+    public GameObject wifi;
+    public GameObject botaoconfig2;
 
     public TextMeshProUGUI textoPontos;
     public TextMeshProUGUI textoC;
@@ -32,6 +36,9 @@ public class HUDManager : MonoBehaviour
     public bool primeiravez = true;
     public bool primeiravezcelular = true;
     public bool primeiravezupgrades = true; 
+    public bool primeiraveztexturas = true;
+    public bool primeiravezclasses = true;
+    public bool primeiravezmoedapaga = true;
 
     [Header("Referência do Player")]
     public Player player;
@@ -278,7 +285,7 @@ public class HUDManager : MonoBehaviour
     // HUD SECUNDÁRIA
     // =========================
 
-    void AlternarHUD()
+    public void AlternarHUD()
     {
         celularidle.gameObject.SetActive(false);
         player.congelarPosicao = true;
@@ -291,6 +298,9 @@ public class HUDManager : MonoBehaviour
 
             if (animCelular != null)
             {
+                wifi.gameObject.SetActive(true);
+                botaoconfig2.gameObject.SetActive(true);
+                hudCelular.gameObject.SetActive(true);
                 animCelular.Play("CelularEntrada");
             }
 
@@ -421,6 +431,11 @@ public class HUDManager : MonoBehaviour
         textoPontos.gameObject.SetActive(true);
 
         hudclasseoneoff = true;
+        if (primeiravezclasses)
+            {
+                StartCoroutine(hudTutorial.IntroducaoClasses());
+                primeiravezclasses = false;
+            }
     }
 
     void AlternarHUDTextura()
@@ -435,6 +450,11 @@ public class HUDManager : MonoBehaviour
         textoPontos.gameObject.SetActive(true);
 
         hudtexturaoneoff = true;
+        if (primeiraveztexturas)
+            {
+                StartCoroutine(hudTutorial.IntroducaoTexturas());
+                primeiraveztexturas = false;
+            }
     }
 
     void AlternarHUDUpgrade()
@@ -469,6 +489,11 @@ public class HUDManager : MonoBehaviour
         textoPontos.gameObject.SetActive(true);
 
         hudshoponeoff = true;
+        if (primeiravezmoedapaga)
+        {
+            StartCoroutine(hudTutorial.Introducaomoedapaga());
+            primeiravezmoedapaga = false;
+        }  
     }
 
     void VoltarMenuCelular()
@@ -496,7 +521,7 @@ public class HUDManager : MonoBehaviour
     {
         if (player.pontos >= 10000)
         {
-            player.moedapaga += 10;
+            player.moedapaga += 1;
             player.textoMoedaPaga.text = "R$: " + player.moedapaga;
             player.pontos -= 10000;
         }

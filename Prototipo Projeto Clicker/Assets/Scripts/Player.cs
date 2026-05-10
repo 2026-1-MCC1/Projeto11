@@ -450,7 +450,7 @@ public class Player : MonoBehaviour
         //----------------------------------------------- SEÇÃO DE EVENTO DE NOITE --------------------------------------------------------------
         // Controle do Evento Noite
 
-        if (!eventoNoiteAtivo && !HUDManager.hudsecundariaoneoff && !hudmenu && !hudconfig && !hudTutorial.tutorialOneOff)
+        if (!eventoNoiteAtivo && !hudmenu && !hudconfig && !hudTutorial.tutorialOneOff)
         {
             if (!bonusAtivo)
             {
@@ -483,7 +483,7 @@ public class Player : MonoBehaviour
                 }
             }
         }
-        if (eventoNoiteAtivo == true && bonusAtivo == false && HUDManager.hudsecundariaoneoff == false && hudmenu == false && hudconfig == false && hudTutorial.tutorialOneOff == false)
+        if (eventoNoiteAtivo == true && bonusAtivo == false && hudmenu == false && hudconfig == false && hudTutorial.tutorialOneOff == false)
         {
             tempoEventoNoite += Time.deltaTime;
         }
@@ -496,7 +496,7 @@ public class Player : MonoBehaviour
             tempoNoite = 0f;
             luzSol.intensity = 500f;
         }
-        if (bonusAtivo == true && HUDManager.hudsecundariaoneoff == false && hudmenu == false && hudconfig == false && hudTutorial.tutorialOneOff == false)
+        if (bonusAtivo == true && hudmenu == false && hudconfig == false && hudTutorial.tutorialOneOff == false)
         {
             tempoBonus += Time.deltaTime;
             if (tempoBonus >= 120f)

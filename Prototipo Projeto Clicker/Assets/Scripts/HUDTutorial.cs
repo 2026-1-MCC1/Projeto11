@@ -35,6 +35,7 @@ public class HUDTutorial : MonoBehaviour
 
     public IEnumerator StartTutorial()
     {
+        hudManager.celularidle.gameObject.SetActive(false);
         CaixaDeTextoSistema.SetActive(false);
         player.moveble = false;
         tutorialOneOff = true;
@@ -53,6 +54,7 @@ public class HUDTutorial : MonoBehaviour
         CaixaDeTexto.SetActive(false);
         hudManager.primeiravez = false;
         player.moveble = true;
+        hudManager.celularidle.gameObject.SetActive(true);
     }
 
     public IEnumerator IntroducaoComputador()
@@ -213,11 +215,14 @@ public class HUDTutorial : MonoBehaviour
     
     public IEnumerator IntroducaoEventoNoite()
     {
+        hudManager.AlternarHUD();
+        hudManager.celularidle.gameObject.SetActive(false);
         CaixaDeTextoSistema.SetActive(false);
         player.moveble = false;
         tutorialOneOff = true;
         TutorialPanel.SetActive(true);
         CaixaDeTexto.SetActive(true);
+        hudManager.celularidle.gameObject.SetActive(false);
         textoCompleto = "Caramba que cansaço, finalmente a noite chegou, será que eu deveria dormir?";
         yield return StartCoroutine(EscreverTexto(textoCompleto));
         //espera o input enter para continuar
@@ -240,10 +245,12 @@ public class HUDTutorial : MonoBehaviour
         tutorialOneOff = false;
         TutorialPanel.SetActive(false);
         player.moveble = true;
+        hudManager.celularidle.gameObject.SetActive(true);
     }
 
     public IEnumerator IntroducaoCafeteira()
     {
+        hudManager.celularidle.gameObject.SetActive(false);
         CaixaDeTextoSistema.SetActive(false);
         player.moveble = false;
         tutorialOneOff = true;
@@ -263,7 +270,99 @@ public class HUDTutorial : MonoBehaviour
         player.moveble = true;
         tutorialOneOff = false;
         TutorialPanel.SetActive(false);
+        hudManager.celularidle.gameObject.SetActive(true);
     }
+
+    public IEnumerator IntroducaoTexturas()
+    {
+        hudManager.celularidle.gameObject.SetActive(false);
+        CaixaDeTextoSistema.SetActive(false);
+        player.moveble = false;
+        tutorialOneOff = true;
+        TutorialPanel.SetActive(true);
+        CaixaDeTexto.SetActive(true);
+        textoCompleto = "Já estava na hora de uma reforma nesse quarto, acho que vou mudar um pouco dele";
+        yield return StartCoroutine(EscreverTexto(textoCompleto));
+        //espera o input enter para continuar
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
+        CaixaDeTexto.SetActive(false);
+        CaixaDeTextoSistema.SetActive(true);
+        textoCompleto = "Compre um pacote de texturas por 100 pontos, mantendo o ar comico do cenario mas variando o estilo";
+        yield return StartCoroutine(EscreverTexto(textoCompleto));
+        //espera o input enter para continuar
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
+        CaixaDeTextoSistema.SetActive(false);
+        player.moveble = true;
+        tutorialOneOff = false;
+        TutorialPanel.SetActive(false);
+        hudManager.celularidle.gameObject.SetActive(true); 
+    }
+    public IEnumerator IntroducaoClasses()
+    {
+        hudManager.celularidle.gameObject.SetActive(false);
+        CaixaDeTextoSistema.SetActive(false);
+        player.moveble = false;
+        tutorialOneOff = true;
+        TutorialPanel.SetActive(true);
+        CaixaDeTexto.SetActive(true);
+        textoCompleto = "Me falaram muito dessas linguagens de programação, talvez seja uma boa ideia sair das pseudolinguagens";
+        yield return StartCoroutine(EscreverTexto(textoCompleto));
+        //espera o input enter para continuar
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
+        textoCompleto = "Mas infelizmente todos os cursos de linguagens que conheço são pagos, mas ja estava na hora de investir um dinheiro";
+        yield return StartCoroutine(EscreverTexto(textoCompleto));
+        //espera o input enter para continuar
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
+        CaixaDeTexto.SetActive(false);
+        CaixaDeTextoSistema.SetActive(true);
+        textoCompleto = "Aqui você terá a opção de comprar classes para seu personagem que expandem mais o SEU jeito de jogar o jogo";
+        yield return StartCoroutine(EscreverTexto(textoCompleto));
+        //espera o input enter para continuar
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
+        textoCompleto = "Classes podem ser compradas com moedas pagas, para mais informações veja a seção shop";
+        yield return StartCoroutine(EscreverTexto(textoCompleto));
+        //espera o input enter para continuar
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
+        CaixaDeTextoSistema.SetActive(false);
+        player.moveble = true;
+        tutorialOneOff = false;
+        TutorialPanel.SetActive(false);
+        hudManager.celularidle.gameObject.SetActive(true); 
+        
+    } 
+
+    public IEnumerator Introducaomoedapaga()
+    {
+        hudManager.celularidle.gameObject.SetActive(false);
+        CaixaDeTextoSistema.SetActive(false);
+        player.moveble = false;
+        tutorialOneOff = true;
+        TutorialPanel.SetActive(true);
+        CaixaDeTexto.SetActive(true);
+        textoCompleto = "Aqui será onde posso investir um dinheirinho para poder comprar meus cursos de programação";
+        yield return StartCoroutine(EscreverTexto(textoCompleto));
+        //espera o input enter para continuar
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
+        CaixaDeTexto.SetActive(false);
+        CaixaDeTextoSistema.SetActive(true);
+        textoCompleto = "O jogo YGGD_CODE é um jogo totalmente gratuito financiado somente por microtransações, as moedas pagas não são conseguidas somente pagando";
+        yield return StartCoroutine(EscreverTexto(textoCompleto));
+        //espera o input enter para continuar
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
+        textoCompleto = "mas agilizam muito este processo ;)";
+        yield return StartCoroutine(EscreverTexto(textoCompleto));
+        //espera o input enter para continuar
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
+        textoCompleto = "Para conseguir moedas pagas não envolvendo pagamento direto, cada moeda paga são 10 mil pontos, e cada classe custam 10 moedas pagas";
+        yield return StartCoroutine(EscreverTexto(textoCompleto));
+        //espera o input enter para continuar
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
+        CaixaDeTextoSistema.SetActive(false);
+        player.moveble = true;
+        tutorialOneOff = false;
+        TutorialPanel.SetActive(false);
+        hudManager.celularidle.gameObject.SetActive(true); 
+    } 
 
     public IEnumerator EscreverTexto(string texto)
     {
