@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using NUnit.Framework.Internal;
 
 public class HUDManager : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class HUDManager : MonoBehaviour
     public GameObject canvascelular;
 
     public TextMeshProUGUI textoPontos;
+    public TextMeshProUGUI textoC;
 
     public bool hudprincipaloneoff;
     public bool hudsecundariaoneoff;
@@ -43,6 +45,7 @@ public class HUDManager : MonoBehaviour
     public Button botãoshop;
     public Button voltar;
     public Button comprarmoedapaga;
+    public Button botãoconfig2;
 
     public bool Upgrade;
 
@@ -55,6 +58,8 @@ public class HUDManager : MonoBehaviour
     public TextMeshProUGUI textoSens;
 
     private ExitButton exitButton;
+
+    public Image celularidle;
 
     void Start()
     {
@@ -93,7 +98,7 @@ public class HUDManager : MonoBehaviour
         botãoshop.onClick.AddListener(AlternarHUDShop);
         voltar.onClick.AddListener(VoltarMenuCelular);
         comprarmoedapaga.onClick.AddListener(Compramoedapaga);
-
+        botãoconfig2.onClick.AddListener(Configuracoes);
         hudClasse.SetActive(false);
         hudTextura.SetActive(false);
         hudUpgrade.SetActive(false);
@@ -133,6 +138,7 @@ public class HUDManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
 
+        celularidle.gameObject.SetActive(true);
         hudMenu.SetActive(false);
         hudPrincipal.SetActive(true);
         hudconfig.SetActive(false);
@@ -159,6 +165,17 @@ public class HUDManager : MonoBehaviour
 
     IEnumerator AnimacaoConfig()
     {
+        
+        hudPrincipal.SetActive(false);
+        hudSecundaria.SetActive(false);
+        Upgrade = false;
+        hudbotoes.SetActive(false);
+        hudClasse.SetActive(false);
+        hudTextura.SetActive(false);
+        hudUpgrade.SetActive(false);
+        hudShop.SetActive(false);
+        voltar.gameObject.SetActive(false);
+        textoPontos.gameObject.SetActive(false);
         Animator animConfig = botãoconfig.GetComponent<Animator>();
 
         if (animConfig != null)
@@ -246,6 +263,7 @@ public class HUDManager : MonoBehaviour
 
     void AlternarHUD()
     {
+        celularidle.gameObject.SetActive(false);
         player.congelarPosicao = true;
         if (hudprincipaloneoff)
         {
@@ -258,6 +276,8 @@ public class HUDManager : MonoBehaviour
             {
                 animCelular.Play("CelularEntrada");
             }
+
+            textoC.gameObject.SetActive(true);
 
             hudsecundariaoneoff = true;
             hudprincipaloneoff = false;
@@ -319,6 +339,7 @@ public class HUDManager : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        celularidle.gameObject.SetActive(true);
 
         textoPontos.gameObject.SetActive(true);
 
@@ -368,6 +389,7 @@ public class HUDManager : MonoBehaviour
 
     void AlternarHUDClasse()
     {
+        textoC.gameObject.SetActive(false);
         Debug.Log("Alternando HUD de Classe");
 
         hudClasse.SetActive(true);
@@ -381,6 +403,7 @@ public class HUDManager : MonoBehaviour
 
     void AlternarHUDTextura()
     {
+        textoC.gameObject.SetActive(false);
         Debug.Log("Alternando HUD de Textura");
 
         hudbotoes.SetActive(false);
@@ -394,6 +417,7 @@ public class HUDManager : MonoBehaviour
 
     void AlternarHUDUpgrade()
     {
+        textoC.gameObject.SetActive(false);
         Debug.Log("Alternando HUD de Upgrade");
 
         hudbotoes.SetActive(false);
@@ -407,6 +431,7 @@ public class HUDManager : MonoBehaviour
 
     void AlternarHUDShop()
     {
+        textoC.gameObject.SetActive(false);
         Debug.Log("Alternando HUD de Shop");
 
         hudbotoes.SetActive(false);
@@ -420,6 +445,7 @@ public class HUDManager : MonoBehaviour
 
     void VoltarMenuCelular()
     {
+        textoC.gameObject.SetActive(true);
         Debug.Log("Voltando ao Menu do Celular");
 
         hudClasse.SetActive(false);
