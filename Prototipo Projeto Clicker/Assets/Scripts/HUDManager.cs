@@ -29,10 +29,14 @@ public class HUDManager : MonoBehaviour
     public bool hudshoponeoff;
     public bool hudclasseoneoff;
     public bool hudtexturaoneoff;
+    public bool primeiravez = true;
+    public bool primeiravezcelular = true;
+    public bool primeiravezupgrades = true; 
 
     [Header("Referência do Player")]
     public Player player;
     public Camera playerCamera;
+    public HUDTutorial hudTutorial;
 
     [Header("Botões")]
     public Button botãoinicio;
@@ -61,10 +65,11 @@ public class HUDManager : MonoBehaviour
 
     public Image celularidle;
 
+
     void Start()
     {
         exitButton = FindAnyObjectByType<ExitButton>();
-
+        hudTutorial = FindAnyObjectByType<HUDTutorial>();
         hudMenu.SetActive(true);
         hudPrincipal.SetActive(false);
         hudSecundaria.SetActive(false);
@@ -113,9 +118,14 @@ public class HUDManager : MonoBehaviour
             player.TravarControle(true);
         }
 
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.C) && hudTutorial.tutorialOneOff == false && !hudmenuoneoff && !hudconfigoneoff)
         {
             AlternarHUD();
+            if (primeiravezcelular)
+            {
+                StartCoroutine(hudTutorial.IntroducaoCelular());
+                primeiravezcelular = false;
+            }
         }
     }
 
@@ -138,12 +148,10 @@ public class HUDManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
 
-        celularidle.gameObject.SetActive(true);
+
         hudMenu.SetActive(false);
-        hudPrincipal.SetActive(true);
         hudconfig.SetActive(false);
 
-        hudprincipaloneoff = true;
         hudmenuoneoff = false;
         hudconfigoneoff = false;
 
@@ -156,6 +164,15 @@ public class HUDManager : MonoBehaviour
         {
             player.TravarControle(false);
         }
+
+        if (primeiravez == true)
+        {
+        yield return StartCoroutine(hudTutorial.StartTutorial());
+        }
+        //coisas para o padrão de hud do jogo
+        celularidle.gameObject.SetActive(true);
+        hudPrincipal.SetActive(true);
+        hudprincipaloneoff = true;
     }
 
     void Configuracoes()
@@ -291,9 +308,14 @@ public class HUDManager : MonoBehaviour
             hudShop.SetActive(false);
 
             voltar.gameObject.SetActive(false);
-
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            if (primeiravezcelular)
+            {
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
 
             textoPontos.gameObject.SetActive(false);
         }
@@ -427,6 +449,12 @@ public class HUDManager : MonoBehaviour
         textoPontos.gameObject.SetActive(true);
 
         hudupgradeoneoff = true;
+
+        if (primeiravezupgrades)
+        {
+            StartCoroutine(hudTutorial.IntroducaoUpgrades());
+            primeiravezupgrades = false;
+        }  
     }
 
     void AlternarHUDShop()

@@ -24,6 +24,13 @@ public class Player : MonoBehaviour
 
     ClickSpawner clickSpawner;
     CharacterController characterController;
+    HUDTutorial hudTutorial;
+    public bool primeiravezcomputador = true;
+    public bool primeiravezmultiplicador = true;
+    public bool primeiravezauto = true;
+    public bool primeiravezlimite = true;
+    public bool primeiraveznoite = true;
+    public bool primeiravezcafeteira = true;
 
     // Configurações para o raycast
     public float maxDistance = 10f;
@@ -212,6 +219,8 @@ public class Player : MonoBehaviour
 
         HUDManager = FindAnyObjectByType<HUDManager>();
 
+        hudTutorial = FindAnyObjectByType<HUDTutorial>();
+
         hudmenu = HUDManager.hudmenuoneoff;
     }
 
@@ -260,7 +269,7 @@ public class Player : MonoBehaviour
             }
         }
         //Compra de itens com teclado
-        if (Input.GetKeyDown(KeyCode.H) && (compraoneoff == true) && (HUDManager.hudupgradeoneoff == true)) //trava de segurança
+        if (Input.GetKeyDown(KeyCode.H) && (compraoneoff == true) && (HUDManager.hudupgradeoneoff == true) && (hudTutorial.tutorialOneOff == false)) //trava de segurança
         {
             if (pontos >= custoMulti)
             {
@@ -280,9 +289,14 @@ public class Player : MonoBehaviour
             {
                 Debug.Log("Pontos insuficientes!");
             }
+            if (primeiravezmultiplicador)
+            {
+                StartCoroutine(hudTutorial.IntroducaoMultiplicador());
+                primeiravezmultiplicador = false;
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.J) && (compraoneoff == true) && (HUDManager.hudupgradeoneoff == true)) //trava de segurança
+        if (Input.GetKeyDown(KeyCode.J) && (compraoneoff == true) && (HUDManager.hudupgradeoneoff == true) && (hudTutorial.tutorialOneOff == false)) //trava de segurança
         {
             if (pontos >= custoAuto)
             {
@@ -299,8 +313,13 @@ public class Player : MonoBehaviour
             {
                 Debug.Log("Pontos insuficientes!");
             }
+            if (primeiravezauto)
+            {
+                StartCoroutine(hudTutorial.IntroducaoAutoClicker());
+                primeiravezauto = false;
+            }
         }
-        if (Input.GetKeyDown(KeyCode.K) && (compraoneoff == true) && (HUDManager.hudupgradeoneoff == true)) //trava de segurança
+        if (Input.GetKeyDown(KeyCode.K) && (compraoneoff == true) && (HUDManager.hudupgradeoneoff == true) && (hudTutorial.tutorialOneOff == false)) //trava de segurança
         {
             if (pontos >= custoLimite)
             {
@@ -317,8 +336,13 @@ public class Player : MonoBehaviour
             {
                 Debug.Log("Pontos insuficientes!");
             }
+            if (primeiravezlimite)
+            {
+                StartCoroutine(hudTutorial.IntroducaoLimite());
+                primeiravezlimite = false;
+            }
         }
-        if (Input.GetKeyDown(KeyCode.N) && (compraoneoff == true) && (HUDManager.hudupgradeoneoff == true)) //trava de segurança
+        if (Input.GetKeyDown(KeyCode.N) && (compraoneoff == true) && (HUDManager.hudupgradeoneoff == true) && (hudTutorial.tutorialOneOff == false)) //trava de segurança
         {
             if (pontos >= custoNoite)
             {
@@ -334,6 +358,11 @@ public class Player : MonoBehaviour
             else
             {
                 Debug.Log("Pontos insuficientes!");
+            }
+            if (primeiraveznoite)
+            {
+                StartCoroutine(hudTutorial.IntroducaoNoite());
+                primeiraveznoite = false;
             }
         }
     
@@ -355,13 +384,18 @@ public class Player : MonoBehaviour
                     Debug.Log("Acertou: " + hit.collider.gameObject.name);
 
                     // COMPUTADOR
-                    if (hit.collider.gameObject.name == "Computador")
+                    if (hit.collider.gameObject.name == "Computador" && hudTutorial.tutorialOneOff == false)
                     {
+                        if (primeiravezcomputador == true)
+                        {
+                            StartCoroutine(hudTutorial.IntroducaoComputador());
+                            primeiravezcomputador = false;
+                        }
                         StartCoroutine(animacaoClick());
                     }
 
                     // INTERRUPTOR
-                    if (hit.collider.gameObject.name == "Interruptor")
+                    if (hit.collider.gameObject.name == "Interruptor" && hudTutorial.tutorialOneOff == false)
                     {
                         if (luzQuarto.intensity > 0f)
                         {
@@ -374,8 +408,12 @@ public class Player : MonoBehaviour
                     }
 
                     // CAFETEIRA
-                    if (hit.collider.gameObject.name == "Cafeteira" && eventoNoiteAtivo && bonusAtivo == false)
+                    if (hit.collider.gameObject.name == "Cafeteira" && eventoNoiteAtivo && bonusAtivo == false && hudTutorial.tutorialOneOff == false)
                     {  
+                        if (primeiravezcafeteira)
+                        {
+                            StartCoroutine(hudTutorial.IntroducaoCafeteira());
+                        }
                         Debug.Log("Bônus ativado");
                         bonusAtivo = true;
                         tempoBonus = 0f;
@@ -393,7 +431,7 @@ public class Player : MonoBehaviour
         
 
         // AUTO CLICK
-        if ((HUDManager.hudsecundariaoneoff == false) && hudmenu == false && hudconfig == false)
+        if ((HUDManager.hudsecundariaoneoff == false) && hudmenu == false && hudconfig == false && hudTutorial.tutorialOneOff == false)
         {
             tempoAuto += Time.deltaTime;
 
@@ -412,7 +450,7 @@ public class Player : MonoBehaviour
         //----------------------------------------------- SEÇÃO DE EVENTO DE NOITE --------------------------------------------------------------
         // Controle do Evento Noite
 
-        if (!eventoNoiteAtivo && !HUDManager.hudsecundariaoneoff && !hudmenu && !hudconfig)
+        if (!eventoNoiteAtivo && !HUDManager.hudsecundariaoneoff && !hudmenu && !hudconfig && !hudTutorial.tutorialOneOff)
         {
             if (!bonusAtivo)
             {
@@ -432,6 +470,10 @@ public class Player : MonoBehaviour
                         eventoNoiteAtivo = true;
                         tempoEventoNoite = 0f;
                         luzSol.intensity = 0f;
+                        if (primeiroEventoNoite)
+                        {
+                            StartCoroutine(hudTutorial.IntroducaoEventoNoite());
+                        }
                         primeiroEventoNoite = false;
                     }
                     else
@@ -441,7 +483,7 @@ public class Player : MonoBehaviour
                 }
             }
         }
-        if (eventoNoiteAtivo == true && bonusAtivo == false && HUDManager.hudsecundariaoneoff == false && hudmenu == false && hudconfig == false)
+        if (eventoNoiteAtivo == true && bonusAtivo == false && HUDManager.hudsecundariaoneoff == false && hudmenu == false && hudconfig == false && hudTutorial.tutorialOneOff == false)
         {
             tempoEventoNoite += Time.deltaTime;
         }
@@ -454,7 +496,7 @@ public class Player : MonoBehaviour
             tempoNoite = 0f;
             luzSol.intensity = 500f;
         }
-        if (bonusAtivo == true && HUDManager.hudsecundariaoneoff == false && hudmenu == false && hudconfig == false)
+        if (bonusAtivo == true && HUDManager.hudsecundariaoneoff == false && hudmenu == false && hudconfig == false && hudTutorial.tutorialOneOff == false)
         {
             tempoBonus += Time.deltaTime;
             if (tempoBonus >= 120f)
