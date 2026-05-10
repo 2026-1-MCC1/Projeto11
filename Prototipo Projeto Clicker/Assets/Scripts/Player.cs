@@ -38,9 +38,9 @@ public class Player : MonoBehaviour
 
     public int multiplicadorPontos = 1;
 
-    int clicksAuto = 0;
-    float tempoAuto = 0f;
-    float intervaloAuto = 0.8f;
+    public int clicksAuto = 0;
+    public float tempoAuto = 0f;
+    public float intervaloAuto = 1f;
 
     public TextMeshProUGUI textoAutoClick;
 
@@ -418,7 +418,7 @@ public class Player : MonoBehaviour
             {
                 tempoNoite += Time.deltaTime;
 
-                if (tempoNoite >= 2f)
+                if (tempoNoite >= 300f)
                 {
                     tempoNoite = 0f;
 
@@ -457,7 +457,7 @@ public class Player : MonoBehaviour
         if (bonusAtivo == true && HUDManager.hudsecundariaoneoff == false && hudmenu == false && hudconfig == false)
         {
             tempoBonus += Time.deltaTime;
-            if (tempoBonus >= 5f)
+            if (tempoBonus >= 120f)
             {
                 bonusAtivo = false;
                 tempoBonus = 0f;
