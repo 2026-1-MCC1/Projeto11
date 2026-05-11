@@ -4,6 +4,7 @@ using TMPro;
 using System.Collections;
 using Unity.VisualScripting;
 
+
 public class HUDTutorial : MonoBehaviour
 {
     public GameObject TutorialPanel;
