@@ -32,7 +32,7 @@ public class HUDCreditos : MonoBehaviour
         if (animCredito != null)
         {
             animCredito.Play("animacaocreditos", 0, 0f);
-            yield return new WaitForSeconds(1681f);
+            yield return new WaitForSeconds(29f);
         }
         hudTutorial.gameObject.SetActive(true);
         creditos.gameObject.SetActive(false);
