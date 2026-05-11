@@ -24,8 +24,8 @@ de dinheiro e clicks automaticos
 
  O jogo terá uma mini historia que será baseada 100% na comédia, onde o personagem principal estará fazendo todos esses upgrades para no fim conseguir um emprego mediano no supermercado de t.i, sendo esse o fim do jogo 
 
- <p align="center">
-  <img src="https://imgur.com/a/43uBkvs" alt="Capa YGGD_CODE" width="500">
+<p align="center">
+  <img src="https://i.imgur.com/43uBkvs.jpeg" width="700">
 </p>
 
 
