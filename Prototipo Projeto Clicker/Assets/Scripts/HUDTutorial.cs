@@ -19,6 +19,12 @@ public class HUDTutorial : MonoBehaviour
     public float velocidade = 0.05f;
     public string textoCompleto;
 
+    public Image bocaaberta;
+    public bool bocaabertaoneoff = false;
+    public Image bocafechada;
+    public Image bocaabertaconfig;
+    public Image bocafechadaconfig;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -94,7 +100,7 @@ public class HUDTutorial : MonoBehaviour
         CaixaDeTexto.SetActive(false);
         CaixaDeTextoSistema.SetActive(true);
         textoCompleto = "Utilize o celular como seu menu, aqui você poderá comprar upgrades, classes e customizações para seu quarto";
-        yield return StartCoroutine(EscreverTexto(textoCompleto));
+        yield return StartCoroutine(EscreverTextoConfig(textoCompleto));
         //espera o input enter para continuar
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
         CaixaDeTextoSistema.SetActive(false);
@@ -238,7 +244,7 @@ public class HUDTutorial : MonoBehaviour
         CaixaDeTexto.SetActive(false);
         CaixaDeTextoSistema.SetActive(true);
         textoCompleto = "Clique na cafeteira para tomar um café";
-        yield return StartCoroutine(EscreverTexto(textoCompleto));
+        yield return StartCoroutine(EscreverTextoConfig(textoCompleto));
         //espera o input enter para continuar
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
         CaixaDeTextoSistema.SetActive(false);
@@ -263,7 +269,7 @@ public class HUDTutorial : MonoBehaviour
         CaixaDeTexto.SetActive(false);
         CaixaDeTextoSistema.SetActive(true);
         textoCompleto = "Toda vez que a noite chegar, utilize da cafeteira para ficar acordado, recebendo um bônus por 2 minutos";
-        yield return StartCoroutine(EscreverTexto(textoCompleto));
+        yield return StartCoroutine(EscreverTextoConfig(textoCompleto));
         //espera o input enter para continuar
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
         CaixaDeTextoSistema.SetActive(false);
@@ -288,7 +294,7 @@ public class HUDTutorial : MonoBehaviour
         CaixaDeTexto.SetActive(false);
         CaixaDeTextoSistema.SetActive(true);
         textoCompleto = "Compre um pacote de texturas por 100 pontos, mantendo o ar comico do cenario mas variando o estilo";
-        yield return StartCoroutine(EscreverTexto(textoCompleto));
+        yield return StartCoroutine(EscreverTextoConfig(textoCompleto));
         //espera o input enter para continuar
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
         CaixaDeTextoSistema.SetActive(false);
@@ -316,11 +322,11 @@ public class HUDTutorial : MonoBehaviour
         CaixaDeTexto.SetActive(false);
         CaixaDeTextoSistema.SetActive(true);
         textoCompleto = "Aqui você terá a opção de comprar classes para seu personagem que expandem mais o SEU jeito de jogar o jogo";
-        yield return StartCoroutine(EscreverTexto(textoCompleto));
+        yield return StartCoroutine(EscreverTextoConfig(textoCompleto));
         //espera o input enter para continuar
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
         textoCompleto = "Classes podem ser compradas com moedas pagas, para mais informações veja a seção shop";
-        yield return StartCoroutine(EscreverTexto(textoCompleto));
+        yield return StartCoroutine(EscreverTextoConfig(textoCompleto));
         //espera o input enter para continuar
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
         CaixaDeTextoSistema.SetActive(false);
@@ -346,15 +352,15 @@ public class HUDTutorial : MonoBehaviour
         CaixaDeTexto.SetActive(false);
         CaixaDeTextoSistema.SetActive(true);
         textoCompleto = "O jogo YGGD_CODE é um jogo totalmente gratuito financiado somente por microtransações, as moedas pagas não são conseguidas somente pagando";
-        yield return StartCoroutine(EscreverTexto(textoCompleto));
+        yield return StartCoroutine(EscreverTextoConfig(textoCompleto));
         //espera o input enter para continuar
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
         textoCompleto = "mas agilizam muito este processo ;)";
-        yield return StartCoroutine(EscreverTexto(textoCompleto));
+        yield return StartCoroutine(EscreverTextoConfig(textoCompleto));
         //espera o input enter para continuar
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
         textoCompleto = "Para conseguir moedas pagas não envolvendo pagamento direto, cada moeda paga são 10 mil pontos, e cada classe custam 10 moedas pagas";
-        yield return StartCoroutine(EscreverTexto(textoCompleto));
+        yield return StartCoroutine(EscreverTextoConfig(textoCompleto));
         //espera o input enter para continuar
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
         CaixaDeTextoSistema.SetActive(false);
@@ -364,13 +370,112 @@ public class HUDTutorial : MonoBehaviour
         hudManager.celularidle.gameObject.SetActive(true); 
     } 
 
+    public IEnumerator IntroducaoRebyrth()
+    {
+        hudManager.celularidle.gameObject.SetActive(false);
+        CaixaDeTextoSistema.SetActive(false);
+        player.moveble = false;
+        tutorialOneOff = true;
+        TutorialPanel.SetActive(true);
+        CaixaDeTexto.SetActive(true);
+        textoCompleto = "Durante meus estudos ouvi falar de uma tal de Yggdrasil, de como ela possui inúmeras fortunas e como todos os programadores almejam ela";
+        yield return StartCoroutine(EscreverTexto(textoCompleto));
+        //espera o input enter para continuar
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
+        textoCompleto = "A arvore de inúmeros frutos de aprendizados e fortunas";  //talvez vou tentar colorir esse texto aqui de alguma forma na hud
+        yield return StartCoroutine(EscreverTexto(textoCompleto));
+        //espera o input enter para continuar
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
+        textoCompleto = "Acho que já evolui o suficiente nesse meio tempo, talvez esta na hora de ir atrás dela...";
+        yield return StartCoroutine(EscreverTexto(textoCompleto));
+        //espera o input enter para continuar
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
+        CaixaDeTexto.SetActive(false);
+        CaixaDeTextoSistema.SetActive(true);
+        textoCompleto = "Você chegou muito longe no jogo, nós desenvolvedores do YGGD_CODE agradeçemos solenemente por você ter dedicado seu tempo para experimentar esse projeto";
+        yield return StartCoroutine(EscreverTextoConfig(textoCompleto));
+        //espera o input enter para continuar
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
+        textoCompleto = "Você acabou de desbloquear o Rebyrth, clique no poster possuindo 15mil pontos e você alcançará a Yggdrasil ;)";
+        yield return StartCoroutine(EscreverTextoConfig(textoCompleto));
+        //espera o input enter para continuar
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
+    }
+
     public IEnumerator EscreverTexto(string texto)
     {
         TextoIntrodução.text = "";
-        foreach (char letra in texto.ToCharArray())
+        
+        bocaaberta.gameObject.SetActive(false);
+        bocafechada.gameObject.SetActive(true);
+
+        bocaabertaconfig.gameObject.SetActive(false);
+        bocafechadaconfig.gameObject.SetActive(false);
+
+        int contadorLetras = 0;
+
+        foreach (char letra in texto)
         {
             TextoIntrodução.text += letra;
+
+            // ignora espaços
+            if (letra != ' ')
+            {
+                contadorLetras++;
+
+                // troca sprite a cada 2 letras
+                if (contadorLetras % 2 == 0)
+                {
+                    bocaabertaoneoff = !bocaabertaoneoff;
+
+                    bocaaberta.gameObject.SetActive(bocaabertaoneoff);
+                    bocafechada.gameObject.SetActive(!bocaabertaoneoff);
+                }
+            }
+
             yield return new WaitForSeconds(velocidade);
         }
+
+        // termina com boca fechada
+        bocaaberta.gameObject.SetActive(false);
+        bocafechada.gameObject.SetActive(true);
+    }
+
+    public IEnumerator EscreverTextoConfig(string texto)
+    {
+        TextoIntrodução.text = "";
+        bocaaberta.gameObject.SetActive(false);
+        bocafechada.gameObject.SetActive(false);
+
+        bocaabertaconfig.gameObject.SetActive(false);
+        bocafechadaconfig.gameObject.SetActive(true);
+
+        int contadorLetras = 0;
+
+        foreach (char letra in texto)
+        {
+            TextoIntrodução.text += letra;
+
+            // ignora espaços
+            if (letra != ' ')
+            {
+                contadorLetras++;
+
+                // troca sprite a cada 2 letras
+                if (contadorLetras % 2 == 0)
+                {
+                    bocaabertaoneoff = !bocaabertaoneoff;
+
+                    bocaabertaconfig.gameObject.SetActive(bocaabertaoneoff);
+                    bocafechadaconfig.gameObject.SetActive(!bocaabertaoneoff);
+                }
+            }
+
+            yield return new WaitForSeconds(velocidade);
+        }
+
+        // termina com boca fechada
+        bocaabertaconfig.gameObject.SetActive(false);
+        bocafechadaconfig.gameObject.SetActive(true);
     }
 }
