@@ -383,7 +383,7 @@ public class HUDTutorial : MonoBehaviour
         yield return StartCoroutine(EscreverTexto(textoCompleto));
         //espera o input enter para continuar
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
-        textoCompleto = "A arvore de inúmeros frutos de aprendizados e fortunas";  //talvez vou tentar colorir esse texto aqui de alguma forma na hud
+        textoCompleto = "A arvore com inúmeros frutos de conhecimentos e fortunas";  //talvez vou tentar colorir esse texto aqui de alguma forma na hud
         yield return StartCoroutine(EscreverTexto(textoCompleto));
         //espera o input enter para continuar
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
@@ -393,7 +393,7 @@ public class HUDTutorial : MonoBehaviour
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
         CaixaDeTexto.SetActive(false);
         CaixaDeTextoSistema.SetActive(true);
-        textoCompleto = "Você chegou muito longe no jogo, nós desenvolvedores do YGGD_CODE agradeçemos solenemente por você ter dedicado seu tempo para experimentar esse projeto";
+        textoCompleto = "Você chegou muito longe no jogo, nós desenvolvedores do YGGD_CODE agradeçemos solenemente por você ter dedicado seu tempo";
         yield return StartCoroutine(EscreverTextoConfig(textoCompleto));
         //espera o input enter para continuar
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
@@ -401,6 +401,48 @@ public class HUDTutorial : MonoBehaviour
         yield return StartCoroutine(EscreverTextoConfig(textoCompleto));
         //espera o input enter para continuar
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
+        CaixaDeTextoSistema.SetActive(false);
+        player.moveble = true;
+        tutorialOneOff = false;
+        TutorialPanel.SetActive(false);
+        hudManager.celularidle.gameObject.SetActive(true);
+    }
+
+    public IEnumerator ResetJogo()
+    {
+        hudManager.celularidle.gameObject.SetActive(false);
+        CaixaDeTextoSistema.SetActive(false);
+        player.moveble = false;
+        tutorialOneOff = true;
+        TutorialPanel.SetActive(true);
+        CaixaDeTexto.SetActive(true);
+        textoCompleto = "Caramba ainda não acredito que não passei na entrevista do mercado :(";
+        yield return StartCoroutine(EscreverTexto(textoCompleto));
+        //espera o input enter para continuar
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
+        textoCompleto = "Mas ta tudo bem, eu vou dar a volta por cima, mas pra isso tenho que reformular minha base desde o começo";  //talvez vou tentar colorir esse texto aqui de alguma forma na hud
+        yield return StartCoroutine(EscreverTexto(textoCompleto));
+        //espera o input enter para continuar
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
+        textoCompleto = "Bom, mãos a obra ne...";
+        yield return StartCoroutine(EscreverTexto(textoCompleto));
+        //espera o input enter para continuar
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
+        CaixaDeTexto.SetActive(false);
+        CaixaDeTextoSistema.SetActive(true);
+        textoCompleto = "Parabens jogador, você zerou YGGD_CODE, agora você poderá rejogar o jogo";
+        yield return StartCoroutine(EscreverTextoConfig(textoCompleto));
+        //espera o input enter para continuar
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
+        textoCompleto = "Aproveite a jogatina ;)";
+        yield return StartCoroutine(EscreverTextoConfig(textoCompleto));
+        //espera o input enter para continuar
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
+        CaixaDeTextoSistema.SetActive(false);
+        player.moveble = true;
+        tutorialOneOff = false;
+        TutorialPanel.SetActive(false);
+        hudManager.celularidle.gameObject.SetActive(true);
     }
 
     public IEnumerator EscreverTexto(string texto)

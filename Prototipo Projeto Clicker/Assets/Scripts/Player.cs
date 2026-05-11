@@ -8,6 +8,7 @@ using UnityEngine.Video;
 public class Player : MonoBehaviour
 {
     public VideoPlayer videoCutscene;
+    public GameObject canvascutscene;
     //variavel especifica para corrigir o bug do celular
     // Variável para congelar completamente o personagem
     public bool congelarPosicao = false;
@@ -24,6 +25,7 @@ public class Player : MonoBehaviour
     public float sensibilidade;
     public float velocidade = 5.0f;
 
+    HUDCreditos hudcreditos;
     ClickSpawner clickSpawner;
     CharacterController characterController;
     HUDTutorial hudTutorial;
@@ -33,6 +35,7 @@ public class Player : MonoBehaviour
     public bool primeiravezlimite = true;
     public bool primeiraveznoite = true;
     public bool primeiravezcafeteira = true;
+    public bool primeireavezrebyrth = true;
 
     public GameObject posterYggdrasil;
 
@@ -186,8 +189,12 @@ public class Player : MonoBehaviour
     public int moedapaga = 0;
     public TextMeshProUGUI textoMoedaPaga;
 
+    public bool podedarrebyrth = false;
+
     void Start()
     {
+        canvascutscene.gameObject.SetActive(false);
+        videoCutscene.loopPointReached -= FimDoVideo;
         videoCutscene.loopPointReached += FimDoVideo;
         posicaoCongelada = transform.position;
         characterController = GetComponent<CharacterController>();
@@ -226,6 +233,8 @@ public class Player : MonoBehaviour
 
         hudTutorial = FindAnyObjectByType<HUDTutorial>();
 
+        hudcreditos = FindAnyObjectByType<HUDCreditos>();
+
         hudmenu = HUDManager.hudmenuoneoff;
     }
 
@@ -234,10 +243,18 @@ public class Player : MonoBehaviour
         if (pontos >= 15000)
         {
             posterYggdrasil.gameObject.SetActive(true);
+            podedarrebyrth = true;
+            if (primeireavezrebyrth)
+            {
+                StartCoroutine(hudTutorial.IntroducaoRebyrth());
+                primeireavezrebyrth = false;
+            }
+            
         }
         else if (pontos < 15000)
         {
             posterYggdrasil.gameObject.SetActive(false);
+            podedarrebyrth = false;
         }
         
         hudmenu = HUDManager.hudmenuoneoff;
@@ -422,7 +439,7 @@ public class Player : MonoBehaviour
                     }
 
                     // CAFETEIRA
-                    if (hit.collider.gameObject.name == "Cafeteira" && eventoNoiteAtivo && bonusAtivo == false && hudTutorial.tutorialOneOff == false)
+                    if (hit.collider.gameObject.name == "Cafeteira" && eventoNoiteAtivo && bonusAtivo == false && hudTutorial.tutorialOneOff == false && HUDManager.hudupgradeoneoff == true)
                     {  
                         if (primeiravezcafeteira)
                         {
@@ -434,6 +451,11 @@ public class Player : MonoBehaviour
                         tempoEventoNoite = 0f;
                         eventoNoiteAtivo = false;
                         luzSol.intensity = 0f;
+                    }
+
+                    if (hit.collider.gameObject.name == "poster" && hudTutorial.tutorialOneOff == false && podedarrebyrth == true && HUDManager.hudupgradeoneoff == false)
+                    {
+                        StartCoroutine(Rebyrth());
                     }
                 }
                 else
@@ -1000,7 +1022,16 @@ public class Player : MonoBehaviour
 
     public IEnumerator Rebyrth()
     {
-        videoCutscene.gameObject.SetActive(true);
+        HUDManager.hudPrincipal.gameObject.SetActive(false);
+        HUDManager.hudSecundaria.gameObject.SetActive(false);
+        HUDManager.hudTutorial.gameObject.SetActive(false);
+        Debug.Log("Obrigado por ter jogado YGGD_CODE");
+
+        canvascutscene.SetActive(true);
+
+        videoCutscene.Stop();
+        videoCutscene.frame = 0;
+
         videoCutscene.Play();
 
         yield return null;
@@ -1008,6 +1039,104 @@ public class Player : MonoBehaviour
 
     void FimDoVideo(VideoPlayer vp)
     {
-        videoCutscene.gameObject.SetActive(false);
+        canvascutscene.SetActive(false);
+        HUDManager.hudPrincipal.gameObject.SetActive(true);
+
+        ResetarJogo();
+
+        StartCoroutine(hudcreditos.Creditos());
+
+    }
+    public void ResetarJogo()
+    {
+        // ---------------- PONTOS ----------------
+        pontos = 0;
+        multiplicadorPontos = 1;
+
+        clicksAuto = 0;
+        tempoAuto = 0f;
+
+        pontosMaximos = 500;
+
+        // ---------------- CUSTOS ----------------
+        custoMulti = 12;
+        custoAuto = 6;
+        custoLimite = 150;
+        custoNoite = 40;
+
+        // ---------------- SISTEMA DE NOITE ----------------
+        chance = 7f;
+
+        tempoNoite = 0f;
+        tempoEventoNoite = 0f;
+        tempoBonus = 0f;
+
+        eventoNoiteAtivo = false;
+        bonusAtivo = false;
+
+        // ---------------- MOEDA PAGA ----------------
+        moedapaga = 0;
+
+        // ---------------- REBIRTH ----------------
+        podedarrebyrth = false;
+        posterYggdrasil.SetActive(false);
+
+        // ---------------- CLASSES ----------------
+        multiplicadorClasse = 1;
+        clicksautomaticosclasse = 1;
+        limiteclasse = 1;
+
+        ClasseTexto.text = "Classe: Nenhuma";
+
+        possuirclassepython = false;
+        possuirclassecsharp = false;
+        possuirclassejava = false;
+        possuirclasseholyc = false;
+
+        // ---------------- TEXTURAS ----------------
+        possuirtexturarealista = false;
+        possuirtexturamonocromatica = false;
+        possuirtexturahyperpop = false;
+        possuirtexturapadrao = true;
+
+        TexturasPadrao();
+
+        // ---------------- LUZES ----------------
+        luzSol.intensity = 500f;
+        luzQuarto.intensity = 50f;
+        luzComputador.intensity = 0f;
+
+        // ---------------- HUD ----------------
+        textoPontos.text = "Pontos: 0";
+        textoPontos2.text = "Pontos: 0";
+
+        textoMultiplicador.text =
+            " (H) Multiplicador: " +
+            (multiplicadorPontos * multiplicadorCiclo * multiplicadorClasse);
+
+        textoAutoClick.text =
+            " (J) Clicks Automaticos: " +
+            (clicksAuto * clicksautomaticosclasse);
+
+        textoLimite.text =
+            " (K) Limite: " + pontosMaximos;
+
+        textoChanceNoite.text =
+            "(N) Chance de Noite: " + chance + "%";
+
+        precoMulti.text = "Preço: " + custoMulti;
+        precoAuto.text = "Preço: " + custoAuto;
+        precoLimite.text = "Preço: " + custoLimite;
+
+        textoCustoNoite.text = "Preço: " + custoNoite;
+
+        textoMoedaPaga.text = "R$: 0";
+
+        // ---------------- CLICK SPAWNER ----------------
+        clickSpawner.multiplicador = 1;
+
+        // ---------------- CAMERA ----------------
+        ResetarCamera();
+        Debug.Log("Jogo resetado com sucesso.");
     }
 }
