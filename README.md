@@ -24,6 +24,10 @@ de dinheiro e clicks automaticos
 
  O jogo terá uma mini historia que será baseada 100% na comédia, onde o personagem principal estará fazendo todos esses upgrades para no fim conseguir um emprego mediano no supermercado de t.i, sendo esse o fim do jogo 
 
+ <p align="center">
+  <img src="C:\Users\User\Documents\GitHub\Projeto11\imagens\WhatsApp Image 2026-05-11 at 20.11.19.jpeg" alt="Capa YGGD_CODE" width="500">
+</p>
+
 
 ## 🛠 Instalação
 
