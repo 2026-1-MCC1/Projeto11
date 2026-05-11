@@ -25,7 +25,7 @@ de dinheiro e clicks automaticos
  O jogo terá uma mini historia que será baseada 100% na comédia, onde o personagem principal estará fazendo todos esses upgrades para no fim conseguir um emprego mediano no supermercado de t.i, sendo esse o fim do jogo 
 
 <p align="center">
-  <img src="https://i.imgur.com/43uBkvs.png" width="700">
+  <img src="imagens/CapaJogo.jpeg" width="700">
 </p>
 
 
