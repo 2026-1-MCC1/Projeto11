@@ -3,9 +3,11 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Experimental.GlobalIllumination;
 using System.Collections;
+using UnityEngine.Video;
 
 public class Player : MonoBehaviour
 {
+    public VideoPlayer videoCutscene;
     //variavel especifica para corrigir o bug do celular
     // Variável para congelar completamente o personagem
     public bool congelarPosicao = false;
@@ -186,6 +188,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        videoCutscene.loopPointReached += FimDoVideo;
         posicaoCongelada = transform.position;
         characterController = GetComponent<CharacterController>();
 
@@ -962,36 +965,49 @@ public class Player : MonoBehaviour
     }
 
     IEnumerator animacaoClick()
-{
-    Animator animClick = textoPontos2.GetComponent<Animator>();
-
-    Debug.Log(animClick);
-
-    if (animClick != null)
     {
-        Debug.Log("Animator encontrado");
+        Animator animClick = textoPontos2.GetComponent<Animator>();
 
-        animClick.enabled = true;
+        Debug.Log(animClick);
 
-        animClick.Rebind();
-        animClick.Update(0f);
+        if (animClick != null)
+        {
+            Debug.Log("Animator encontrado");
 
-        animClick.Play("animacaopontos");
+            animClick.enabled = true;
 
-        Debug.Log("Tentou tocar animação");
+            animClick.Rebind();
+            animClick.Update(0f);
+
+            animClick.Play("animacaopontos");
+
+            Debug.Log("Tentou tocar animação");
+        }
+        else
+        {
+            Debug.Log("Animator NULL");
+        }
+
+        pontos += multiplicadorPontos * multiplicadorCiclo * multiplicadorClasse;
+
+        pontos = Mathf.Clamp(pontos, 0, pontosMaximos);
+    
+        textoPontos.text = "Pontos: " + pontos;
+        textoPontos2.text = textoPontos.text;
+
+        yield return null;
     }
-    else
+
+    public IEnumerator Rebyrth()
     {
-        Debug.Log("Animator NULL");
+        videoCutscene.gameObject.SetActive(true);
+        videoCutscene.Play();
+
+        yield return null;
     }
 
-    pontos += multiplicadorPontos * multiplicadorCiclo * multiplicadorClasse;
-
-    pontos = Mathf.Clamp(pontos, 0, pontosMaximos);
-
-    textoPontos.text = "Pontos: " + pontos;
-    textoPontos2.text = textoPontos.text;
-
-    yield return null;
-}
+    void FimDoVideo(VideoPlayer vp)
+    {
+        videoCutscene.gameObject.SetActive(false);
+    }
 }
