@@ -10,25 +10,43 @@ public class ClickSpawner : MonoBehaviour
     public int multiplicadorCiclo = 1;
     public Transform textspaw;
     private HUDManager HUDmanager;
-     
+    private Player player;
+    public int valorFinal;
+
+    // Novo: raio para spawn aleatório
+    public float raioAleatorio = 1f;
+
     void Start()
     {
-        HUDmanager = FindObjectOfType<HUDManager>();
+        HUDmanager = FindAnyObjectByType<HUDManager>();
+        player = FindAnyObjectByType<Player>();
+    }
+
+    void Update()
+    {
+        multiplicadorClasse = player.multiplicadorClasse;
+        multiplicadorCiclo = player.multiplicadorCiclo;
+        multiplicador = player.multiplicadorPontos;
     }
 
     void OnMouseDown()
     {
         if (HUDmanager.hudprincipaloneoff == true)
         {
-            Vector3 pos = transform.position;
-            pos.y += 3f;
+            multiplicadorClasse = player.multiplicadorClasse;
+            multiplicadorCiclo = player.multiplicadorCiclo;
+            multiplicador = player.multiplicadorPontos;
 
-            GameObject textoObj = Instantiate(textoPrefab, textspaw.position, Quaternion.identity);
+            // Calcular posição aleatória perto de textspaw
+            Vector3 offset = Random.insideUnitSphere * raioAleatorio;
+            offset.y = 0; // Manter no plano horizontal, ajuste se necessário
+            Vector3 spawnPosition = textspaw.position + offset;
 
-            int valorFinal = valorBase * multiplicador * multiplicadorCiclo * multiplicadorClasse;
+            GameObject textoObj = Instantiate(textoPrefab, spawnPosition, Quaternion.identity);
 
             TextoFlutuante tf = textoObj.GetComponent<TextoFlutuante>();
-            tf.DefinirValor(valorFinal);
+
+            tf.valor = valorBase * multiplicador * multiplicadorCiclo * multiplicadorClasse;
         }
     }
 }
