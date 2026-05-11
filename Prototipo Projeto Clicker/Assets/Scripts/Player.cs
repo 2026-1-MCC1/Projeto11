@@ -32,6 +32,8 @@ public class Player : MonoBehaviour
     public bool primeiraveznoite = true;
     public bool primeiravezcafeteira = true;
 
+    public GameObject posterYggdrasil;
+
     // Configurações para o raycast
     public float maxDistance = 10f;
     public LayerMask hitLayers;
@@ -226,6 +228,15 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if (pontos >= 15000)
+        {
+            posterYggdrasil.gameObject.SetActive(true);
+        }
+        else if (pontos < 15000)
+        {
+            posterYggdrasil.gameObject.SetActive(false);
+        }
+        
         hudmenu = HUDManager.hudmenuoneoff;
         compraoneoff = HUDManager.Upgrade;
         hudconfig = HUDManager.hudconfigoneoff;
