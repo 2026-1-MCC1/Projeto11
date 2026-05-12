@@ -84,24 +84,7 @@ Clique em add -> add from disk -> abra a pasta do jogo;
 Seguindo os passos você verá o jogo aberto em seu editor pronto para modificações.
 
 ## 📋 Licença/License
-<p align="center">
-  <a href="https://github.com/2026-1-MCC1/Projeto11">YGGD_CODE</a> © 2026 by 
-  <a href="https://www.linkedin.com/in/caio-moraesdev/">Caio Moraes</a>, 
-  <a href="https://www.linkedin.com/in/enzo-gon%C3%A7alves-5a3a84320/">Enzo Augusto Pedroza Gonçalves</a>, 
-  <a href="https://www.linkedin.com/in/marcus-sousa-5029573aa/">Marcus Sousa</a>, 
-  <a href="https://www.linkedin.com/in/nicolasbmoumdjian/">Nicolas Bologna</a>, 
-  <a href="https://www.linkedin.com/in/lucas-elinou-feitosa-0894703ba/">Lucas Elinou Feitosa</a>
-
-  <br><br>
-
-  Licensed under
-  <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
-
-  <br>
-
-  <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" width="20">
-  <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" width="20">
-</p>
+<a href="https://github.com/2026-1-MCC1/Projeto11">YGGD_CODE</a> © 2026 by <a href="https://www.linkedin.com/in/caio-moraesdev/,  https://www.linkedin.com/in/enzo-gon%C3%A7alves-5a3a84320/, https://www.linkedin.com/in/marcus-sousa-5029573aa/, https://www.linkedin.com/in/nicolasbmoumdjian/, https://www.linkedin.com/in/lucas-elinou-feitosa-0894703ba/">Caio Moraes, Enzo Augusto Pedroza Gonçalves, Marcus Sousa , Nicolas Bologna, Lucas Elinou Feitosa</a> is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
 
 ## 🎓 Referências
 
