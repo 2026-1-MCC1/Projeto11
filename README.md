@@ -39,20 +39,45 @@ Para a reprodução do jogo acesse o link abaixo!
 https://caio-moraes.itch.io/yggd-code
 ```
 
+## 🛠 Estrutura de pastas
+```sh
+-Raiz
+|-->documentos
+ |-->Entrega 1
+   |-Algoritmos e Lógica da Programação
+   |-Cálculo I
+   |-Jogos Digitais 
+   |-Projeto Interdisciplinar 
+   |-Ética e Pensamento Computacional
+ |-->Entraga 2
+   |-Algoritmos e Lógica da Programação
+   |-Cálculo I
+   |-Jogos Digitais 
+   |-Projeto Interdisciplinar
+   |-Ética e Pensamento Computacional
+|-->imagens
+   |-CapaJogo.jepeg
+|- Prototipo Projeto Clicker
+|-->src
+   |--> Entrega 1
+      |- Backend
+    |--> Entrega 2
+      |- Backend
+|-Banner Grupo 11.pdf
+|-Documento - Projeto de Extensão - COM Empresa
+|-README.md
+```
 
 ## 💻 Configuração para Desenvolvimento
 
-Descreva como instalar todas as dependências para desenvolvimento e como rodar um test-suite automatizado de algum tipo. Se necessário, faça isso para múltiplas plataformas.
+Como importar o projeto para dentro da Unity?
+Para abrir este projeto dentro da engine da Unity, siga os seguintes passos:
 
-Para abrir este projeto você necessita das seguintes ferramentas:
-
--<a href="https://godotengine.org/download">GODOT</a>
-
-```sh
-make install
-npm test
-Coloque código do prompt de comnando se for necessário
-```
+Instale a Unity
+Baixe os arquivos presentes na pasta Prototipo Projeto Clicker (Download ZIP)
+Va no UnityHUB com uma licença propria e um editor com a versão 6000.0.38f1 ou superior
+Clique em add -> add from disk -> abra a pasta do jogo
+Seguindo os passos você verá o jogo aberto em seu editor pronto para modificações
 
 ## 📋 Licença/License
 <a href="https://github.com/2026-1-MCC1/Projeto11">Projeto Clicker </a> © 2026 by <a href="https://github.com/caiomorhaes, https://github.com/pdz19git-cmd, https://github.com/NicolasBM17,https://github.com/marcussousa7">Caio Moraes, Enzo Augusto Pedroza Gonçalves, Marcus Vinicius de Andrade Sousa, Nicolas Bologna Moumdjian</a> is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
