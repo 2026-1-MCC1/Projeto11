@@ -18,11 +18,11 @@
  O projeto inicialmente foi criado com a ideia de ser um clicker,
 com a história e temática de desenvolvedor, ele será em um estilo
 parecido ao do cookie clicker, com um sistema de dinheiro, limite
-de dinheiro e clicks automaticos
+de dinheiro e clicks automáticos
 
- O jogo irá girar entorno de 3 principais fatores, o valor de quanto cada click da de dinheiro para o player (definido visualmente pelo quao avançado/novo é a linguagem que o personagem usa), o limite de dinheiro que o player pode ter (definido por quão tecnologico é o computador do personagem), e os clicks automaticos (definido por automações feitas em python do personagem), todos esses fatores são upgrades que serão comprados pelo usuario para serem alteradas no jogo visualmente
+ O jogo irá girar entorno de 4 principais fatores, o valor de quanto cada click da de dinheiro para o player, o limite de dinheiro que o player pode ter, os clicks automaticos e suas classes, representado por linguagens de programação, cada uma com seu bonus, todos esses fatores são upgrades são comprados pelo jogador pelo celular do personagem, onde la, ele consegue não somente acesso a seus upgrades, como a customizações em seu quarto
 
- O jogo terá uma mini historia que será baseada 100% na comédia, onde o personagem principal estará fazendo todos esses upgrades para no fim conseguir um emprego mediano no supermercado de t.i, sendo esse o fim do jogo 
+ A história do jogo apesar de baseada na comédia detem de um cunho muito sério sobre a vida de programadores ao redor de todo o mundo, retratando essa falta de valorização tanto no mercado quanto na mídia.
 
 <p align="center">
   <img src="imagens/CapaJogo.jpeg" width="700">
@@ -73,11 +73,15 @@ https://caio-moraes.itch.io/yggd-code
 Como importar o projeto para dentro da Unity?
 Para abrir este projeto dentro da engine da Unity, siga os seguintes passos:
 
-Instale a Unity
-Baixe os arquivos presentes na pasta Prototipo Projeto Clicker (Download ZIP)
-Va no UnityHUB com uma licença propria e um editor com a versão 6000.0.38f1 ou superior
-Clique em add -> add from disk -> abra a pasta do jogo
-Seguindo os passos você verá o jogo aberto em seu editor pronto para modificações
+Instale a Unity;
+
+Baixe os arquivos presentes na pasta Prototipo Projeto Clicker (Download ZIP);
+
+Va no UnityHUB com uma licença propria e um editor com a versão 6000.0.38f1 ou superior;
+
+Clique em add -> add from disk -> abra a pasta do jogo;
+
+Seguindo os passos você verá o jogo aberto em seu editor pronto para modificações.
 
 ## 📋 Licença/License
 <a href="https://github.com/2026-1-MCC1/Projeto11">Projeto Clicker </a> © 2026 by <a href="https://github.com/caiomorhaes, https://github.com/pdz19git-cmd, https://github.com/NicolasBM17,https://github.com/marcussousa7">Caio Moraes, Enzo Augusto Pedroza Gonçalves, Marcus Vinicius de Andrade Sousa, Nicolas Bologna Moumdjian</a> is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
