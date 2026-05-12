@@ -31,13 +31,12 @@ de dinheiro e clicks automaticos
 
 ## 🛠 Instalação
 
-<b>Windows:</b>
+<b>Web:</b>
 
-Não há instalação! Apenas executável!
-Encontre o JOGO.exe na pasta executáveis e execute-o como qualquer outro programa.
+Para a reprodução do jogo acesse o link abaixo!
 
 ```sh
-Coloque código do prompt de comnando se for necessário
+https://caio-moraes.itch.io/yggd-code
 ```
 
 
